@@ -1,0 +1,9 @@
+[2020-08-24 09:34:56.747] [renderer1] [error] name must not be falsy: Error: name must not be falsy
+	at Function.validate (/usr/share/code/resources/app/out/vs/workbench/services/extensions/node/extensionHostProcess.js:380:799)
+	at new w (/usr/share/code/resources/app/out/vs/workbench/services/extensions/node/extensionHostProcess.js:380:748)
+	at new w (/usr/share/code/resources/app/out/vs/workbench/services/extensions/node/extensionHostProcess.js:369:559)
+	at asSymbolInformation (/home/imron/.vscode/extensions/octref.vetur-0.24.0/node_modules/vscode-languageclient/lib/protocolConverter.js:449:22)
+	at /home/imron/.vscode/extensions/octref.vetur-0.24.0/node_modules/vscode-languageclient/lib/protocolConverter.js:429:42
+	at Array.map (<anonymous>)
+	at Object.asSymbolInformations (/home/imron/.vscode/extensions/octref.vetur-0.24.0/node_modules/vscode-languageclient/lib/protocolConverter.js:429:23)
+	at /home/imron/.vscode/extensions/octref.vetur-0.24.0/node_modules/vscode-languageclient/lib/client.js:1088:70
