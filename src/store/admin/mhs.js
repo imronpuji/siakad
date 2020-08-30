@@ -2,24 +2,19 @@ import axios from '../../api/axios/axios'
 
 import qs from 'querystring'
 
+import store from '../../store'
+
 const token = localStorage.getItem('token')
 
 const state = () => ({
     
   data :  [],
         
-  loading : false
-
-  
 })
 
   
 const actions = {
 
-    refreshToken({commit}){
-      alert('hai')
-    },
-    
     dels({commit}, id){
 
       return new Promise((resolve) => {
@@ -89,7 +84,7 @@ const actions = {
       }
       return new Promise((resolve) => {
         
-        return axios.post('/users', qs.stringify(user), {
+         axios.post('/users', qs.stringify(user), {
             
           headers : {'Authorization': `Bearer ${token}`
           
@@ -97,7 +92,7 @@ const actions = {
             
           const user_id = res.data.user_id
             
-          return axios.post('/mahasiswa', qs.stringify({user_id, ...data}), {
+           axios.post('/mahasiswa', qs.stringify({user_id, ...data}), {
               
             headers : {'Authorization': `Bearer ${token}`
             
@@ -105,13 +100,15 @@ const actions = {
               
             commit('addMhs', {...data, user_id})
             
+            resolve()
+            
           }).catch(err => err)  
           
         }).catch(err => err)
           
         })
-        resolve()
-
+      
+        
     },
     
     actGetData({commit}){
@@ -146,12 +143,20 @@ const actions = {
         })
     },
     
-    setLoad({commit}){
-      commit('setLoading')
+    setLoadFalse({commit}){
+      commit('setLoadTofalse')
     },
     
     actImport({commit}, val){
-      commit('addImport', val)
+      
+      return new Promise((resolve) => {
+
+        commit('addImport', val)
+
+        resolve()
+
+      })
+  
     }
  
   
@@ -167,23 +172,18 @@ const mutations = {
         
       state.data.splice(index, 1)
         
-      state.loading = false
+      store.dispatch('components/setLoadFalse')
+
     
-    },
-
-    setLoading(state){
-
-      state.loading = true  
-
     },
 
     addMhs(state, val){
 
       state.data.push(val)
-      
-      console.log(val)
-      
-      state.loading = false
+            
+      store.dispatch('components/setLoadFalse')
+
+
     },
 
     edit(state, val){
@@ -196,24 +196,27 @@ const mutations = {
       
       state.data[index]['nim'] = val.nim
       
-      state.loading = false
+      store.dispatch('components/setLoadFalse')
+
 
     },
 
-    loadFalse(state){
-      state.loading = false
-    },
 
     getData(state, val){
 
       state.data = [...val]
       
-      state.loading = false
+      store.dispatch('components/setLoadFalse')
+
 
     },
 
     addImport(state, val){
       state.data.push(...val)
+
+      store.dispatch('components/setLoadFalse')
+
+
     }
  
   

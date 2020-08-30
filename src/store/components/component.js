@@ -6,12 +6,19 @@ const state = () => ({
     route : [{
       user : "",
       role : '',
-    }]
+    }],
+    loading : false,
 
 
   })
 
   const actions = {
+      setLoad({commit}){
+        commit('setLoading')
+      },
+      setLoadFalse({commit}){
+          commit('setLoadToFalse')
+      },
       setDesktop({commit}){
           console.log('lklk')
           commit('toggleSidebarDesktop', 'lol')
@@ -44,7 +51,13 @@ const state = () => ({
     },
     setFake(state, val){
       state.fakeUser.push(...val)
-    }
+    },
+    setLoading(state){
+      state.loading = true  
+    },
+    setLoadToFalse(state){
+      state.loading = false  
+    },
   }
   export default {
       namespaced : true,

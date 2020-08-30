@@ -2,26 +2,30 @@
   <div class="test">
     <el-row style="margin-bottom: 10px">
         <el-col :span="5">
-            <FormulateInput
-          type="button"
-          label="add"
-          data-ghost
-          @click="handleClick"
-          id="addMhs"
-        />
+            <el-dropdown @command="handleClick">
+            <el-button type="primary">Actions<i class="el-icon-caret-bottom el-icon--right"></i></el-button>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="new">new</el-dropdown-item>
+              <el-dropdown-item command="import">import</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </el-col>
+        <el-col :span="5" :offset="13">
+          <FormulateInput placeholder="Pencarian" v-model="filters[0].value"/>
         </el-col>
     </el-row>
 
     <data-tables :data="data"
         :pagination-props="{ pageSizes: [8, 10, 15] }"
         :action-col="actionCol"
+        :filters="filters"
         >
         <el-table-column v-for="title in titles" 
         :prop="title.prop" :label="title.label" :key="title.label">
         </el-table-column>
     </data-tables>
 
-    <sweet-modal ref="modal">
+    <!-- <sweet-modal ref="modal">
       <div>
         <FormulateForm @submit="edit">
           <CRow>
@@ -44,7 +48,7 @@
           </CRow>
         </FormulateForm>
       </div>
-    </sweet-modal>
+    </sweet-modal> -->
     
     <sweet-modal icon="success" ref="success">
         success!
@@ -58,21 +62,19 @@
       <div>
         <FormulateForm v-model="formValues" @submit="buat" name="buat">
           <CRow>
-            <CCol sm="6">
+            <CCol sm="6" class="mt-3">
               <FormulateInput placeholder="Nama" type="text" name="nama" validation="required"/>
             </CCol>
-            <CCol sm="6">
+            <CCol sm="6" class="mt-3">
               <FormulateInput placeholder="NIY" type="number" name="niy" validation="required"/>
             </CCol>
           </CRow>
-          <CRow class="mt-4">
-            <CCol sm="12">
+          <CRow>
+            <CCol sm="6" class="mt-3">
               <FormulateInput placeholder="Email" type="email" name="email" validation="required|email"/>
             </CCol>
-          </CRow>
-          <CRow class="mt-4">
-            <CCol sm="12">
-              <b-button type="submit" class="w-100">Buat</b-button>
+            <CCol sm="6">
+              <b-button type="submit" class="w-100 mt-3">Buat</b-button>
             </CCol>
           </CRow>
         </FormulateForm>
@@ -86,7 +88,7 @@
       <b-button @click="del">next</b-button>
     </sweet-modal>
     
-    <div class="overlay" v-if="$store.state.admin_dosen.loading">
+    <div class="overlay" v-if="$store.state.components.loading">
       <div class="spinner-grow text-primary" role="status">
           <span class="sr-only">Loading...</span>
       </div>
@@ -99,19 +101,19 @@ import { mapState } from 'vuex'
 
 
 var titles = [{
-        prop: "nik",
-        label: "NIK"
+        prop: "niy",
+        label: "NIY"
     }, 
     {
         prop: "nama",
         label: "Nama"
     }, 
     {
-        prop: "kontak",
-        label: "Kontak"
+        prop: "email",
+        label: "Email"
     },
     {
-        prop: "photo",
+        prop: "foto",
         label: "Foto"
     }]
 
@@ -121,13 +123,28 @@ export default {
   }),
   created(){
     if(this.data.length < 1){
-    this.$store.dispatch('admin_dosen/actGetData')
-    this.$store.dispatch('admin_dosen/setLoad')
+      this.$store.dispatch('admin_dosen/actGetData')
+      this.$store.dispatch('components/setLoad')
+    } else {
+      this.$store.dispatch('components/setLoadFalse')
     }
   },
 
   data() {
      return {
+       filters: [{
+        
+        value: '',
+        
+        prop: 'nama',
+        
+        }, 
+
+        {
+          
+          value: []
+        
+        }],
         formValues : {},   
         editById : '',
         editByName : '',
@@ -143,19 +160,10 @@ export default {
         buttons: [{
           props: {
             type: 'primary',
-            icon: 'el-icon-edit'
+            icon: 'el-icon-delete'
           },
-          handler: row => {
-            this.$refs.modal.open()
-            this.editByName = row.nama
-            this.editByKontak = row.kontak
-            this.editByNik = row.nik
-            this.editById = row.user_id
-          },
-          label: 'Edit'
-        }, {
-          handler: row => {
-            this.deleteById = row.nim
+           handler: row => {
+            this.deleteById = row.user_id
             this.$refs.modalDelete.open()
           },
           label: 'delete'
@@ -167,42 +175,45 @@ export default {
      }
    },
    methods : {
-       handleClick(){
+       handleClick(command){
+         if(command == 'new'){
            this.$refs.modalAdd.open()
            const errors = {
             fieldErrors: { username: 'Sorry, no such username exists!' },
             formErrors: ['Incorrect login, please try again.']
           }
           this.$formulate.handle(errors, 'buat')
-           this.$formulate.reset('buat')
-       },
-       edit(){
-         const data = {
-           nama : this.editByName,
-           kontak : this.editByKontak,
-           nik : this.editByNik,
-           user_id : this.editById
+          this.$formulate.reset('buat')
          }
-         this.$refs.modal.close()
-          this.$store.dispatch('admin_dosen/actEdit', data).then(() => {
-          this.$refs.success.open()
-        })
-        this.$store.dispatch('admin_dosen/setLoad')
+
        },
+        //  edit(){
+        //    const data = {
+        //      nama : this.editByName,
+        //      kontak : this.editByKontak,
+        //      nik : this.editByNik,
+        //      user_id : this.editById
+        //    }
+        //    this.$refs.modal.close()
+        //     this.$store.dispatch('admin_dosen/actEdit', data).then(() => {
+        //     this.$refs.success.open()
+        //   })
+        //   this.$store.dispatch('admin_dosen/setLoad')
+        //  },
        del(){
           
             this.$store.dispatch('admin_dosen/dels', this.deleteById)
               .then(() => this.$refs.success.open() )
               .catch(() => this.$refs.gagal.open())
 
-            this.$store.dispatch('admin_dosen/setLoad')
+            this.$store.dispatch('components/setLoad')
             this.$refs.modalDelete.close()
        },
        buat(){
            this.$store.dispatch('admin_dosen/actAdd', this.formValues).then(() => {
             this.$refs.success.open()
            })
-           this.$store.dispatch('admin_dosen/setLoad')
+           this.$store.dispatch('components/setLoad')
            this.$refs.modalAdd.close()
       
        }

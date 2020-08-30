@@ -1,14 +1,48 @@
+import store from '../../store'
+import axios from '../../api/axios/axios'
+import qs from 'querystring';
+let token = localStorage.getItem('token')
 const state = () => ({
     data :  [],
-        loading : false
   })
 
   const actions = {
       dels({commit}, id){
-        return new Promise((resolve) => { setTimeout(() => {
-          commit('deleteSome', id)
-          resolve()
-        }, 2000)})
+
+        return new Promise((resolve) => {
+
+          axios.get('/auth/checkaccess/admin', {
+  
+            header : {
+  
+              'Authorization' : `Bearer ${token}`
+            
+            }
+  
+          })
+          .then(res => {
+          
+            axios.delete(`/dosen/${id}`, {
+              
+              headers: {
+  
+                'Authorization': `Bearer ${token}`
+                
+              },
+              
+            })
+            .then((res) => {
+             
+              commit('deleteSome', id)
+              
+              resolve()
+            
+            })
+            .catch(err => err)
+          
+          })
+          
+        })
       },
       actEdit({commit}, id){
         return new Promise((resolve) => { setTimeout(() => {
@@ -16,73 +50,105 @@ const state = () => ({
           resolve()
         }, 2000)})
       },
-      actAdd({commit}, val){
-        return new Promise((resolve) => { setTimeout(() => {
-          commit('addDosen', val)
-          resolve()
-        }, 2000)})
+
+      actAdd({commit}, {niy, email, nama}){
+        const user = {
+
+        username : niy,
+        password : niy,
+        role : 'dosen'
+
+      }
+      const data = {
+
+        niy,
+        nama,
+        foto : 'avatar.jpg',
+        email
+        
+      }
+      return new Promise((resolve) => {
+        
+         axios.post('/users', qs.stringify(user), {
+            
+          headers : {'Authorization': `Bearer ${token}`
+          
+        }}).then(res => {
+            
+          const user_id = res.data.user_id
+            
+           axios.post('/dosen', qs.stringify({user_id, ...data}), {
+              
+            headers : {'Authorization': `Bearer ${token}`
+            
+          }}).then(res => {
+              
+            commit('addDosen', {...data, user_id})
+            
+            resolve()
+            
+          }).catch(err => err)  
+          
+        }).catch(err => err)
+          
+        })
+      
       },
       actGetData({commit}){
-        setTimeout(() => {
-          commit('getData', '')
-      }, 2000)
+        return new Promise((resolve) => {
+          
+          axios.get('/auth/checkaccess/admin', {
+            
+            header : {
+              'Authorization' : `Bearer ${token}`
+            }
+
+          })
+          .then(res => {
+            
+            axios.get('/dosen', {
+              
+              headers : {'Authorization': `Bearer ${token}`
+            
+            }})
+            .then(res => {
+              
+              commit('getData', res.data)
+            
+            })
+            .catch(err => err)
+          })
+          .catch(err => err)
+          
+
+          resolve()
+        })
       },
-      setLoad({commit}){
-        commit('setLoading','')
-      }
+
   }
   
   const mutations = {
     deleteSome(state, vals){
-        const index = state.data.findIndex(val => val.nik == vals)
+        const index = state.data.findIndex(val => val.user_id == vals)
         state.data.splice(index, 1)
-        state.loading = false
-    },
-    setLoading(state){
-        state.loading = true     
+        store.dispatch('components/setLoadFalse')
     },
     addDosen(state, val){
       state.data.push(val)
-      state.loading = false
+      store.dispatch('components/setLoadFalse')
     },
-    edit(state, val){
-      const index = state.data.findIndex(({user_id}) => user_id == val.user_id )
-      state.data[index]['nama'] = val.nama
-      state.data[index]['kontak'] = val.kontak
-      state.data[index]['nik'] = val.nik
-      state.loading = false
+    // edit(state, val){
+    //   const index = state.data.findIndex(({user_id}) => user_id == val.user_id )
+    //   state.data[index]['nama'] = val.nama
+    //   state.data[index]['kontak'] = val.kontak
+    //   state.data[index]['niy'] = val.nik
+    //   store.dispatch('components/setLoadFalse')
+    // },
+    getData(state, val){
+      state.data = [...val]
+      
+          store.dispatch('components/setLoadFalse')
 
-    },
-    getData(state){
-      state.data = 
-        [{
-          "nik": "1231345",
-          "id" : "098",
-          "nama": "Imron",
-          "kontak": "098765654654",
-          "photo" : "no photo",
-          "user_id" : "1"
-          },
-          {
-          "nik": "1231398",
-          "id" : "2323",
-          "nama": "Dani",
-          "kontak": "098765654654",
-          "photo" : "no photo",
-          "user_id" : "2"
-      
-          },
-          {
-          "nik": "1231356",
-          "id" : "123",
-          "nama": "Wili",
-          "kontak": "098765654654",
-          "photo" : "no photo",
-          "user_id" : "3"
-      
-          }]
-      
-      state.loading = false
 
     }
   }

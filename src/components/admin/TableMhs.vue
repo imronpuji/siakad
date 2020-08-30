@@ -13,12 +13,8 @@
           </el-dropdown-menu>
         </el-dropdown>
       </el-col>
-      
-      <el-col :span="10">
 
-      </el-col>
-
-      <el-col :span="5">
+      <el-col :span="5" :offset="13">
         <FormulateInput placeholder="Pencarian" v-model="filters[0].value"/>
       </el-col>
 
@@ -83,10 +79,10 @@
         <FormulateForm v-model="formValues" @submit="buat" name="buat">
 
           <CRow>
-            <CCol sm="6">
+            <CCol sm="6" class="mt-3">
               <FormulateInput placeholder="Nama" type="text" name="nama" validation="required"/>
             </CCol>
-            <CCol sm="6">
+            <CCol sm="6" class="mt-3">
               <FormulateInput placeholder="NIM" type="number" name="nim" validation="required"/>
             </CCol>
           </CRow>
@@ -107,10 +103,14 @@
     </sweet-modal>
 
     <sweet-modal ref="modalImport">
-
-      <FormulateInput class="w-100" ref="metaDataFile" @change="previewFiles" type="file"/>
-      <FormulateInput type="button" @click="upload"/>
-
+       <FormulateForm class="w-100" @submit="upload" name="import">
+      <div class="border-1 d-flex justify-center flex-column align-items-center">
+       
+        <FormulateInput validation="required" class="w-50" ref="metaDataFile" @change="previewFiles" type="file" />
+        <FormulateInput class="w-50"  type="submit"/>
+        
+      </div>
+</FormulateForm>
     </sweet-modal>
 
     <sweet-modal ref="modalDelete">
@@ -125,7 +125,7 @@
     
     </sweet-modal>
     
-    <div class="overlay" v-if="$store.state.admin_mahasiswa.loading">
+    <div class="overlay" v-if="$store.state.components.loading">
       <div class="spinner-grow text-primary" role="status">
           <span class="sr-only">Loading...</span>
       </div>
@@ -189,8 +189,10 @@ export default {
         
         this.$store.dispatch('admin_mahasiswa/actGetData')
 
-        this.$store.dispatch('admin_mahasiswa/setLoad')
+        this.$store.dispatch('components/setLoad')
 
+      } else {
+                this.$store.dispatch('components/setLoadFalse')
       }
 
   },
@@ -285,6 +287,7 @@ export default {
 
         {
           this.$refs.modalImport.open()
+          this.$formulate.reset('import')
         
         }
 
@@ -293,6 +296,7 @@ export default {
         {
           
           this.$refs.modalAdd.open()
+          this.$formulate.reset('buat')
         }
     
     },
@@ -330,6 +334,7 @@ export default {
     },
     
     del(){
+      this.$store.dispatch('components/setLoad')
       
       this.$store.dispatch('admin_mahasiswa/dels', this.deleteById)
       
@@ -341,7 +346,7 @@ export default {
         
       })
       
-      this.$store.dispatch('admin_mahasiswa/setLoad')
+      
       
       this.$refs.modalDelete.close()
     
@@ -357,7 +362,7 @@ export default {
         
       })
       
-      this.$store.dispatch('admin_mahasiswa/setLoad')
+      this.$store.dispatch('components/setLoad')
       
       this.$refs.modalAdd.close()
       
@@ -378,9 +383,19 @@ export default {
     
     upload(){
       
+      this.$refs.modalImport.close()
+
+      this.$store.dispatch('components/setLoad')
+      
       var submit = (mhs) => {
         
         this.$store.dispatch('admin_mahasiswa/actImport', mhs)
+        
+        .then(() => {
+          
+          this.$refs.success.open()
+
+        }) 
       
       }
 
@@ -484,6 +499,7 @@ export default {
     box-shadow: 0px 1px 4px rgb(214, 214, 214) ;
     padding : 30px;
     position : relative;
+    overflow: hidden;
     .error {
       color : red;
       font-size: 12px;

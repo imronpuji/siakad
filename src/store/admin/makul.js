@@ -1,6 +1,7 @@
+import store from '../../store'
+
 const state = () => ({
     data :  [],
-        loading : false
   })
 
   const actions = {
@@ -36,14 +37,14 @@ const state = () => ({
     deleteSome(state, vals){
         const index = state.data.findIndex(val => val.id == vals)
         state.data.splice(index, 1)
-        state.loading = false
+        store.dispatch('components/setLoadFalse')
+
     },
-    setLoading(state){
-        state.loading = true     
-    },
+
     addMakul(state, val){
       state.data.push(val)
-      state.loading = false
+      store.dispatch('components/setLoadFalse')
+
     },
     edit(state, val){
       const index = state.data.findIndex(({id}) => id == val.id )
@@ -53,8 +54,10 @@ const state = () => ({
       state.data[index]['sks'] = val.sks
       state.data[index]['semester'] = val.semester
       state.data[index]['id_dosen'] = val.id_dosen
+      state.data[index]['nama_dosen'] = val.nama_dosen
 
-      state.loading = false
+      store.dispatch('components/setLoadFalse')
+
 
     },
     getData(state){
@@ -64,26 +67,29 @@ const state = () => ({
           "nama": "MTK",
           "sks": "2",
           "semester" : "2",
-          "id_dosen" : "1"
+          "id_dosen" : "1",
+          "nama_dosen" : "indra"
           },
           {
           "id": "2",
           "nama": "IPA",
           "sks": "2",
           "semester" : "2",  
-          "id_dosen" : "2"
-      
+          "id_dosen" : "2",
+          "nama_dosen" : "arif"
+
           },
           {
           "id": "3",
           "nama": "IPS",
           "sks": "2",
           "semester" : "2",  
-          "id_dosen" : "3"
-      
+          "id_dosen" : "3",
+          "nama_dosen" : "indratjid"
+            
           }]
       
-      state.loading = false
+      store.dispatch('components/setLoadFalse')
 
     }
   }
