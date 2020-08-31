@@ -19,17 +19,6 @@ const actions = {
 
       return new Promise((resolve) => {
 
-        axios.get('/auth/checkaccess/admin', {
-
-          header : {
-
-            'Authorization' : `Bearer ${token}`
-          
-          }
-
-        })
-        .then(res => {
-        
           axios.delete(`/mahasiswa/${id}`, {
             
             headers: {
@@ -47,8 +36,6 @@ const actions = {
           
           })
           .catch(err => err)
-        
-        })
         
       })
     },
@@ -115,15 +102,6 @@ const actions = {
 
         return new Promise((resolve) => {
           
-          axios.get('/auth/checkaccess/admin', {
-            
-            header : {
-              'Authorization' : `Bearer ${token}`
-            }
-
-          })
-          .then(res => {
-            
             axios.get('/mahasiswa', {
               
               headers : {'Authorization': `Bearer ${token}`
@@ -132,15 +110,12 @@ const actions = {
             .then(res => {
               
               commit('getData', res.data)
+
+              resolve()
             
             })
             .catch(err => err)
           })
-          .catch(err => err)
-          
-
-          resolve()
-        })
     },
     
     setLoadFalse({commit}){

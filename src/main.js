@@ -84,7 +84,7 @@ new Vue({
       },
 
       onSync(promise) {
-        
+
         return promise;
 
       },
@@ -135,8 +135,7 @@ new Vue({
             store.dispatch('auth/setToken', res.data.token)
             
             localStorage.setItem('token', res.data.token)
-            
-            
+                                
             console.log(responseError)
             
             return responseError            

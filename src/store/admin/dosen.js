@@ -11,17 +11,6 @@ const state = () => ({
 
         return new Promise((resolve) => {
 
-          axios.get('/auth/checkaccess/admin', {
-  
-            header : {
-  
-              'Authorization' : `Bearer ${token}`
-            
-            }
-  
-          })
-          .then(res => {
-          
             axios.delete(`/dosen/${id}`, {
               
               headers: {
@@ -38,10 +27,6 @@ const state = () => ({
               resolve()
             
             })
-            .catch(err => err)
-          
-          })
-          
         })
       },
       actEdit({commit}, id){
@@ -97,16 +82,7 @@ const state = () => ({
       actGetData({commit}){
         return new Promise((resolve) => {
           
-          axios.get('/auth/checkaccess/admin', {
-            
-            header : {
-              'Authorization' : `Bearer ${token}`
-            }
-
-          })
-          .then(res => {
-            
-            axios.get('/dosen', {
+         return  axios.get('/dosen', {
               
               headers : {'Authorization': `Bearer ${token}`
             
@@ -114,15 +90,12 @@ const state = () => ({
             .then(res => {
               
               commit('getData', res.data)
-            
+              resolve()
+
             })
             .catch(err => err)
-          })
-          .catch(err => err)
           
-
-          resolve()
-        })
+          })
       },
 
   }

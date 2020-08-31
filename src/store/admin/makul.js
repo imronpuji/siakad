@@ -1,9 +1,13 @@
 import store from '../../store'
+import qs from 'querystring'
 
+import axios from '../../api/axios/axios'
+
+const token = localStorage.getItem('token')
 const state = () => ({
     data :  [],
   })
-
+ 
   const actions = {
       dels({commit}, id){
         return new Promise((resolve) => { setTimeout(() => {
@@ -18,15 +22,25 @@ const state = () => ({
         }, 2000)})
       },
       actAdd({commit}, val){
-        return new Promise((resolve) => { setTimeout(() => {
-          commit('addMakul', val)
-          resolve()
-        }, 2000)})
+        
       },
       actGetData({commit}){
-        setTimeout(() => {
-          commit('getData', '')
-      }, 2000)
+        return new Promise((resolve) => {
+          
+          axios.get('/makul', {
+            
+            headers : {'Authorization': `Bearer ${token}`
+          
+          }})
+          .then(res => {
+            
+            commit('getData', res.data)
+
+            resolve()
+          
+          })
+          .catch(err => err)
+        })
       },
       setLoad({commit}){
         commit('setLoading','')
@@ -60,34 +74,8 @@ const state = () => ({
 
 
     },
-    getData(state){
-      state.data = 
-        [{
-          "id": "1",
-          "nama": "MTK",
-          "sks": "2",
-          "semester" : "2",
-          "id_dosen" : "1",
-          "nama_dosen" : "indra"
-          },
-          {
-          "id": "2",
-          "nama": "IPA",
-          "sks": "2",
-          "semester" : "2",  
-          "id_dosen" : "2",
-          "nama_dosen" : "arif"
-
-          },
-          {
-          "id": "3",
-          "nama": "IPS",
-          "sks": "2",
-          "semester" : "2",  
-          "id_dosen" : "3",
-          "nama_dosen" : "indratjid"
-            
-          }]
+    getData(state, val){
+      state.data = [...val]
       
       store.dispatch('components/setLoadFalse')
 

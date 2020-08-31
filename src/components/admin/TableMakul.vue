@@ -124,7 +124,7 @@
 
 import { mapState } from 'vuex'
 var titles = [{
-        prop: "nama",
+        prop: "nama_makul",
         label: "Nama"
     }, 
     {
@@ -136,7 +136,7 @@ var titles = [{
         label: "Semester"
     },
     {
-        prop: "nama_dosen",
+        prop: "nama",
         label: "Dosen"
     }]
 
