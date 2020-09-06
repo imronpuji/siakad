@@ -11,7 +11,7 @@
           </el-dropdown>
         </el-col>
         <el-col :span="5" :offset="13">
-          <FormulateInput placeholder="Pencarian" v-model="filters[0].value"/>
+          <FormulateInput placeholder="Pencarian" type="search" v-model="filters[0].value"/>
         </el-col>
     </el-row>
 
@@ -151,6 +151,7 @@ export default {
         editByNik : '',
         editByKontak : '',
         deleteById : '',
+        deleteByDosen : '',
         titles,
        actionCol: {
         label: 'Actions',
@@ -164,6 +165,7 @@ export default {
           },
            handler: row => {
             this.deleteById = row.user_id
+            this.deleteByDosen = row.id_dosen
             this.$refs.modalDelete.open()
           },
           label: 'delete'
@@ -201,8 +203,9 @@ export default {
         //   this.$store.dispatch('admin_dosen/setLoad')
         //  },
        del(){
+         const data = {id_dosen : this.deleteByDosen, user_id:this.deleteById}
           
-            this.$store.dispatch('admin_dosen/dels', this.deleteById)
+            this.$store.dispatch('admin_dosen/dels', data)
               .then(() => this.$refs.success.open() )
               .catch(() => this.$refs.gagal.open())
 

@@ -1,15 +1,17 @@
 import Materi from '../../views/dosen/materi'
 import Mahasiswa from '../../views/dosen/mhs'
+import decode from 'jwt-decode'
 
 const getRole = () => {
-  const roles = localStorage.getItem('role')
-  return roles
-}
+  const token = localStorage.getItem('token')
+  let role = decode(token).data.role
 
+  return role
+}
 
 const dosen = [
     {
-        name : 'mahasiswa',
+        name : 'dosen-mahasiswa',
         path : '/dosen/mahasiswa',
         component : Mahasiswa,
         meta :  'dosen',

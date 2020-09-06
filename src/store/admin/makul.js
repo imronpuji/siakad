@@ -10,31 +10,81 @@ const state = () => ({
  
   const actions = {
       dels({commit}, id){
-        return new Promise((resolve) => { setTimeout(() => {
-          commit('deleteSome', id)
-          resolve()
-        }, 2000)})
+        return new Promise((resolve) => {
+
+          axios.delete(`/admin/makul/${id}`, {
+            
+            headers: {
+
+              'Authorization': `Bearer ${token}`
+              
+            },
+            
+          })
+          .then((res) => {
+           
+            commit('deleteSome', id)
+            store.dispatch('admin_jadwal/delJadwal', id)
+            resolve()
+          
+          })
+      })
       },
-      actEdit({commit}, id){
-        return new Promise((resolve) => { setTimeout(() => {
-          commit('edit', id)
-          resolve()
-        }, 2000)})
+      actEdit({commit}, val){
+        const { nama_makul, dosen_id, id_makul, sks, semester } = val
+        const data = {
+          nama_makul,
+          sks,
+          semester,
+          dosen_id
+        }
+        return new Promise((resolve) => {
+          axios.put(`/admin/makul/${id_makul}`, qs.stringify(data))
+          .then(() =>  {
+            commit('edit', val)
+            store.dispatch('admin_jadwal/actEditMakul', val)
+          } )
+          .catch(err => err)
+        })
       },
-      actAdd({commit}, val){
-        
+      actAdd({commit},val ){
+        const {dosen_id, nama_makul, sks, semester, nama} = val
+
+        const data = {
+          dosen_id : dosen_id,
+          nama_makul : nama_makul,
+          sks,
+          semester
+        }
+
+        console.log(data)
+        return new Promise((resolve) => {
+        axios.post('/admin/makul', qs.stringify(data)) 
+        .then((res) => commit('addMakul', {...val, id_makul: res.data.id_makul}))
+        .catch(err => err)
+        })
+      
       },
       actGetData({commit}){
         return new Promise((resolve) => {
           
-          axios.get('/makul', {
+          axios.get('/admin/makul', {
             
             headers : {'Authorization': `Bearer ${token}`
           
           }})
           .then(res => {
-            
-            commit('getData', res.data)
+            const result = res.data.map(val => {
+              if(val.nama == null){
+                val['nama'] = 'dosen removed'
+                return val
+
+              } else {
+                return val
+              }
+            })
+            console.log(result)
+            commit('getData', result)
 
             resolve()
           
@@ -42,6 +92,7 @@ const state = () => ({
           .catch(err => err)
         })
       },
+
       setLoad({commit}){
         commit('setLoading','')
       }
@@ -49,7 +100,7 @@ const state = () => ({
   
   const mutations = {
     deleteSome(state, vals){
-        const index = state.data.findIndex(val => val.id == vals)
+        const index = state.data.findIndex(val => val.id_makul == vals)
         state.data.splice(index, 1)
         store.dispatch('components/setLoadFalse')
 
@@ -58,17 +109,18 @@ const state = () => ({
     addMakul(state, val){
       state.data.push(val)
       store.dispatch('components/setLoadFalse')
+      store.dispatch('admin_jadwal/actAddMakul', val)
 
     },
     edit(state, val){
-      const index = state.data.findIndex(({id}) => id == val.id )
+      const index = state.data.findIndex(({id_makul}) => id_makul == val.id_makul )
 
-      state.data[index]['nama'] = val.nama
-      console.log(index)
+      state.data[index]['nama_makul'] = val.nama_makul
+
       state.data[index]['sks'] = val.sks
       state.data[index]['semester'] = val.semester
-      state.data[index]['id_dosen'] = val.id_dosen
-      state.data[index]['nama_dosen'] = val.nama_dosen
+      state.data[index]['dosen_id'] = val.dosen_id
+      state.data[index]['nama'] = val.nama
 
       store.dispatch('components/setLoadFalse')
 
@@ -76,7 +128,6 @@ const state = () => ({
     },
     getData(state, val){
       state.data = [...val]
-      
       store.dispatch('components/setLoadFalse')
 
     }

@@ -140,7 +140,7 @@ function configRoutes () {
           },
           {
             path : '*',
-            name : 'error',
+            name : 'errors',
             component :Page404,
             beforeEnter : (to, from, next) => {
                 if(getRole()){

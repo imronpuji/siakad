@@ -20,6 +20,7 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import vSelect from 'vue-select'
 import { Service } from 'axios-middleware';
 import axios from './api/axios/axios' 
+import axiosIntance from 'axios' 
 import qs from 'querystring'
 import decode from 'jwt-decode'
 import '../node_modules/@braid/vue-formulate/themes/snow/snow.scss';
@@ -60,8 +61,9 @@ new Vue({
     const error = () => this.$swal("Tidak Ada Koneksi")
 
     const tokens = localStorage.getItem('token')
-    
-    store.dispatch('auth/setToken', tokens)
+      if(tokens){
+        store.dispatch('auth/setToken', tokens)
+      }
     
     const service = new Service(axios);
     
@@ -84,28 +86,28 @@ new Vue({
       },
 
       onSync(promise) {
-
+        console.log(promise)
         return promise;
 
       },
 
       onResponse(response) {
-        
+        console.log(response)
         return response;
 
       },
       
       onResponseError(responseError) {
-        
-        const token = store.state.auth.token
+
+        const token = store.state.auth.user[0].data
          
         if(token){
           
-          id = decode(token).data.id
+          id = token.id
           
-          username = decode(token).data.username
+          username = token.username
           
-          role = decode(token).data.role
+          role = token.role
         }
         
         const data = {
@@ -123,7 +125,7 @@ new Vue({
         }
 
         if(responseError.response.status == 401){
-        
+          
           return axios.post('/auth/refreshtoken', qs.stringify(data))
           
           .then(res => {
@@ -143,6 +145,7 @@ new Vue({
           })
         
         }
+   
          
         else {
           

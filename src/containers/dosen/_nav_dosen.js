@@ -15,7 +15,7 @@ export default [
       },
       {
         _name: 'CSidebarNavItem',
-        name: 'Mahasiswa',
+        name: 'Nilai',
         to: '/dosen/mahasiswa',
         icon: 'cil-user',        
       },

@@ -17,6 +17,9 @@ const state = () => ({
       commit("token", val)
     
     },
+    deleteToken({commit}){
+      commit('delete')
+    }
   }
   const getters = {
 
@@ -28,16 +31,20 @@ const state = () => ({
   
     token(state,  val){
         
-      // let user = decode(val)
+      let user = decode(val)
         
       state.token = val 
       
       state.isLogin = true,
       
-      // state.user.push(user)
+      state.user.push(user)
       
-      console.log(val)
     },
+
+    delete(state){
+      state.token = ''
+      state.user = []
+    }
 
   }
   export default {

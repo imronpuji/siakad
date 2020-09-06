@@ -11,12 +11,16 @@
           </el-dropdown>
         </el-col>
         </el-col>
+        <el-col :span="5" :offset="13">
+          <FormulateInput placeholder="Pencarian" v-model="filters[0].value"/>
+        </el-col>
 
     </el-row>
 
-    <data-tables :data="data"
+    <data-tables :data="$store.state.dosen_nilai.data"
         :pagination-props="{ pageSizes: [8, 10, 15] }"
         :action-col="actionCol"
+        :filters="filters"
         >
         <el-table-column v-for="title in titles" 
         :prop="title.prop" 
@@ -30,20 +34,18 @@
         <FormulateForm @submit="edit">
           <CRow>
             <CCol sm="6" class="mt-3">
-              <FormulateInput disabled v-model="editByName" placeholder="Nama" type="text" name="nama" validation="required"/>
+              <FormulateInput disabled v-model="editByName" placeholder="Mata Kuliah" type="text"  validation="required"/>
             </CCol>
             <CCol sm="6" class="mt-3">
-              <FormulateInput v-model="editByMulai" placeholder="Waktu Mulai" type="time" name="mulai" validation="required"/>
+              <FormulateInput disabled v-model="editByMhs" placeholder="Mahasiswa" type="text"  validation="required"/>
             </CCol>
           </CRow>
           <CRow>
             <CCol sm="6" class="mt-3">
-              <FormulateInput v-model="editBySelesai" placeholder="Waktu Selesai" type="time" name="selesai" validation="required"/>
+              <FormulateInput v-model="editByAngka" placeholder="Nilai Angka" type="text"  validation="required"/>
             </CCol>
             <CCol sm="6" class="mt-3">
-              <FormulateInput v-model="editByHari" placeholder="Hari" type="select" name="hari"  validation="required"
-                :options="{senin : 'senin',selasa:'selasa', rabu : 'rabu', kamis : 'kamis', jumat : 'jumat', sabtu : 'sabtu'}"
-              />
+              <FormulateInput v-model="editByHuruf" placeholder="Nilai Huruf" type="text"  validation="required"/>
             </CCol>
           </CRow>
           <CRow class="mt-4">
@@ -67,33 +69,29 @@
       <div>
         <FormulateForm v-model="formValues" @submit="buat" name="buat">
           <CRow>
-             <CCol sm="6" class="mt-3">
-              <select class="select-css" required v-model="selectedMakul">
-              
-              <option v-for="data_makul in $store.state.admin_jadwal.dataMakul" :key="data_makul.id_makul" :value="{id_makul:data_makul.id_makul, nama_makul:data_makul.nama_makul}">
-                <h1>{{data_makul.nama_makul}}</h1>
-              </option>
-                </select>
+            <CCol sm="6" class="mt-3">
+              <FormulateInput placeholder="Nilai Huruf" type="text" name="nilai_huruf" validation="required"/>
             </CCol>
             <CCol sm="6" class="mt-3">
-              <FormulateInput
-                type="time"
-                name="mulai"
-                placeholder="Waktu Mulai"
-                validation="required"
-              />
+              <FormulateInput placeholder="Nilai Angka" type="number" name="nilai_angka" validation="required"/>
             </CCol>
           </CRow>
           <CRow>
             <CCol sm="6" class="mt-3">
-              <FormulateInput placeholder="Waktu Selesai" type="time" name="selesai" validation="required"/>
+              <select class="select-css" v-model="selectedMakul" required >
+                <option @change="getMakul" v-for="data in $store.state.dosen_nilai.dataMakul" :key="data.id_makul" :value="{id_makul:data.id_makul, semester:data.semester, nama_makul:data.nama_makul}">
+                    <h1>{{data.nama_makul}}</h1>
+                </option>
+              </select>
             </CCol>
+
             <CCol sm="6" class="mt-3">
-              <FormulateInput placeholder="Hari" type="select" name="hari"  validation="required"
-                :options="{senin : 'senin',selasa:'selasa', rabu : 'rabu', kamis : 'kamis', jumat : 'jumat', sabtu : 'sabtu'}"
-              />
+              <select class="select-css" required v-model="selectedMahasiswa">
+                <option v-for="data in $store.state.dosen_nilai.dataMhs" :key="data.id_mahasiswa" :value="{id:data.id_mahasiswa, nama:data.nama}">
+                    <h1>{{data.nama}}</h1>
+                </option>
+              </select>
             </CCol>
-           
           </CRow>
           <CRow class="mt-4">
             <CCol sm="12">
@@ -116,56 +114,76 @@
           <span class="sr-only">Loading...</span>
       </div>
     </div>
-
-
   </div>
 </template>
 <script>
 
 import { mapState } from 'vuex'
-// import _ from 'loda'
-var titles = [{
+var titles = [
+    {
+        prop: "nama",
+        label: "Mahasiswa"
+    }, 
+    {
         prop: "nama_makul",
-        label: "Nama"
+        label: "Mata kuliah"
     }, 
     {
-        prop: "mulai",
-        label: "Waktu Mulai"
-    }, 
-    {
-        prop: "selesai",
-        label: "Waktu Selesai"
+        prop: "nilai_angka",
+        label: "Nilai Angka"
     },
     {
-        prop: "hari",
-        label: "Hari"
+        prop: "nilai_huruf",
+        label: "Nilai Huruf"
     }]
 
+
+
 export default {
-  computed : mapState({
-    data : state => state.admin_jadwal.data,
-  }),
-  created(){
-   
-      this.$store.dispatch('admin_jadwal/actGetData')
-      this.$store.dispatch('components/setLoad')
- 
- 
+  computed :{
+    data(){
+       return this.$store.state.dosen_nilai.data
+    },
+    selectedMakul : {
+      get () {
+        return this.$store.state.dosen_nilai.selectedMakul
+      },
+      set (value) {
+        this.$store.dispatch('dosen_nilai/actGetDataMhs', value)
+      }
+    }
+  },
+  created(){ 
+
+    this.$store.dispatch('dosen_nilai/actGetDataMakul')
+    this.$store.dispatch('dosen_nilai/actGetData')
+    this.$store.dispatch('components/setLoad')
+
   },
 
   data() {
      return {
-        selectedMakul : null,
+         filters: [{
+        
+        value: '',
+        
+        prop: 'nama',
+        
+        }, 
+
+        {
+          
+          value: []
+          
+        }],
+        selectedMahasiswa : null,
         id_dosen : '',
         formValues : {},   
         editById : '',
         editByName : '',
-        editedDosenNama : '',
-        editedDosenId : '',
-        editedDosen : '',
-        editByMulai : '',
-        editBySelesai : '',
-        editByHari : '',
+        editByMhs : '',
+        editByAngka : '',
+        editByHuruf : '',
         deleteById : '',
         titles,
         actionCol: {
@@ -181,17 +199,16 @@ export default {
             handler: row => {
               this.$refs.modal.open()
               this.editByName = row.nama_makul
-              this.editByMulai = row.mulai
-              this.editBySelesai = row.selesai
-              this.editByHari = row.hari
-              this.editById = row.id_jadwal
+              this.editByMhs = row.nama
+              this.editByAngka = row.nilai_angka
+              this.editByHuruf = row.nilai_huruf
+              this.editById = row.id_nilai
               
             },
             label: 'Edit'
           }, {
             handler: row => {
-              this.deleteById = row.id_jadwal
-              this.selectedMakul = {id_makul:row.id_makul, nama_makul: row.nama_makul}
+              this.deleteById = row.id_nilai
               this.$refs.modalDelete.open()
             },
             label: 'delete'
@@ -201,6 +218,10 @@ export default {
    },
    methods : {
 
+      getMakul(data){
+        console.log(this.$refs.selectedMakul.value)
+        // this.$store.dispatch('dosen_nilai/actGetDataMhs', this.selectedMakul)
+      },
        handleClick(){
            this.$refs.modalAdd.open()
            const errors = {
@@ -210,53 +231,52 @@ export default {
           this.$formulate.handle(errors, 'buat')
            this.$formulate.reset('buat')
        },
-
+       openDosen(){
+        this.$store.dispatch('admin_makul/actGetData')
+         this.$refs.openDosen.open()
+       },
        edit(){
 
         const data = {
-           id_jadwal : this.editById,
-           mulai : this.editByMulai,
-           selesai : this.editBySelesai,
-           hari : this.editByHari,
+           id_nilai : this.editById,
+           nilai_huruf : this.editByHuruf,
+           nilai_angka : this.editByAngka
         }
          console.log(data)
          this.$refs.modal.close()
-          this.$store.dispatch('admin_jadwal/actEdit', data).then(() => {
+          this.$store.dispatch('dosen_nilai/actEdit', data).then(() => {
           this.$refs.success.open()
         })
         this.$store.dispatch('components/setLoad')
-        this.selectedDosen = ''
 
 
        },
        del(){
-            const data = {
-              ...this.selectedMakul,
-              id_jadwal : this.deleteById
-            }
-            console.log(data)
-            this.$store.dispatch('admin_jadwal/dels', data)
+          
+            this.$store.dispatch('dosen_nilai/dels', this.deleteById)
               .then(() => this.$refs.success.open() )
               .catch(() => this.$refs.gagal.open())
 
             this.$store.dispatch('components/setLoad')
             this.$refs.modalDelete.close()
-            this.selectedMakul = ''
        },
        buat(){
          const data = {
            ...this.formValues,
-           nama_makul : this.selectedMakul.nama_makul,
-           id_makul : this.selectedMakul.id_makul
+           nama_makul : this.$store.state.dosen_nilai.selectedMakul.nama_makul,
+           nama : this.selectedMahasiswa.nama,
+           mahasiswa_id : this.selectedMahasiswa.id,
+           makul_id :  this.$store.state.dosen_nilai.selectedMakul.id_makul,
          }
          console.log(data)
-           this.$store.dispatch('admin_jadwal/actAdd', data).then(() => {
+           this.$store.dispatch('dosen_nilai/actAdd', data).then(() => {
             this.$refs.success.open()
            })
             this.$store.dispatch('components/setLoad')
            this.$refs.modalAdd.close()
-      
+
        }
+    
    }
   }
 </script>

@@ -4,11 +4,14 @@ import Transkip from '../../views/mhs/transkip'
 import Krs from '../../views/mhs/krs'
 import Khs from '../../views/mhs/khs'
 import Kurikulum from '../../views/mhs/kurikulum'
-const getRole = () => {
-  const roles = localStorage.getItem('role')
-  return roles
-}
+import decode from 'jwt-decode'
 
+const getRole = () => {
+  const token = localStorage.getItem('token')
+  let role = decode(token).data.role
+
+  return role
+}
 const mhs = [
     {
         name : 'nilai',
@@ -16,7 +19,7 @@ const mhs = [
         component : Nilai,
         meta :  'mhs',
         beforeEnter :  (to, from, next) => {
-            if(getRole() == 'mhs'){
+            if(getRole() == 'mahasiswa'){
               next()
             } else {
               next('*')
@@ -25,12 +28,12 @@ const mhs = [
     
     },
     {
-        name : 'materi',
+        name : 'mhs-materi',
         path : '/mhs/materi',
         component : Materi,
         meta :  'dosen',
         beforeEnter :  (to, from, next) => {
-            if(getRole() == 'mhs'){
+            if(getRole() == 'mahasiswa'){
               next()
             } else {
               next('*')
@@ -44,7 +47,7 @@ const mhs = [
       component : Transkip,
       meta :  'mhs',
       beforeEnter :  (to, from, next) => {
-          if(getRole() == 'mhs'){
+          if(getRole() == 'mahasiswa'){
             next()
           } else {
             next('*')
@@ -58,7 +61,7 @@ const mhs = [
     component : Krs,
     meta :  'mhs',
     beforeEnter :  (to, from, next) => {
-        if(getRole() == 'mhs'){
+        if(getRole() == 'mahasiswa'){
           next()
         } else {
           next('*')
@@ -72,7 +75,7 @@ const mhs = [
   component : Khs,
   meta :  'mhs',
   beforeEnter :  (to, from, next) => {
-      if(getRole() == 'mhs'){
+      if(getRole() == 'mahasiswa'){
         next()
       } else {
         next('*')
@@ -86,7 +89,7 @@ const mhs = [
   component : Kurikulum,
   meta :  'mhs',
   beforeEnter :  (to, from, next) => {
-      if(getRole() == 'mhs'){
+      if(getRole() == 'mahasiswa'){
         next()
       } else {
         next('*')

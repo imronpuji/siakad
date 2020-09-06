@@ -11,7 +11,7 @@ const state = () => ({
 
         return new Promise((resolve) => {
 
-            axios.delete(`/dosen/${id}`, {
+            axios.delete(`/admin/dosen/${id.user_id}`, {
               
               headers: {
   
@@ -23,8 +23,62 @@ const state = () => ({
             .then((res) => {
              
               commit('deleteSome', id)
+              axios.delete(`admin/users/${id.user_id}`, {
               
-              resolve()
+                headers: {
+    
+                  'Authorization': `Bearer ${token}`
+                  
+                },
+                
+              })
+              .then((res) => {
+                               
+                resolve()
+              
+              })
+
+              
+
+              // axios.get(`/admin/makul/${id.id_dosen}/dosen_id`, {
+            
+              //   headers: {
+    
+              //     'Authorization': `Bearer ${token}`
+                  
+              //   },
+                
+              // })
+              // .then((res) => {
+              //   res.data.map((val) => {
+              //     axios.delete(`/admin/jadwal/${val.id_makul}`, {
+            
+              //       headers: {
+        
+              //         'Authorization': `Bearer ${token}`
+                      
+              //       },
+                    
+              //     }).then(res => console.log(res))
+              //   })
+              //   axios.delete(`/admin/makul/${id.id_dosen}/dosen_id`, {
+            
+              //     headers: {
+      
+              //       'Authorization': `Bearer ${token}`
+                    
+              //     },
+                  
+              //   })
+              //   .then((res) => {
+                 
+              //     resolve()
+                
+              //   })
+              //   console.log(res)
+              //   resolve()
+              
+              // })
             
             })
         })
@@ -35,7 +89,7 @@ const state = () => ({
           resolve()
         }, 2000)})
       },
-
+ 
       actAdd({commit}, {niy, email, nama}){
         const user = {
 
@@ -54,7 +108,7 @@ const state = () => ({
       }
       return new Promise((resolve) => {
         
-         axios.post('/users', qs.stringify(user), {
+         axios.post('/admin/users', qs.stringify(user), {
             
           headers : {'Authorization': `Bearer ${token}`
           
@@ -62,7 +116,7 @@ const state = () => ({
             
           const user_id = res.data.user_id
             
-           axios.post('/dosen', qs.stringify({user_id, ...data}), {
+           axios.post('/admin/dosen', qs.stringify({user_id, ...data}), {
               
             headers : {'Authorization': `Bearer ${token}`
             
@@ -82,7 +136,7 @@ const state = () => ({
       actGetData({commit}){
         return new Promise((resolve) => {
           
-         return  axios.get('/dosen', {
+         return  axios.get('/admin/dosen', {
               
               headers : {'Authorization': `Bearer ${token}`
             

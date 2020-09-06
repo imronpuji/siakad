@@ -1,8 +1,8 @@
 import Mahasiswa from '../../views/admin/mhs'
+import Nilai from '../../views/admin/nilai'
 import Makul from '../../views/admin/makul'
 import Jadwal from '../../views/admin/jadwal'
 import Dosen from '../../views/admin/dosen'
-import AddMhs from '../../components/admin/add/add_mhs'
 import decode from 'jwt-decode'
 const getRole = () => {
   const token = localStorage.getItem('token')
@@ -69,9 +69,9 @@ const admin = [
         }
     },
     {
-      name : 'add-mhs',
-      path : '/admin/tambah-mahasiswa',
-      component : AddMhs,
+      name : 'nilai',
+      path : '/admin/nilai',
+      component : Nilai,
       meta :  'admin',
       beforeEnter :  (to, from, next) => {
           if(getRole() == 'admin'){
@@ -81,9 +81,10 @@ const admin = [
           }
       }
   },
+    
     {
         path : '/dashboard/*',
-        name : 'error',
+        name : 'dashboard',
         component :Page404,
         meta : 'admin',
         

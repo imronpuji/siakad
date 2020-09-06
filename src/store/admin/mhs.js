@@ -1,9 +1,9 @@
 import axios from '../../api/axios/axios'
 
 import qs from 'querystring'
+import { mapGetters } from 'vuex'
 
 import store from '../../store'
-
 const token = localStorage.getItem('token')
 
 const state = () => ({
@@ -19,7 +19,7 @@ const actions = {
 
       return new Promise((resolve) => {
 
-          axios.delete(`/mahasiswa/${id}`, {
+          axios.delete(`/admin/mahasiswa/${id}`, {
             
             headers: {
 
@@ -31,8 +31,20 @@ const actions = {
           .then((res) => {
            
             commit('deleteSome', id)
+            axios.delete(`/admin/users/${id}`, {
+              
+              headers: {
+  
+                'Authorization': `Bearer ${token}`
+                
+              },
+              
+            })
+            .then((res) => {
+              
+              resolve()
             
-            resolve()
+            })
           
           })
           .catch(err => err)
@@ -52,8 +64,8 @@ const actions = {
       //   })
       // },
     
-    actAdd({commit}, {nama, nim, email}){ 
-
+    actAdd({commit}, {nama, nim, email, tahun_masuk, jurusan}){ 
+      console.log(tahun_masuk)
       const user = {
 
         username : nim,
@@ -66,12 +78,15 @@ const actions = {
         nim,
         nama,
         foto : 'avatar.jpg',
-        email
+        email,
+        tahun_masuk,
+        jurusan
         
       }
+      console.log(data)
       return new Promise((resolve) => {
         
-         axios.post('/users', qs.stringify(user), {
+         axios.post('/admin/users', qs.stringify(user), {
             
           headers : {'Authorization': `Bearer ${token}`
           
@@ -79,7 +94,7 @@ const actions = {
             
           const user_id = res.data.user_id
             
-           axios.post('/mahasiswa', qs.stringify({user_id, ...data}), {
+           axios.post('/admin/mahasiswa', qs.stringify({user_id, ...data}), {
               
             headers : {'Authorization': `Bearer ${token}`
             
@@ -98,23 +113,24 @@ const actions = {
         
     },
     
-    actGetData({commit}){
+   actGetData({commit}, tokens){
 
         return new Promise((resolve) => {
-          
-            axios.get('/mahasiswa', {
+  
+
+          axios.get('/admin/mahasiswa', {
               
               headers : {'Authorization': `Bearer ${token}`
             
             }})
             .then(res => {
               
-              commit('getData', res.data)
+              commit('getData', res.data || [])
 
               resolve()
             
             })
-            .catch(err => err)
+            
           })
     },
     

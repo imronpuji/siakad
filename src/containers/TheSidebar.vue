@@ -23,9 +23,9 @@
       />
     </CSidebarBrand>
 
-    <CRenderFunction v-if="role == 'admin'" flat :content-to-render="$options.nav"/>
-    <CRenderFunction v-else-if="role == 'mhs'" flat :content-to-render="$options.navMhs"/>
-    <CRenderFunction v-else-if="role == 'dosen'" flat :content-to-render="$options.navDosen"/>
+    <CRenderFunction v-if="$store.state.auth.user[0].data.role == 'admin'" flat :content-to-render="$options.nav"/>
+    <CRenderFunction v-else-if="$store.state.auth.user[0].data.role == 'mahasiswa'" flat :content-to-render="$options.navMhs"/>
+    <CRenderFunction v-else-if="$store.state.auth.user[0].data.role == 'dosen'" flat :content-to-render="$options.navDosen"/>
     
     <CSidebarMinimizer
       class="d-md-down-none"

@@ -11,14 +11,21 @@
           </el-dropdown>
         </el-col>
         </el-col>
+        <el-col :span="5" :offset="13">
+          <FormulateInput placeholder="Pencarian" v-model="filters[0].value"/>
+        </el-col>
+
     </el-row>
 
     <data-tables :data="data"
         :pagination-props="{ pageSizes: [8, 10, 15] }"
         :action-col="actionCol"
+        :filters="filters"
         >
         <el-table-column v-for="title in titles" 
-        :prop="title.prop" :label="title.label" :key="title.label">
+        :prop="title.prop" 
+        :label="title.label" 
+        :key="title.label">
         </el-table-column>
     </data-tables>
 
@@ -39,8 +46,8 @@
             </CCol>
              <CCol sm="6" class="mt-3">
               <select class="select-css" required v-model="editedDosen">
-                <option disabled selected :value="{nama:editedDosenNama, id_dosen:editedDosenId}">{{editedDosenNama}}</option>
-              <option v-for="data in $store.state.admin_dosen.data" :key="data.id" :value="{nama:data.nama, id_dosen:data.id}">{{data.nama}}</option>
+                <!-- <option disabled selected :value="{nama:editedDosenNama, id_dosen:editedDosenId}">{{editedDosenNama}}</option> -->
+                <option v-for="data in $store.state.admin_dosen.data" :key="data.id" :value="{nama:data.nama, dosen_id:data.id_dosen}">{{data.nama}}</option>
             </select>
             </CCol>
           </CRow>
@@ -66,7 +73,7 @@
         <FormulateForm v-model="formValues" @submit="buat" name="buat">
           <CRow>
             <CCol sm="6" class="mt-3">
-              <FormulateInput placeholder="Nama" type="text" name="nama" validation="required"/>
+              <FormulateInput placeholder="Nama" type="text" name="nama_makul" validation="required"/>
             </CCol>
             <CCol sm="6" class="mt-3">
               <FormulateInput placeholder="SKS" type="number" name="sks" validation="required"/>
@@ -78,7 +85,7 @@
             </CCol>
             <CCol sm="6" class="mt-3">
               <select class="select-css" required v-model="selectedDosen">
-              <option v-for="data in $store.state.admin_dosen.data" :key="data.id" :value="{id:data.id, nama:data.nama}">
+              <option v-for="data in $store.state.admin_dosen.data" :key="data.id_dosen" :value="{id:data.id_dosen, nama:data.nama}">
                 <h1>{{data.nama}}</h1>
               </option>
                 </select>
@@ -158,18 +165,28 @@ export default {
     data : state => state.admin_makul.data,
   }),
   created(){
-    if(this.data.length < 1){
+
     this.$store.dispatch('admin_makul/actGetData')
     this.$store.dispatch('admin_dosen/actGetData')
     this.$store.dispatch('components/setLoad')
 
-    } else {
-    this.$store.dispatch('components/setLoadFalse')
-    } 
   },
 
   data() {
      return {
+         filters: [{
+        
+        value: '',
+        
+        prop: 'nama_makul',
+        
+        }, 
+
+        {
+          
+          value: []
+          
+        }],
         selectedDosen : null,
         id_dosen : '',
         formValues : {},   
@@ -195,19 +212,19 @@ export default {
             },
             handler: row => {
               this.$refs.modal.open()
-              this.editByName = row.nama
+              this.editByName = row.nama_makul
               this.editBySks = row.sks
               this.editBySmt= row.semester
-              this.editById = row.id
-              this.editedDosenId = row.id_dosen
-              this.editedDosenNama = row.nama_dosen
-              this.editedDosen = {id_dosen:row.id_dosen, nama:row.nama_dosen}
-              console.log(this.editedDosenId)
+              this.editById = row.id_makul
+              this.editedDosenId = row.dosen_id
+              this.editedDosenNama = row.nama
+              this.editedDosen = {dosen_id:row.dosen_id, nama:row.nama}
+              
             },
             label: 'Edit'
           }, {
             handler: row => {
-              this.deleteById = row.id
+              this.deleteById = row.id_makul
               this.$refs.modalDelete.open()
             },
             label: 'delete'
@@ -249,14 +266,14 @@ export default {
        edit(){
 
         const data = {
-           nama : this.editByName,
-           id : this.editById,
+           nama_makul : this.editByName,
+           id_makul : this.editById,
            semester : this.editBySmt,
            sks : this.editBySks,
-           id_dosen : this.editedDosen.id_dosen,
-           nama_dosen : this.editedDosen.nama
+           dosen_id : this.editedDosen.dosen_id,
+           nama :  this.editedDosen.nama
         }
-         console.log(this.editedDosen)
+         console.log(data)
          this.$refs.modal.close()
           this.$store.dispatch('admin_makul/actEdit', data).then(() => {
           this.$refs.success.open()
@@ -278,8 +295,8 @@ export default {
        buat(){
          const data = {
            ...this.formValues,
-           nama_dosen : this.selectedDosen.nama,
-           id_dosen : this.selectedDosen.id
+           nama : this.selectedDosen.nama,
+           dosen_id : this.selectedDosen.id
          }
          console.log(data)
            this.$store.dispatch('admin_makul/actAdd', data).then(() => {

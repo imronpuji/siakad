@@ -42,7 +42,6 @@
               <CCardBody>
                 <img src="https://42f2671d685f51e10fc6-b9fcecea3e50b3b59bdc28dead054ebc.ssl.cf5.rackcdn.com/illustrations/Reading_book_re_kqpk.svg" alt="">
               </CCardBody>
-
             </CCard>
           </CCardGroup>
         </CCol>
@@ -104,14 +103,21 @@ export default {
       .then((res) => {
         
         this.load = false
-        
-        const token = res.data.token
-        
-        this.$store.dispatch('auth/setToken', token)
-        
-        localStorage.setItem('token', token)
-        
-        this.$router.push('/')
+        if(res.data.status == 201){
+          return false
+        } else {
+          const token = res.data.token
+          
+          localStorage.setItem('token', token)
+
+          this.$store.dispatch('auth/setToken', token)
+          console.log(token)
+          setTimeout(() => {
+            this.$router.push('/')
+          }, 2000)
+           
+         
+        }
       })
 
       .catch(err => {
@@ -166,6 +172,9 @@ export default {
       height: 80px;
       width: 80px;
       z-index: 99;
+    }
+    img {
+      width: 20VW;
     }
   
 </style>

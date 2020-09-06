@@ -80,30 +80,29 @@
       <div>
 
         <FormulateForm v-model="formValues" @submit="buat" name="buat">
-
+            <CRow>
+            <CCol sm="6">
+             <FormulateInput
+                type="file"
+                @change="previewFiles"
+             />
+            </CCol>
+            </CRow>
           <CRow>
             <CCol sm="6" class="mt-3">
-              <FormulateInput placeholder="Nama" type="text" name="nama" validation="required"/>
+              <FormulateInput placeholder="Nama" type="text" name="judul" validation="required"/>
             </CCol>
             <CCol sm="6" class="mt-3">
-              <FormulateInput placeholder="NIM" type="number" name="nim" validation="required"/>
+                <select class="select-css" v-model="selectedMakul" required >
+                    <option v-for="data in $store.state.dosen_nilai.dataMakul" :key="data.id_makul" :value="{id_makul:data.id_makul, semester:data.semester, nama_makul:data.nama_makul}">
+                        <h1>{{data.nama_makul}}</h1>
+                    </option>
+                </select>
             </CCol>
           </CRow>
 
-           <CRow>
-            <CCol sm="6" class="mt-3">
-              <FormulateInput placeholder="Email" type="email" name="email" validation="required|email"/>
-            </CCol>
-            <CCol sm="6" class="mt-3">
-              <FormulateInput placeholder="Tahun Masuk" type="number" name="tahun_masuk" validation="required"/>
-            </CCol>
-          </CRow>
-
           <CRow>
-            <CCol sm="6" class="mt-3">
-              <FormulateInput placeholder="Jurusan" type="text" name="jurusan" validation="required"/>
-            </CCol>
-            <CCol sm="6" class="mt-3">
+            <CCol sm="12" class="mt-3">
               <b-button type="submit" class="w-100">Buat</b-button>
             </CCol>
           </CRow>
@@ -112,17 +111,6 @@
 
       </div>
 
-    </sweet-modal>
-
-    <sweet-modal ref="modalImport">
-       <FormulateForm class="w-100" @submit="upload" name="import">
-      <div class="border-1 d-flex justify-center flex-column align-items-center">
-       
-        <FormulateInput validation="required" class="w-50" ref="metaDataFile" @change="previewFiles" type="file" />
-        <FormulateInput class="w-50"  type="submit"/>
-        
-      </div>
-</FormulateForm>
     </sweet-modal>
 
     <sweet-modal ref="modalDelete">
@@ -156,70 +144,51 @@ import qs from 'querystring'
 var titles = [
   {
     
-    prop: "nim",
+    prop: "judul",
     
-    label: "NIM"
+    label: "Judul"
 
   },
 
   {
 
-    prop: "nama",
+    prop: "file",
 
-    label: "Nama"
+    label: "File"
   },
-  
   {
-    
-    prop: "foto",
-    
-    label: "Foto"
-  
-  },
 
-  {
-    
-    prop: "tahun_masuk",
-    
-    label: "Tahun Masuk"
-  
+    prop: "nama_makul",
+
+    label: "Mata Kuliah"
   },
-  {
-    
-    prop: "jurusan",
-    
-    label: "Jurusan"
   
-  }
 ]
 
 export default {
 
-  computed : mapState({
-
-    data : state => state.admin_mahasiswa.data
-
-  }),
+  computed :{
+    data(){
+       return this.$store.state.dosen_materi.data
+    },
+  },
 
   created(){
     
-    if(this.data.length < 1)
-      {
         const token = this.$store.state.auth.token
-        this.$store.dispatch('admin_mahasiswa/actGetData', token)
-        
+        this.$store.dispatch('dosen_materi/actGetData', token)
+        this.$store.dispatch('dosen_nilai/actGetDataMakul')
+
         this.$store.dispatch('components/setLoad')
 
-      } else {
-                this.$store.dispatch('components/setLoadFalse')
-      }
-
   },
+  
 
   data() {
 
     return {
-      
+      selectedMakul : null,
+
       formValues : {},   
       
       editById : '',
@@ -346,20 +315,20 @@ export default {
     
       this.$refs.modal.close()
       
-      this.$store.dispatch('admin_mahasiswa/actEdit', data).then(() => {
+      this.$store.dispatch('dosen_materi/actEdit', data).then(() => {
       
         this.$refs.success.open()
       
       })
 
-      this.$store.dispatch('admin_mahasiswa/setLoad')
+      this.$store.dispatch('dosen_materi/setLoad')
       
     },
     
     del(){
       this.$store.dispatch('components/setLoad')
       
-      this.$store.dispatch('admin_mahasiswa/dels', this.deleteById)
+      this.$store.dispatch('dosen_materi/dels', this.deleteById)
       
         .then(() => this.$refs.success.open() )
         
@@ -376,8 +345,15 @@ export default {
     },
     
     buat(){
-      
-      this.$store.dispatch('admin_mahasiswa/actAdd', this.formValues)
+
+      const data = {
+          ...this.formValues,
+          file : this.metaDataFile,
+          makul_id : this.selectedMakul.id_makul,
+          nama_makul : this.selectedMakul.nama_makul
+
+      }
+      this.$store.dispatch('dosen_materi/actAdd', data)
       
         .then(() => {
           
@@ -400,114 +376,12 @@ export default {
       this.$formulate.handle(errors, 'buat')
       
       this.$formulate.reset('buat')
-        
+ 
     
     },
-    
-    upload(){
-      
-      this.$refs.modalImport.close()
-
-      this.$store.dispatch('components/setLoad')
-      
-      var submit = (mhs) => {
-        
-        this.$store.dispatch('admin_mahasiswa/actImport', mhs)
-        
-        .then(() => {
-          
-          this.$refs.success.open()
-
-        }) 
-      
-      }
-
-      var reader = new FileReader();
-
-      reader.onload =  function (e) {
-
-            const resData = []
-            
-            const userData = []
-
-            var data = e.target.result;
-
-            data = new Uint8Array(data);
-
-            var wb = XLSX.read(data, {type: 'array'});
-
-            wb.SheetNames.forEach( function(sheetName) {
-              
-              var XL_row_object = XLSX.utils.sheet_to_row_object_array(wb.Sheets[sheetName]);
-              
-              XL_row_object.map(val => resData.push({nama : val.nama, email : val.email, nim: val.nim}))
-              
-              XL_row_object.map(val => {
-
-                userData.push({nim : val.nim, nama : val.nama, foto : 'index.jpg', email : val.email, tahun_masuk:val.tahun_masuk, jurusan: val.jurusan  })
-            
-              })
-            
-            })
-
-            axios.post('/admin/users/import', userData)
-
-              .then((res) => {
-              
-                const mhs = res.data.user_id.map((val, i) => {
-                  
-                  return {
-                    
-                    user_id : val.user_id,
-
-                    nim : userData[i]['nim'],
-                    
-                    nama: userData[i]['nama'],
-                  
-                    foto : 'index.jpg',
-                  
-                    email : userData[i]['email'],
-
-                    tahun_masuk : userData[i]['tahun_masuk'],
-                    jurusan : userData[i]['jurusan'],
-                 
-                  }
-              
-                })
-
-                axios.post('/admin/mahasiswa/import', mhs)
-                  
-                  .then(result =>{
-                 
-                    submit(mhs)
-                  })
-              
-                  .catch(err => err)
-
-                })
-                
-              .catch(err => err)
-
-            };
-       
-
-            reader.readAsArrayBuffer(this.dataSiswa);
-        },
-        previewFiles(oEvent) {
+    previewFiles(oEvent) {
         var oFile = oEvent.target.files[0];
-        this.dataSiswa = oFile
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-
-            var data = e.target.result;
-            data = new Uint8Array(data);
-            var wb = XLSX.read(data, {type: 'array'});
-            const workSheet = wb.Sheets[wb.SheetNames[0]]
-        };
-           
-
-        reader.readAsArrayBuffer(oFile);
+        this.metaDataFile = oFile   
         }
   }
 }

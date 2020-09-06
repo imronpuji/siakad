@@ -39,6 +39,12 @@ export default [
       to: '/admin/jadwal-kuliah',
       icon: 'cil-cursor',        
     },
+    {
+      _name: 'CSidebarNavItem',
+      name: 'Data Nilai',
+      to: '/admin/Nilai',
+      icon: 'cil-drop',        
+    },
   ],
       
   }
