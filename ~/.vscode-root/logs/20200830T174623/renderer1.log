@@ -1,2 +1,0 @@
-[2020-08-30 17:46:44.874] [renderer1] [error] net::ERR_CONNECTION_REFUSED: Error: net::ERR_CONNECTION_REFUSED
-[2020-08-30 18:28:44.216] [renderer1] [warning] UNRESPONSIVE extension host, 'octref.vetur' took 95% of 3942.428ms, saved PROFILE here: '/tmp/exthost-0a9300.cpuprofile' [{"id":"gc","total":31829,"percentage":1},{"id":"octref.vetur","total":3742308,"percentage":95},{"id":"program","total":141513,"percentage":4},{"id":"self","total":26412,"percentage":1}]

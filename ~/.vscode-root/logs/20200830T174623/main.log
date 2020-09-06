@@ -1,6 +1,0 @@
-[2020-08-30 17:46:24.014] [main] [info] update#setState idle
-[2020-08-30 17:46:54.016] [main] [info] update#setState checking for updates
-[2020-08-30 17:47:09.670] [main] [error] Error: net::ERR_CONNECTION_REFUSED
-[2020-08-30 17:47:09.671] [main] [info] update#setState idle
-[2020-08-30 18:46:53.564] [main] [info] update#setState checking for updates
-[2020-08-30 18:46:54.905] [main] [info] update#setState available for download

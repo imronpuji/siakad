@@ -1,6 +1,0 @@
-[2020-08-30 00:06:53.771] [main] [info] update#setState idle
-[2020-08-30 00:07:23.773] [main] [info] update#setState checking for updates
-[2020-08-30 00:07:24.148] [main] [error] Error: net::ERR_INTERNET_DISCONNECTED
-[2020-08-30 00:07:24.148] [main] [info] update#setState idle
-[2020-08-30 01:07:23.336] [main] [info] update#setState checking for updates
-[2020-08-30 01:07:25.595] [main] [info] update#setState available for download
