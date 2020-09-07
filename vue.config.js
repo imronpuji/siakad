@@ -1,13 +1,13 @@
 module.exports = {
-  devServer: {
-    proxy: {
-      "^/": {
-      target: 'https://apisiakad.hilmimubarok.com',
-      ws: true,
-      changeOrigin: true
-    }
- },
-},
+//   devServer: {
+//     proxy: {
+//       "^/": {
+//       target: 'https://apisiakad.hilmimubarok.com',
+//       ws: true,
+//       changeOrigin: true
+//     }
+//  },
+// },
     lintOnSave: false,
     runtimeCompiler: true,
     configureWebpack: {

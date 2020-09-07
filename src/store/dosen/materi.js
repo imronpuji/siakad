@@ -64,7 +64,7 @@ const state = () => ({
 
     actGetData({commit}){
         return new Promise((resolve) => {
-          axios.get(`/dosen/nilai`, {
+          axios.get(`/dosen/materi`, {
             
             headers : {'Authorization': `Bearer ${token}`
           
