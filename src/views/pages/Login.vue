@@ -23,11 +23,17 @@
                   </CRow>
                   <CRow class="mt-4">
                     <CCol col="6" class="text-left">
-                      <CButton type="submit" color="primary" class="px-4 w-100">Login</CButton>
-                    </CCol>
-                    <CCol col="6" class="text-right">
-                      <CButton color="link" class="px-0">Forgot password?</CButton>
-                      <CButton color="link" class="d-lg-none">Register now!</CButton>
+                      <button v-if="isClicked" disabled class="btn btn-primary  w-100" type="button">
+                        <span  class="d-flex align-items-center justify-content-around">
+                          <span class="spinner-border spinner-border-sm spinner-login" role="status" aria-hidden="true"></span>
+                        {{'loading...'}}
+                        </span>
+                      </button>
+                      <button v-else  class="btn btn-primary  w-100" type="submit">
+                        <span>
+                          Login
+                        </span>
+                      </button>
                     </CCol>
                   </CRow>
                 </FormulateForm>
@@ -47,7 +53,7 @@
         </CCol>
       </CRow>
 
-      <div class="overlay" v-if="load">
+      <!-- <div class="overlay" v-if="load">
         <div class="spinner-grow text-primary" role="status">
           <span class="sr-only">Loading...</span>
         </div>
@@ -55,7 +61,7 @@
         <div>
           Loading..
         </div>  
-      </div>
+      </div> -->
 
     </CContainer>
   </div>
@@ -72,6 +78,7 @@ export default {
   data(){
 
     return {
+      isClicked : false,
 
       username : '',
 
@@ -86,6 +93,8 @@ export default {
    methods:{
      
      submit(){
+       
+      this.isClicked = true
       
       this.load = true
 
@@ -167,14 +176,14 @@ export default {
       justify-content: center;
       align-items: center;
     }
-    .spinner-border {
-      color : #9c9c9c;
-      height: 80px;
-      width: 80px;
-      z-index: 99;
-    }
+    
     img {
       width: 20VW;
+    }
+    .spinner-login {
+      width : 15px !important;
+      color : white !important;
+      height : 15px !important
     }
   
 </style>

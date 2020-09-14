@@ -15,7 +15,7 @@ const getRole = () => {
 const mhs = [
     {
         name : 'nilai',
-        path : '/mhs/nilai',
+        path : '/mahasiswa/nilai',
         component : Nilai,
         meta :  'mhs',
         beforeEnter :  (to, from, next) => {
@@ -29,7 +29,7 @@ const mhs = [
     },
     {
         name : 'mhs-materi',
-        path : '/mhs/materi',
+        path : '/mahasiswa/materi',
         component : Materi,
         meta :  'dosen',
         beforeEnter :  (to, from, next) => {
@@ -43,9 +43,9 @@ const mhs = [
     },
     {
       name : 'transkip',
-      path : '/mhs/transkip',
+      path : '/mahasiswa/transkip',
       component : Transkip,
-      meta :  'mhs',
+      meta :  'mahasiswa',
       beforeEnter :  (to, from, next) => {
           if(getRole() == 'mahasiswa'){
             next()
@@ -57,9 +57,9 @@ const mhs = [
   },
   {
     name : 'krs',
-    path : '/mhs/krs',
+    path : '/mahasiswa/krs',
     component : Krs,
-    meta :  'mhs',
+    meta :  'mahasiswa',
     beforeEnter :  (to, from, next) => {
         if(getRole() == 'mahasiswa'){
           next()
@@ -71,9 +71,9 @@ const mhs = [
 },
 {
   name : 'khs',
-  path : '/mhs/khs',
+  path : '/mahasiswa/khs',
   component : Khs,
-  meta :  'mhs',
+  meta :  'mahasiswa',
   beforeEnter :  (to, from, next) => {
       if(getRole() == 'mahasiswa'){
         next()
@@ -85,9 +85,9 @@ const mhs = [
 },
 {
   name : 'kurikulum',
-  path : '/mhs/kurikulum',
+  path : '/mahasiswa/kurikulum',
   component : Kurikulum,
-  meta :  'mhs',
+  meta :  'mahasiswa',
   beforeEnter :  (to, from, next) => {
       if(getRole() == 'mahasiswa'){
         next()

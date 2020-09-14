@@ -7,17 +7,7 @@
    <CHeaderNav class="d-md-down-none mr-auto">
       <CHeaderNavItem class="px-3">
         <CHeaderNavLink to="/dashboard">
-          Dashboard
-        </CHeaderNavLink>
-      </CHeaderNavItem>
-      <CHeaderNavItem class="px-3">
-        <CHeaderNavLink to="/users" exact>
-          Users
-        </CHeaderNavLink>
-      </CHeaderNavItem>
-      <CHeaderNavItem class="px-3">
-        <CHeaderNavLink>
-          Settings
+          {{'Hi' + ', ' + user}}
         </CHeaderNavLink>
       </CHeaderNavItem>
     </CHeaderNav>
@@ -63,6 +53,14 @@ export default {
   name: 'TheHeader',
   components: {
     TheHeaderDropdownAccnt
+  },
+  data(){
+    return {
+      user : ''
+    }
+  },
+  mounted(){
+    this.user = this.$store.state.auth.user[0].data.role
   }
 }
 </script>

@@ -15,15 +15,33 @@ export default [
     },
     {
       _name: 'CSidebarNavItem',
-      name: 'Nilai',
-      to: '/dosen/mahasiswa',
+      name: 'Materi',
+      to: '/mahasiswa/materi',
       icon: 'cil-user',        
     },
     {
       _name: 'CSidebarNavItem',
-      name: 'Materi',
-      to: '/dosen/materi',
-      icon: 'cil-pencil',        
+      name: 'Transkip Nilai',
+      to: '/mahasiswa/nilai',
+      icon: 'cil-user',        
+    },
+    {
+      _name: 'CSidebarNavItem',
+      name: 'KHS',
+      to: '/mahasiswa/khs',
+      icon: 'cil-user',        
+    },
+    {
+      _name: 'CSidebarNavItem',
+      name: 'KRS',
+      to: '/mahasiswa/krs',
+      icon: 'cil-user',        
+    },
+    {
+      _name: 'CSidebarNavItem',
+      name: 'Kurikulum',
+      to: '/mahasiswa/kurikulum',
+      icon: 'cil-user',        
     },
   ],
       

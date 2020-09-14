@@ -38,28 +38,25 @@
         <FormulateForm @submit="edit">
           
           <CRow>
-            <CCol sm="12">
-              <FormulateInput v-model="editByName" placeholder="Nama" type="text" name="nama" validation="required"/>
+          <CCol sm="6">
+          <FormulateInput 
+              type="file"
+              @change="previewFiles"
+              validation="required"/>
             </CCol>
+            
           </CRow>
 
           <CRow class="mt-3">
-            <CCol sm="6">
-              <FormulateInput v-model="editByNim" placeholder="NIM" type="text" name="nim" validation="required"/>
+              <CCol sm="6">
+              <FormulateInput v-model="editByName" placeholder="Judul" type="text" name="judul" validation="required"/>
             </CCol>
-            <CCol sm="6">
-              <FormulateInput v-model="editByEmail" placeholder="Email" type="text" name="email" validation="required|email"/>
-            </CCol>
-          </CRow>
-
-          <CRow class="mt-4">
-            <CCol sm="6" class="mt-3">
-              <FormulateInput v-model="editByJurusan" placeholder="Jurusan" type="text" name="jurusan" validation="required"/>
-            </CCol>
-            <CCol sm="6" class="mt-3">
+             <CCol sm="6">
               <b-button type="submit" class="w-100">Edit</b-button>
             </CCol>
           </CRow>
+
+
 
         </FormulateForm>
 
@@ -94,7 +91,7 @@
             </CCol>
             <CCol sm="6" class="mt-3">
                 <select class="select-css" v-model="selectedMakul" required >
-                    <option v-for="data in $store.state.dosen_nilai.dataMakul" :key="data.id_makul" :value="{id_makul:data.id_makul, semester:data.semester, nama_makul:data.nama_makul}">
+                    <option v-for="data in $store.state.dosen_nilai.dataMakul" :key="data.id_makul" :value="{id_makul:data.id_makul, semester:data.semester, nama_makul:data.nama_makul, sks:data.sks}">
                         <h1>{{data.nama_makul}}</h1>
                     </option>
                 </select>
@@ -162,21 +159,32 @@ var titles = [
 
     label: "Mata Kuliah"
   },
+  {
+
+    prop: "semester",
+
+    label: "Semester"
+  },
+  
+  {
+
+    prop: "sks",
+    
+    label: "SKS"
+  },
   
 ]
 
 export default {
 
-  computed :{
-    data(){
-       return this.$store.state.dosen_materi.data
-    },
-  },
+   computed : mapState({
+    data : state => state.dosen_materi.data
+  }),
 
   created(){
     
         const token = this.$store.state.auth.token
-        this.$store.dispatch('dosen_materi/actGetData', token)
+        this.$store.dispatch('dosen_materi/actGetData')
         this.$store.dispatch('dosen_nilai/actGetDataMakul')
 
         this.$store.dispatch('components/setLoad')
@@ -234,31 +242,22 @@ export default {
         },
         
         buttons: [{
-          //   props: {
-          //     type: 'primary',
-          //     icon: 'el-icon-edit'
-          //   },
-          //   handler: row => {
-          //     this.$refs.modal.open()
-          //     this.editByName = row.nama
-          //     this.editByEmail = row.email
-          //     this.editByNim = row.nim
-          //     this.editById = row.id_mahasiswa
+            props: {
+              type: 'primary',
+              icon: 'el-icon-edit'
+            },
+            handler: row => {
+              this.$refs.modal.open()
+              this.editByName = row.judul
+              this.editById = row.id_materi
             
-          //   },
-          //   label: 'Edit'
-          // }, {
-          props: {
-
-            type: 'primary',
-
-            icon: 'el-icon-delete'
-
-          },
+            },
+            label: 'edit'
+          }, {
 
           handler: row => {
 
-            this.deleteById = row.user_id
+            this.deleteById = row.id_materi
 
             this.$refs.modalDelete.open()
 
@@ -266,7 +265,8 @@ export default {
 
           label: 'delete'
           
-        }]
+        },
+        ]
 
       } 
     }
@@ -303,13 +303,11 @@ export default {
     
       const data = {
         
-        nama : this.editByName,
+        judul : this.editByName,
         
-        email : this.editByEmail,
+        id_materi : this.editById,
         
-        nim : this.editByNim,
-        
-        id_mahasiswa : this.editById
+        file : this.metaDataFile
       
       }
     
@@ -321,7 +319,7 @@ export default {
       
       })
 
-      this.$store.dispatch('dosen_materi/setLoad')
+      this.$store.dispatch('components/setLoad')
       
     },
     
@@ -350,7 +348,9 @@ export default {
           ...this.formValues,
           file : this.metaDataFile,
           makul_id : this.selectedMakul.id_makul,
-          nama_makul : this.selectedMakul.nama_makul
+          nama_makul : this.selectedMakul.nama_makul,
+          sks : this.selectedMakul.sks,
+          semester : this.selectedMakul.semester
 
       }
       this.$store.dispatch('dosen_materi/actAdd', data)

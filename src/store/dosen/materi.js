@@ -1,11 +1,12 @@
 import store from '../../store'
 import qs from 'querystring'
-
+import fileDownload from 'js-file-download'
 import axios from '../../api/axios/axios'
 
 const token = localStorage.getItem('token')
 const state = () => ({
     data :  [],
+    dataMakul : []
 
   })
  
@@ -13,7 +14,7 @@ const state = () => ({
     dels({commit}, id){
         return new Promise((resolve) => {
 
-          axios.delete(`/dosen/nilai/${id}`, {
+          axios.delete(`/dosen/materi/${id}`, {
             
             headers: {
 
@@ -32,13 +33,13 @@ const state = () => ({
       },
     
     actEdit({commit}, val){
-        const { id_nilai, nilai_angka, nilai_huruf } = val
-        const data = {
-          nilai_angka,
-          nilai_huruf
-        }
+        const { id_materi, file, judul } = val
+        let formData = new FormData()
+        formData.append('judul', judul)
+        formData.append('file', file)
+ 
         return new Promise((resolve) => {
-          axios.put(`/dosen/nilai/${id_nilai}`, qs.stringify(data))
+          axios.put(`/dosen/materi/${id_materi}`, formData)
           .then(() =>  {
             commit('edit', val)
           } )
@@ -46,7 +47,7 @@ const state = () => ({
         })
     },
     actAdd({commit},val ){
-        const {file, judul, nama_makul, makul_id} = val
+        const {file, judul, nama_makul, makul_id, sks, semester} = val
 
         let formData = new FormData()
         formData.append('judul', judul)
@@ -55,31 +56,35 @@ const state = () => ({
         return new Promise((resolve) => {
         axios.post('/dosen/materi', formData) 
         .then((res) => {
-          commit('addData', {judul, nama_makul, file : file.name, id_materi: res.data.id_materi})
+          commit('addData', {judul, nama_makul, file : file.name, id_materi: res.data.id_materi, sks, semester})
         })
         .catch(err => err)
         })
       
     },
 
-    actGetData({commit}){
+    actGetDataFile({commit}){
         return new Promise((resolve) => {
-          axios.get(`/dosen/materi`, {
-            
-            headers : {'Authorization': `Bearer ${token}`
-          
-          }})
+          axios.get(`/dosen/materi/loadfile/${id_materi}`, 
+            {
+              responseType: 'blob',
+            }
+            )
           .then(res => {
-            commit('getData', res.data)
-            console.log(res)
+          if(res.status == 201){
+            alert('maaf file tidak tersedia')
+          } else {
+            fileDownload(res.data, 'file.jpg');
+          }
+ 
             resolve()
           
           })
           .catch(err => err)
         })
     },
-
-      actGetDataMakul({commit}){
+    
+    actGetData({commit}){
         const user_id = store.state.auth.user[0].data.id
         console.log(user_id)
         axios.get(`/dosen/dosen/${user_id}/user_id`, {
@@ -87,41 +92,46 @@ const state = () => ({
           headers : {'Authorization': `Bearer ${token}`
         
         }}).then((res) => {
+        console.log(res)
         axios.get(`/dosen/makul/${res.data[0].id_dosen}/dosen_id`, {
             
             headers : {'Authorization': `Bearer ${token}`
           
           }})
           .then(result => {
-            console.log(result)
+          console.log(result)
+            if(result.data.length > 0){
+            result.data.map(values => {
+              axios.get(`/dosen/materi/${values.id_makul}/makul_id`)
+              .then(results => {
+              console.log(results)
+                commit('getData', results.data)
+                resolve()
+              
+              })
+              .catch(err => err)
+            })
+            
+            }
+           
             commit('getMakul', result.data)
           })
         })
  
  
-      },
+    },
 
-      actGetDataMhs({commit}, val){
-       
-        axios.get(`/dosen/mahasiswa/getbysemester/${val.semester}`, {
-            
-          headers : {'Authorization': `Bearer ${token}`
-        
-        }}).then((res) => {
-          commit('addMhs', res.data)
-          commit('selectedMakul', val)
-        }) 
-      },
+    
 
-
-      setLoad({commit}){
+    setLoad({commit}){
         commit('setLoading','')
-      }
+    },
+    
   }
   
   const mutations = {
     deleteSome(state, vals){
-        const index = state.data.findIndex(val => val.id_nilai == vals)
+        const index = state.data.findIndex(val => val.id_materi == vals)
         state.data.splice(index, 1)
         store.dispatch('components/setLoadFalse')
 
@@ -134,10 +144,10 @@ const state = () => ({
 
     },
     edit(state, val){
-      const index = state.data.findIndex(({id_nilai}) => id_nilai == val.id_nilai )
-
-      state.data[index]['nilai_huruf'] = val.nilai_huruf
-      state.data[index]['nilai_angka'] = val.nilai_angka
+      const index = state.data.findIndex(({id_materi}) => id_materi == val.id_materi )
+      console.log(val.file)
+      state.data[index]['judul'] = val.judul
+      state.data[index]['file'] = val.judul
 
 
       store.dispatch('components/setLoadFalse')
@@ -153,7 +163,7 @@ const state = () => ({
     
     },
     getData(state, val){
-      state.data = [...val]
+      state.data = val
       store.dispatch('components/setLoadFalse')
 
     },
