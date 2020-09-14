@@ -13,12 +13,12 @@
                   <p class="text-muted">Sign In to your account</p>
                   <CRow>
                     <CCol sm="12">
-                        <FormulateInput v-model="username" type="text" name='username' validation="required"/>
+                        <FormulateInput placeholder="Username" v-model="username" type="text" name='username' validation="required"/>
                     </CCol>
                   </CRow>
                   <CRow class="mt-4">
                     <CCol sm="12">
-                        <FormulateInput v-model="password" type="password" name='password' validation="required"/>
+                        <FormulateInput placeholder="Password" v-model="password" type="password" name='password' validation="required"/>
                     </CCol>
                   </CRow>
                   <CRow class="mt-4">
