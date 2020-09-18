@@ -48,13 +48,14 @@ const state = () => ({
         })
       },
       actAdd({commit},val ){
-        const {dosen_id, nama_makul, sks, semester, nama} = val
+        const {dosen_id, nama_makul, sks, semester, nama, jurusan} = val
 
         const data = {
           dosen_id : dosen_id,
           nama_makul : nama_makul,
           sks,
-          semester
+          semester,
+          jurusan
         }
 
         console.log(data)

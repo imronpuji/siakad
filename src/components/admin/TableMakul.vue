@@ -92,7 +92,10 @@
             </CCol>
           </CRow>
           <CRow class="mt-4">
-            <CCol sm="12">
+          <CCol>
+              <FormulateInput placeholder="Jurusan" type="text" name="jurusan" validation="required"/>
+            </CCol>
+            <CCol sm="6">
               <b-button type="submit" class="w-100">Buat</b-button>
             </CCol>
           </CRow>
@@ -145,6 +148,10 @@ var titles = [{
     {
         prop: "nama",
         label: "Dosen"
+    },
+    {
+        prop: "jurusan",
+        label: "Jurusan"
     }]
 
 var titlesDosen = [{
@@ -158,6 +165,10 @@ var titlesDosen = [{
     {
         prop: "email",
         label: "Email"
+    },
+    {
+        prop: "jurusan",
+        label: "Jurusan"
     }]
 
 export default {

@@ -25,8 +25,7 @@ import qs from 'querystring'
 import decode from 'jwt-decode'
 import '../node_modules/@braid/vue-formulate/themes/snow/snow.scss';
 import VueDataTables from 'vue-data-tables'
-
-
+import 'vue-select/dist/vue-select.css';
 
 Vue.component('v-select', vSelect)
 Vue.use(VueSweetalert2);

@@ -14,6 +14,10 @@ import admin_nilai from './store/admin/nilai'
 import dosen_nilai from './store/dosen/nilai'
 import dosen_materi from './store/dosen/materi'
 
+
+// mhs
+import mhs_materi from './store/mhs/materi'
+
 Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
@@ -22,6 +26,8 @@ export default new Vuex.Store({
   modules: {
     components,
     auth,
+    
+    // admin
     admin_mahasiswa,
     admin_dosen,
     admin_makul,
@@ -30,7 +36,11 @@ export default new Vuex.Store({
 
     // dosen
     dosen_nilai,
-    dosen_materi
+    dosen_materi,
+    
+    // mhs
+    mhs_materi
+    
   },
   strict: debug,
 })
