@@ -6,7 +6,8 @@ const state = () => ({
   
   isLogin : false,
   
-  user : []
+  user : [],
+  profile : []
   
 })
 
@@ -15,6 +16,12 @@ const state = () => ({
     setToken({commit}, val){
     
       commit("token", val)
+    
+    },
+    
+    setProfile({commit}, val){
+    
+      commit("profil", val)
     
     },
     deleteToken({commit}){
@@ -44,6 +51,9 @@ const state = () => ({
     delete(state){
       state.token = ''
       state.user = []
+    },
+    profil(state, val){
+      state.profile = val
     }
 
   }

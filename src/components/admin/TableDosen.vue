@@ -6,7 +6,6 @@
             <el-button type="primary">Actions<i class="el-icon-caret-bottom el-icon--right"></i></el-button>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="new">new</el-dropdown-item>
-              <el-dropdown-item command="import">import</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </el-col>
@@ -62,18 +61,20 @@
       <div>
         <FormulateForm v-model="formValues" @submit="buat" name="buat">
           <CRow>
-            <CCol sm="6" class="mt-3">
-              <FormulateInput placeholder="Nama" type="text" name="nama" validation="required"/>
-            </CCol>
-            <CCol sm="6" class="mt-3">
-              <FormulateInput placeholder="NIY" type="number" name="niy" validation="required"/>
+            <CCol sm="12" class="mt-3">
+              <FormulateInput label="Nama" placeholder="Nama" type="text" name="nama" validation="required"/>
             </CCol>
           </CRow>
           <CRow>
             <CCol sm="6" class="mt-3">
-              <FormulateInput placeholder="Email" type="email" name="email" validation="required|email"/>
+              <FormulateInput class="mhs_email" label="Email" placeholder="Email" type="email" name="email" validation="required|email"/>
             </CCol>
-            <CCol sm="6">
+            <CCol sm="6" class="mt-3">
+              <FormulateInput label="Niy" placeholder="NIY" type="number" name="niy" validation="required"/>
+            </CCol>
+          </CRow>
+          <CRow>
+            <CCol sm="12" class="mt-4">
               <b-button type="submit" class="w-100 mt-3">Buat</b-button>
             </CCol>
           </CRow>
@@ -224,6 +225,9 @@ export default {
   }
 </script>
 <style lang="scss">
+.mhs_email {
+  width:100%
+}
   #addMhs {
     background:rgb(63, 178, 255) !important;
     border : none;

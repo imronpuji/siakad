@@ -30,18 +30,18 @@
         <FormulateForm @submit="edit">
           <CRow>
             <CCol sm="6" class="mt-3">
-              <FormulateInput disabled v-model="editByName" placeholder="Nama" type="text" name="nama" validation="required"/>
+              <FormulateInput label="Mata Kuliah" disabled v-model="editByName" placeholder="Nama" type="text" name="nama" validation="required"/>
             </CCol>
             <CCol sm="6" class="mt-3">
-              <FormulateInput v-model="editByMulai" placeholder="Waktu Mulai" type="time" name="mulai" validation="required"/>
+              <FormulateInput label="Waktu Mulai" v-model="editByMulai" placeholder="Waktu Mulai" type="time" name="mulai" validation="required"/>
             </CCol>
           </CRow>
           <CRow>
             <CCol sm="6" class="mt-3">
-              <FormulateInput v-model="editBySelesai" placeholder="Waktu Selesai" type="time" name="selesai" validation="required"/>
+              <FormulateInput label="Waktu Selesai" v-model="editBySelesai" placeholder="Waktu Selesai" type="time" name="selesai" validation="required"/>
             </CCol>
             <CCol sm="6" class="mt-3">
-              <FormulateInput v-model="editByHari" placeholder="Hari" type="select" name="hari"  validation="required"
+              <FormulateInput label="Hari" v-model="editByHari" placeholder="Hari" type="select" name="hari"  validation="required"
                 :options="{senin : 'senin',selasa:'selasa', rabu : 'rabu', kamis : 'kamis', jumat : 'jumat', sabtu : 'sabtu'}"
               />
             </CCol>
@@ -68,6 +68,7 @@
         <FormulateForm v-model="formValues" @submit="buat" name="buat">
           <CRow>
              <CCol sm="6" class="mt-3">
+             <label class="m-0; w-100" style="text-align:left; margin:0; font-size:14px; font-weight:500" for="">Mata Kuliah</label>
               <select class="select-css" required v-model="selectedMakul">
               
               <option v-for="data_makul in $store.state.admin_jadwal.dataMakul" :key="data_makul.id_makul" :value="{id_makul:data_makul.id_makul, nama_makul:data_makul.nama_makul}">
@@ -76,21 +77,23 @@
                 </select>
             </CCol>
             <CCol sm="6" class="mt-3">
-              <FormulateInput
-                type="time"
-                name="mulai"
-                placeholder="Waktu Mulai"
-                validation="required"
+                <FormulateInput label="Hari" placeholder="Hari" type="select" name="hari"  validation="required"
+                :options="{senin : 'senin',selasa:'selasa', rabu : 'rabu', kamis : 'kamis', jumat : 'jumat', sabtu : 'sabtu'}"
               />
+            
             </CCol>
           </CRow>
           <CRow>
             <CCol sm="6" class="mt-3">
-              <FormulateInput placeholder="Waktu Selesai" type="time" name="selesai" validation="required"/>
+              <FormulateInput label="Waktu Selesai" placeholder="Waktu Selesai" type="time" name="selesai" validation="required"/>
             </CCol>
             <CCol sm="6" class="mt-3">
-              <FormulateInput placeholder="Hari" type="select" name="hari"  validation="required"
-                :options="{senin : 'senin',selasa:'selasa', rabu : 'rabu', kamis : 'kamis', jumat : 'jumat', sabtu : 'sabtu'}"
+              <FormulateInput
+              label="Waktu Mulai"
+                type="time"
+                name="mulai"
+                placeholder="Waktu Mulai"
+                validation="required"
               />
             </CCol>
            
@@ -342,13 +345,13 @@ export default {
     max-width: 100%; /* useful when width is set to anything other than 100% */
     box-sizing: border-box;
     margin: 0;
-    border: 1px solid #aaa;
-    box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
-    border-radius: .2em;
+    border: 1px solid rgb(199, 199, 199) !important;
+    box-shadow: none !important;
+    border-radius: .3em !important;
     -moz-appearance: none;
     -webkit-appearance: none;
     appearance: none;
-    background-color: rgb(238, 238, 238);
+    background-color: rgb(238, 238, 238) ;
     /* note: bg image below uses 2 urls. The first is an svg data uri for the arrow icon, and the second is the gradient. 
         for the icon, if you want to change the color, be sure to use `%23` instead of `#`, since it's a url. You can also swap in a different svg icon or an external image reference
         

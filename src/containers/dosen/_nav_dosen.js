@@ -17,13 +17,13 @@ export default [
         _name: 'CSidebarNavItem',
         name: 'Nilai',
         to: '/dosen/mahasiswa',
-        icon: 'cil-user',        
+        icon: 'cil-star',        
       },
       {
         _name: 'CSidebarNavItem',
         name: 'Materi',
         to: '/dosen/materi',
-        icon: 'cil-pencil',        
+        icon: 'cil-layers',        
       },
     ],
         

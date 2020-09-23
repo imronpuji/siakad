@@ -35,22 +35,21 @@ const state = () => ({
     },
     
     actGetData({commit}){
-        const user_id = store.state.auth.user[0].data.id
+        const user = store.state.auth.profile[0]
         
-        axios.get(`/mahasiswa/getsemester/${user_id}`, {
-            
-          headers : {'Authorization': `Bearer ${token}`
-        
-        }}).then((res) => {
+ 
         // console.log('id_mhs', res)
         
-        axios.get(`/mahasiswa/makul/${res.data[0].semester}/${res.data[0].jurusan}`)
+        axios.get(`/mahasiswa/makul/${user.semester}/${user.jurusan}`)
         .then((result) => {
         console.log(result)
           commit('getMakul', result.data)
-          
+          if(result.data[0] == undefined){
+          return false
+          } else {
           axios.get(`/mahasiswa/materi/${result.data[0].id_makul}/makul_id`)
           .then((rets) => commit('getData', rets.data))
+          }
 
         })
         
@@ -77,7 +76,7 @@ const state = () => ({
            
           //   commit('getMakul', result.data)
           // })
-        })
+ 
  
  
     },
@@ -131,7 +130,6 @@ const state = () => ({
     
     },
     getData(state, val){
-    console.log(val)
       state.data = val
       store.dispatch('components/setLoadFalse')
 

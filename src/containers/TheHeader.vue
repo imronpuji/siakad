@@ -2,12 +2,12 @@
   <CHeader fixed with-subheader light>
  
     <CHeaderBrand class="mx-auto d-lg-none" to="/">
-      <CIcon name="logo" height="48" alt="Logo"/>
+      
     </CHeaderBrand>
    <CHeaderNav class="d-md-down-none mr-auto">
       <CHeaderNavItem class="px-3">
         <CHeaderNavLink to="/dashboard">
-          {{'Hi' + ', ' + user}}
+          Dashboard
         </CHeaderNavLink>
       </CHeaderNavItem>
     </CHeaderNav>
@@ -54,13 +54,8 @@ export default {
   components: {
     TheHeaderDropdownAccnt
   },
-  data(){
-    return {
-      user : ''
-    }
-  },
-  mounted(){
-    this.user = this.$store.state.auth.user[0].data.role
+  computed : {
+    profile(){ return this.$store.state.auth.profile[0].nama}
   }
 }
 </script>

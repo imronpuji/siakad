@@ -6,22 +6,15 @@
     class="sidebar"
     @update:show="(value) => $store.dispatch('components/sets', ['sidebarShow', value])">
     
-    <CSidebarBrand class="d-md-down-none" to="/">
+    <!-- <CSidebarBrand class="d-md-down-none" to="/">
       <CIcon 
         class="c-sidebar-brand-full" 
-        name="logo" 
+        name="cil-pencil" 
         size="custom-size" 
-        :height="35" 
-        viewBox="0 0 556 134"
+        :height="25" 
+        viewBox="0 0 586 334"
       />
-      <CIcon 
-        class="c-sidebar-brand-minimized" 
-        name="logo" 
-        size="custom-size" 
-        :height="35" 
-        viewBox="0 0 110 134"
-      />
-    </CSidebarBrand>
+    </CSidebarBrand> -->
 
     <CRenderFunction v-if="$store.state.auth.user[0].data.role == 'admin'" flat :content-to-render="$options.nav"/>
     <CRenderFunction v-else-if="$store.state.auth.user[0].data.role == 'mahasiswa'" flat :content-to-render="$options.navMhs"/>
@@ -39,20 +32,13 @@ import nav from './_nav'
 import navMhs from './mhs/_nav_mhs'
 import navDosen from './dosen/_nav_dosen'
 import decode from 'jwt-decode'
-const token = localStorage.getItem('token')
-const role = decode(token).data.role
-console.log(role)
 
 export default {
   name: 'TheSidebar',
   nav,
   navMhs,
   navDosen,
-  data(){
-    return {
-      role
-    }
-  },
+
   computed: {
     show () {
       return this.$store.state.components.sidebarShow 
@@ -60,7 +46,8 @@ export default {
     minimize () {
       return this.$store.state.components.sidebarMinimize 
     }
-  }
+  },
+
 }
 </script>
 <style lang="scss">

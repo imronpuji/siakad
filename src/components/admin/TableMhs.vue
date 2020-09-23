@@ -79,31 +79,37 @@
 
       <div>
 
-        <FormulateForm v-model="formValues" @submit="buat" name="buat">
+        <FormulateForm  v-model="formValues" @submit="buat" name="buat">
 
           <CRow>
-            <CCol sm="6" class="mt-3">
-              <FormulateInput placeholder="Nama" type="text" name="nama" validation="required"/>
+            <CCol sm="6">
+              <FormulateInput label="Nama" placeholder="Nama" type="text" name="nama" validation="required"/>
             </CCol>
-            <CCol sm="6" class="mt-3">
-              <FormulateInput placeholder="NIM" type="number" name="nim" validation="required"/>
+            <CCol sm="6">
+              <FormulateInput label="NIM" placeholder="NIM" type="number" name="nim" validation="required"/>
             </CCol>
           </CRow>
 
-           <CRow>
-            <CCol sm="6" class="mt-3">
-              <FormulateInput placeholder="Email" type="email" name="email" validation="required|email"/>
+           <CRow class="mt-3">
+            <CCol sm="6">
+              <FormulateInput label="Email" placeholder="Email" type="email" name="email" validation="required|email"/>
             </CCol>
-            <CCol sm="6" class="mt-3">
-              <FormulateInput placeholder="Tahun Masuk" type="number" name="tahun_masuk" validation="required"/>
+            <CCol sm="6">
+              <FormulateInput label="Tahun Masuk" placeholder="Tahun Masuk" type="number" name="tahun_masuk" validation="required"/>
             </CCol>
           </CRow>
 
-          <CRow>
-            <CCol sm="6" class="mt-3">
-              <FormulateInput placeholder="Jurusan" type="text" name="jurusan" validation="required"/>
-            </CCol>
-            <CCol sm="6" class="mt-3">
+          <CRow class="mt-3">
+            <CCol sm="6">
+<FormulateInput
+              v-model="jurusan"
+              :options="{informatika: 'informatika', dkv: 'DKV'}"
+              type="select"
+              placeholder="Pilih Jurusan"
+              label="Jurusan"
+            />
+            </CCol>          
+            <CCol sm="6" class="mt-4">
               <b-button type="submit" class="w-100">Buat</b-button>
             </CCol>
           </CRow>
@@ -169,13 +175,6 @@ var titles = [
     label: "Nama"
   },
   
-  {
-    
-    prop: "foto",
-    
-    label: "Foto"
-  
-  },
 
   {
     
@@ -220,7 +219,9 @@ export default {
 
     return {
       
-      formValues : {},   
+      formValues : {},  
+      
+      jurusan : null,
       
       editById : '',
       
@@ -377,7 +378,7 @@ export default {
     
     buat(){
       
-      this.$store.dispatch('admin_mahasiswa/actAdd', this.formValues)
+      this.$store.dispatch('admin_mahasiswa/actAdd', {...this.formValues, jurusan : this.jurusan})
       
         .then(() => {
           
@@ -520,6 +521,10 @@ export default {
     border-radius: 4px;
     height : 40px;
     width: 80px;
+  }
+  label {
+      text-align:left;
+      margin:0
   }
   .test {
     box-shadow: 0px 1px 4px rgb(214, 214, 214) ;

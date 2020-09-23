@@ -80,14 +80,10 @@ const state = () => ({
       },
 
       actGetDataMakul({commit}){
-        const user_id = store.state.auth.user[0].data.id
-        console.log(user_id)
-        axios.get(`/dosen/dosen/${user_id}/user_id`, {
-            
-          headers : {'Authorization': `Bearer ${token}`
-        
-        }}).then((res) => {
-        axios.get(`/dosen/makul/${res.data[0].id_dosen}/dosen_id`, {
+        const user = store.state.auth.profile[0]
+
+
+        axios.get(`/dosen/makul/${user.id_dosen}/dosen_id`, {
             
             headers : {'Authorization': `Bearer ${token}`
           
@@ -96,14 +92,13 @@ const state = () => ({
             console.log(result)
             commit('getMakul', result.data)
           })
-        })
  
  
       },
 
       actGetDataMhs({commit}, val){
        
-        axios.get(`/dosen/mahasiswa/getbysemester/${val.semester}`, {
+        axios.get(`/dosen/mahasiswa/getbysemester/${val.jurusan}/${val.semester}`, {
             
           headers : {'Authorization': `Bearer ${token}`
         
@@ -158,8 +153,14 @@ const state = () => ({
 
     },
     getMakul(state, val){
+    if(val[0] == undefined){
+      state.dataMakul = []
+      store.dispatch('components/setLoadFalse')
+    } else {
       state.dataMakul = [...val]
       store.dispatch('components/setLoadFalse')
+    }
+      
 
     },
     addMhs(state, val){

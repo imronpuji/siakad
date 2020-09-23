@@ -37,13 +37,13 @@ export default [
       _name: 'CSidebarNavItem',
       name: 'Jadwal Kuliah',
       to: '/admin/jadwal-kuliah',
-      icon: 'cil-cursor',        
+      icon: 'cil-layers',        
     },
     {
       _name: 'CSidebarNavItem',
       name: 'Data Nilai',
       to: '/admin/Nilai',
-      icon: 'cil-drop',        
+      icon: 'cil-star',        
     },
   ],
       

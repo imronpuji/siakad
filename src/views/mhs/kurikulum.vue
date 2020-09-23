@@ -1,3 +1,12 @@
 <template>
-    <div>hai from kurikulum</div>
+    <div>
+        <TableKurikulum></TableKurikulum>
+    </div>
 </template>
+
+<script>
+import TableKurikulum from '../../components/mhs/kurikulum'
+export default {
+    components : {TableKurikulum}
+}
+</script>

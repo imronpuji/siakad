@@ -63,9 +63,9 @@ const state = () => ({
       
     },
 
-    actGetDataFile({commit}){
+    actGetDataFile({commit}, data){
         return new Promise((resolve) => {
-          axios.get(`/dosen/materi/loadfile/${id_materi}`, 
+          axios.get(`/dosen/materi/loadfile/${data.id_materi}`, 
             {
               responseType: 'blob',
             }
@@ -74,7 +74,7 @@ const state = () => ({
           if(res.status == 201){
             alert('maaf file tidak tersedia')
           } else {
-            fileDownload(res.data, 'file.jpg');
+            fileDownload(res.data, data.file);
           }
  
             resolve()
@@ -85,15 +85,9 @@ const state = () => ({
     },
     
     actGetData({commit}){
-        const user_id = store.state.auth.user[0].data.id
-        console.log(user_id)
-        axios.get(`/dosen/dosen/${user_id}/user_id`, {
-            
-          headers : {'Authorization': `Bearer ${token}`
-        
-        }}).then((res) => {
-        console.log(res)
-        axios.get(`/dosen/makul/${res.data[0].id_dosen}/dosen_id`, {
+        const user = store.state.auth.profile[0]
+     
+        axios.get(`/dosen/makul/${user.id_dosen}/dosen_id`, {
             
             headers : {'Authorization': `Bearer ${token}`
           
@@ -116,7 +110,6 @@ const state = () => ({
            
             commit('getMakul', result.data)
           })
-        })
  
  
     },
@@ -163,13 +156,21 @@ const state = () => ({
     
     },
     getData(state, val){
+    console.log(val)
+
       state.data = val
       store.dispatch('components/setLoadFalse')
+    
 
     },
     getMakul(state, val){
-      state.dataMakul = [...val]
-      store.dispatch('components/setLoadFalse')
+      if(val[0] == undefined){
+        state.dataMakul = []
+        store.dispatch('components/setLoadFalse')
+      } else {
+        state.dataMakul = [...val]
+        store.dispatch('components/setLoadFalse')
+      }
 
     },
     addMhs(state, val){

@@ -27,6 +27,7 @@
         :label="title.label" 
         :key="title.label">
         </el-table-column>
+        
     </data-tables>
 
     <sweet-modal ref="modal">
@@ -34,18 +35,18 @@
         <FormulateForm @submit="edit">
           <CRow>
             <CCol sm="6" class="mt-3">
-              <FormulateInput disabled v-model="editByName" placeholder="Mata Kuliah" type="text"  validation="required"/>
+              <FormulateInput label="Mata Kuliah" disabled v-model="editByName" placeholder="Mata Kuliah" type="text"  validation="required"/>
             </CCol>
             <CCol sm="6" class="mt-3">
-              <FormulateInput disabled v-model="editByMhs" placeholder="Mahasiswa" type="text"  validation="required"/>
+              <FormulateInput label="Mahasiswa" disabled v-model="editByMhs" placeholder="Mahasiswa" type="text"  validation="required"/>
             </CCol>
           </CRow>
           <CRow>
             <CCol sm="6" class="mt-3">
-              <FormulateInput v-model="editByAngka" placeholder="Nilai Angka" type="text"  validation="required"/>
+              <FormulateInput label="Nilai Angka" v-model="editByAngka" placeholder="Nilai Angka" type="text"  validation="required"/>
             </CCol>
             <CCol sm="6" class="mt-3">
-              <FormulateInput v-model="editByHuruf" placeholder="Nilai Huruf" type="text"  validation="required"/>
+              <FormulateInput label="Niali Huruf" v-model="editByHuruf" placeholder="Nilai Huruf" type="text"  validation="required"/>
             </CCol>
           </CRow>
           <CRow class="mt-4">
@@ -70,22 +71,26 @@
         <FormulateForm v-model="formValues" @submit="buat" name="buat">
           <CRow>
             <CCol sm="6" class="mt-3">
-              <FormulateInput placeholder="Nilai Huruf" type="text" name="nilai_huruf" validation="required"/>
+              <FormulateInput label="Nilai Huruf" placeholder="Nilai Huruf" type="text" name="nilai_huruf" validation="required"/>
             </CCol>
             <CCol sm="6" class="mt-3">
-              <FormulateInput placeholder="Nilai Angka" type="number" name="nilai_angka" validation="required"/>
+              <FormulateInput label="Nilai Angka" placeholder="Nilai Angka" type="number" name="nilai_angka" validation="required"/>
             </CCol>
           </CRow>
           <CRow>
             <CCol sm="6" class="mt-3">
+                        <label class="m-0; w-100" style="text-align:left; margin:0; font-size:14px; font-weight:500">Pilih Mata Kuliah</label>
+
               <select class="select-css" v-model="selectedMakul" required >
-                <option @change="getMakul" v-for="data in $store.state.dosen_nilai.dataMakul" :key="data.id_makul" :value="{id_makul:data.id_makul, semester:data.semester, nama_makul:data.nama_makul}">
+                <option @change="getMakul" v-for="data in $store.state.dosen_nilai.dataMakul" :key="data.id_makul" :value="{id_makul:data.id_makul, semester:data.semester, jurusan:data.jurusan, nama_makul:data.nama_makul}">
                     <h1>{{data.nama_makul}}</h1>
                 </option>
               </select>
             </CCol>
 
             <CCol sm="6" class="mt-3">
+                        <label class="m-0; w-100" style="text-align:left; margin:0; font-size:14px; font-weight:500">Pilih Mahasiswa</label>
+
               <select class="select-css" required v-model="selectedMahasiswa">
                 <option v-for="data in $store.state.dosen_nilai.dataMhs" :key="data.id_mahasiswa" :value="{id:data.id_mahasiswa, nama:data.nama}">
                     <h1>{{data.nama}}</h1>

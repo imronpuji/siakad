@@ -60,8 +60,12 @@ new Vue({
     const error = () => this.$swal("Tidak Ada Koneksi")
 
     const tokens = localStorage.getItem('token')
+    const profile = localStorage.getItem('profile')
       if(tokens){
         store.dispatch('auth/setToken', tokens)
+      }
+      if(profile != undefined){
+        store.dispatch('auth/setProfile', JSON.parse(profile))
       }
     
     const service = new Service(axios);

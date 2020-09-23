@@ -34,17 +34,19 @@
         <FormulateForm @submit="edit">
           <CRow>
             <CCol sm="6" class="mt-3">
-              <FormulateInput v-model="editByName" placeholder="Nama" type="text" name="nama" validation="required"/>
+              <FormulateInput label="Mata Kuliah" v-model="editByName" placeholder="Nama" type="text" name="nama" validation="required"/>
             </CCol>
             <CCol sm="6" class="mt-3">
-              <FormulateInput v-model="editBySks" placeholder="SKS" type="text" name="sks" validation="required"/>
+              <FormulateInput label="Sks" v-model="editBySks" placeholder="SKS" type="text" name="sks" validation="required"/>
             </CCol>
           </CRow>
           <CRow>
             <CCol sm="6" class="mt-3">
-              <FormulateInput v-model="editBySmt" placeholder="Semester" type="text" name="semester" validation="required|number"/>
+              <FormulateInput label="Semester" v-model="editBySmt" placeholder="Semester" type="text" name="semester" validation="required|number"/>
             </CCol>
              <CCol sm="6" class="mt-3">
+                <label class="m-0; w-100" style="text-align:left; margin:0; font-size:14px; font-weight:500">Pilih Dosen</label>
+
               <select class="select-css" required v-model="editedDosen">
                 <!-- <option disabled selected :value="{nama:editedDosenNama, id_dosen:editedDosenId}">{{editedDosenNama}}</option> -->
                 <option v-for="data in $store.state.admin_dosen.data" :key="data.id" :value="{nama:data.nama, dosen_id:data.id_dosen}">{{data.nama}}</option>
@@ -73,29 +75,39 @@
         <FormulateForm v-model="formValues" @submit="buat" name="buat">
           <CRow>
             <CCol sm="6" class="mt-3">
-              <FormulateInput placeholder="Nama" type="text" name="nama_makul" validation="required"/>
+              <FormulateInput label="Nama" placeholder="Nama" type="text" name="nama_makul" validation="required"/>
             </CCol>
             <CCol sm="6" class="mt-3">
-              <FormulateInput placeholder="SKS" type="number" name="sks" validation="required"/>
+              <FormulateInput label="Sks" placeholder="SKS" type="number" name="sks" validation="required"/>
             </CCol>
           </CRow>
           <CRow>
             <CCol sm="6" class="mt-3">
-              <FormulateInput placeholder="Semester" type="number" name="semester" validation="required|number"/>
+              <FormulateInput label="Semester" placeholder="Semester" type="number" name="semester" validation="required|number"/>
             </CCol>
             <CCol sm="6" class="mt-3">
-              <select class="select-css" required v-model="selectedDosen">
+            <label class="m-0; w-100" style="text-align:left; margin:0; font-size:14px; font-weight:500">Pilih Dosen</label>
+              <select name="dosen" class="select-css" required v-model="selectedDosen">
+              <option value="" selected disabled>Pilih Dosen</option>
               <option v-for="data in $store.state.admin_dosen.data" :key="data.id_dosen" :value="{id:data.id_dosen, nama:data.nama}">
                 <h1>{{data.nama}}</h1>
               </option>
                 </select>
+
             </CCol>
           </CRow>
-          <CRow class="mt-4">
+          <CRow class="mt-3">
           <CCol>
-              <FormulateInput placeholder="Jurusan" type="text" name="jurusan" validation="required"/>
+            <FormulateInput
+              v-model="jurusan"
+              :options="{informatika: 'informatika', DKV: 'DKV'}"
+              type="select"
+              placeholder="Pilih Jurusan"
+              label="Jurusan"
+            />
             </CCol>
-            <CCol sm="6">
+            <CCol class="mt-4" sm="6">
+            
               <b-button type="submit" class="w-100">Buat</b-button>
             </CCol>
           </CRow>
@@ -198,8 +210,9 @@ export default {
           value: []
           
         }],
-        selectedDosen : null,
+        selectedDosen : 'Pilih Dosen',
         id_dosen : '',
+        jurusan : null,
         formValues : {},   
         editById : '',
         editByName : '',
@@ -306,6 +319,7 @@ export default {
        buat(){
          const data = {
            ...this.formValues,
+           jurusan : this.jurusan,
            nama : this.selectedDosen.nama,
            dosen_id : this.selectedDosen.id
          }
@@ -403,7 +417,7 @@ export default {
     max-width: 100%; /* useful when width is set to anything other than 100% */
     box-sizing: border-box;
     margin: 0;
-    border: 1px solid #aaa;
+    border: 1px solid rgb(218, 218, 218);
     box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
     border-radius: .2em;
     -moz-appearance: none;

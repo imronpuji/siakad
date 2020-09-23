@@ -9,7 +9,6 @@
           <el-button type="primary">Actions<i class="el-icon-caret-bottom el-icon--right"></i></el-button>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="new">new</el-dropdown-item>
-            <el-dropdown-item command="import">import</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-col>
@@ -80,16 +79,21 @@
             <CRow>
             <CCol sm="6">
              <FormulateInput
+             label="Pilih file"
+             class="w-100"
                 type="file"
                 @change="previewFiles"
              />
             </CCol>
             </CRow>
+            <hr>
           <CRow>
             <CCol sm="6" class="mt-3">
-              <FormulateInput placeholder="Nama" type="text" name="judul" validation="required"/>
+              <FormulateInput label="Nama" placeholder="Nama" type="text" name="judul" validation="required"/>
             </CCol>
             <CCol sm="6" class="mt-3">
+                                        <label class="m-0; w-100" style="text-align:left; margin:0; font-size:14px; font-weight:500">Pilih Mata Kuliah</label>
+
                 <select class="select-css" v-model="selectedMakul" required >
                     <option v-for="data in $store.state.dosen_nilai.dataMakul" :key="data.id_makul" :value="{id_makul:data.id_makul, semester:data.semester, nama_makul:data.nama_makul, sks:data.sks}">
                         <h1>{{data.nama_makul}}</h1>
@@ -244,15 +248,17 @@ export default {
         buttons: [{
             props: {
               type: 'primary',
-              icon: 'el-icon-edit'
+              icon: 'el-icon-download'
             },
             handler: row => {
-              this.$refs.modal.open()
-              this.editByName = row.judul
-              this.editById = row.id_materi
+            const data = {
+              id_materi : row.id_materi,
+              file : row.file
+            }
+              this.$store.dispatch('dosen_materi/actGetDataFile', data)
             
             },
-            label: 'edit'
+            label: 'unduh '
           }, {
 
           handler: row => {

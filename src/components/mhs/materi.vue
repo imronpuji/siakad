@@ -4,15 +4,7 @@
 
     <el-row style="margin-bottom: 10px">
 
-      <el-col :span="5">
-        <el-dropdown @command="handleClick">
-          <el-button type="primary">Actions<i class="el-icon-caret-bottom el-icon--right"></i></el-button>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="new">new</el-dropdown-item>
-            <el-dropdown-item command="import">import</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-      </el-col>
+      
       
       <el-col :span="5">
          <select class="select-css" required v-model="selectedMakul">
@@ -22,7 +14,7 @@
                 </select>
       </el-col>
 
-      <el-col :span="5" :offset="8">
+      <el-col :span="5" :offset="13">
         <FormulateInput placeholder="Pencarian" v-model="filters[0].value"/>
       </el-col>
 

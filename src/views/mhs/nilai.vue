@@ -1,3 +1,10 @@
 <template>
-    <div>hai from nilai</div>
+    <TableTranskip></TableTranskip>
 </template>
+
+<script>
+import TableTranskip from '../../components/mhs/transkip'
+export default {
+    components : {TableTranskip}
+}
+</script>
