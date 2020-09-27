@@ -146,6 +146,7 @@ const state = () => ({
                   
                   state.allHasil = allHasil
                   state.allSks = allSks
+                  state.khs = state.data
 
                   const user = store.state.auth.profile[0]
                   
@@ -193,9 +194,9 @@ const state = () => ({
                               </div>
                           </div>
                           `,
-                          style: '#TableTranskip {width:100%} .status {margin-bottom : 80px} .hr { margin-bottom:8px} .dekan {width:30%; position:relative; bottom: 10%; left:50%;}  .tab1{margin:50px !important} .tab2{margin:45px !important} .tab3{margin:96px !important} .desk-hasil {margin-top:50px} table {border-collapse : collapse; border:2px solid; width:100%} td {text-align:center; border-collapse:collapse} .profil {margin:10px 0px 10px 2px; margin-left:2px;} .user-card{ padding-right:10px;display:flex;justify-content:space-between;border-top:2px solid;border-right:2px solid; border-left:2px solid; margin-top:8px } .title-card {margin:auto; width:100%; text-align:center} hr {border-top:2px solid; width:100%} p {margin:0; color : rgba(100, 100, 100, 0.9)} h2 {margin:0} h4 {margin:0} img {width:15%; height: 140px} .container {width : 100%;display:flex; justify-content:space-between;} .title {width:70%; text-align:center} .space{width:15%} '
+                          style: ' .jumlah {text-align:center}  #Table{width:100%; border:none}  .status {margin-bottom : 80px} .hr { margin-bottom:8px} .dekan {width:30%; position:relative; bottom: 10%; left:50%;}  .tab1{margin:50px !important} .tab2{margin:45px !important} .tab3{margin:96px !important} .desk-hasil {margin-top:50px} table {border-collapse : collapse; border:2px solid; width:1000px} td, th {text-align:center; border-collapse:collapse; border:1px solid} .profil {margin:10px 0px 10px 2px; margin-left:2px;} .user-card{ padding-right:10px;display:flex;justify-content:space-between;border-top:2px solid;border-right:2px solid; border-left:2px solid; margin-top:8px } .title-card {margin:auto; width:100%; text-align:center} hr {border-top:2px solid; width:100%} p {margin:0; color : rgba(100, 100, 100, 0.9)} h2 {margin:0} h4 {margin:0} img {width:15%; height: 140px} .container {width : 100%;display:flex; justify-content:space-between;} .title {width:70%; text-align:center} .space{width:15%} '
                         })
-                  }, 2000)
+                  }, 3000)
                 }
           
         },

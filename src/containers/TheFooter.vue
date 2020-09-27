@@ -1,5 +1,5 @@
 <template>
-  <!-- <CFooter :fixed="false">
+<!-- <CFooter :fixed="false">
     <div>
       <a href="https://coreui.io" target="_blank">CoreUI</a>
       <span class="ml-1">&copy; {{new Date().getFullYear()}} creativeLabs.</span>
@@ -9,11 +9,11 @@
       <a href="https://coreui.io/vue">CoreUI for Vue</a>
     </div>
   </CFooter> -->
-  <div></div>
+<div></div>
 </template>
 
 <script>
 export default {
-  name: 'TheFooter'
+    name: 'TheFooter'
 }
 </script>

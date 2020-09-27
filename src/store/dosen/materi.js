@@ -6,7 +6,7 @@ import axios from '../../api/axios/axios'
 const token = localStorage.getItem('token')
 const state = () => ({
     data :  [],
-    dataMakul : []
+    dataMakul : [],
 
   })
  
@@ -99,7 +99,9 @@ const state = () => ({
               axios.get(`/dosen/materi/${values.id_makul}/makul_id`)
               .then(results => {
               console.log(results)
+              if(results.data.length > 0){
                 commit('getData', results.data)
+              } 
                 resolve()
               
               })
@@ -126,6 +128,7 @@ const state = () => ({
     deleteSome(state, vals){
         const index = state.data.findIndex(val => val.id_materi == vals)
         state.data.splice(index, 1)
+    
         store.dispatch('components/setLoadFalse')
 
     },
@@ -148,19 +151,22 @@ const state = () => ({
 
     },
     addData(state, val){
-
       console.log(val)
       state.data.push(val)
       store.dispatch('components/setLoadFalse')
+     
 
     
     },
     getData(state, val){
     console.log(val)
-
+      if(val == undefined){
+        state.data = []
+      store.dispatch('components/setLoadFalse')
+      } else {
       state.data = val
       store.dispatch('components/setLoadFalse')
-    
+      }
 
     },
     getMakul(state, val){

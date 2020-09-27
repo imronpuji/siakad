@@ -2,6 +2,11 @@ export default [
   {
     _name: 'CSidebarNav',
     _children: [
+    {
+      _name: 'CSidebarNavTitle',
+      _children: ['Mahasiswa']
+    },
+    
       
     {
       _name: 'CSidebarNavItem',

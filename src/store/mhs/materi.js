@@ -83,7 +83,7 @@ const state = () => ({
     
     actGetDataMateri({commit}, val){
     console.log(val)
-      axios.get(`/mahasiswa/materi/${val.id_makul}/makul_id`)
+      axios.get(`/mahasiswa/materi/${val}/makul_id`)
           .then((res) => {
             commit('getData', res.data)
             commit('selectedMakul', val)
@@ -130,8 +130,14 @@ const state = () => ({
     
     },
     getData(state, val){
+    if(val != ""){
       state.data = val
       store.dispatch('components/setLoadFalse')
+    } else {
+      state.data = []
+
+      store.dispatch('components/setLoadFalse')
+     }
 
     },
     getMakul(state, val){

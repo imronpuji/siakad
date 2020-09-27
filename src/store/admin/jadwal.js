@@ -6,14 +6,16 @@ import axios from '../../api/axios/axios'
 const token = localStorage.getItem('token')
 const state = () => ({
     data :  [],
-    dataMakul : []
+    dataMakul : [],
+    makulMalam : [],
+    makulPagi : []
   })
  
   const actions = {
       dels({commit}, id){
         return new Promise((resolve) => {
 
-          axios.delete(`/admin/jadwal/${id.id_makul}`, {
+          axios.delete(`/admin/jadwal/${id.id_jadwal}`, {
             
             headers: {
 
@@ -24,8 +26,14 @@ const state = () => ({
           })
           .then((res) => {
            
-            commit('deleteSome', id.id_makul)
-            commit('getMakul', [{nama_makul : id.nama_makul, id_makul :id.id_makul}])
+            commit('deleteSome', id.id_jadwal)
+            if(id.kelas == 'A'){
+              commit('makulPagi', {nama_makul : id.nama_makul, id_makul :id.id_makul})
+
+            } else {
+              commit('makulMalam', {nama_makul : id.nama_makul, id_makul :id.id_makul})
+
+            }
             resolve()
           
           })
@@ -41,11 +49,12 @@ const state = () => ({
         })
       },
       actAdd({commit},val ){
-        const {selesai, nama_makul, id_makul, mulai, hari} = val
+        const {selesai, nama_makul, id_makul, mulai, hari, kelas} = val
 
         const data = {
           makul_id : id_makul,
           mulai,
+          kelas,
           selesai,
           hari,
         }
@@ -55,7 +64,7 @@ const state = () => ({
         axios.post('/admin/jadwal', qs.stringify(data)) 
         .then((res) => {
           commit('addJadwal', {...val, id_jadwal: res.data.id_jadwal})
-          commit('deleteMakul', id_makul)
+          commit('deleteMakul', val)
           console.log(res)
         })
         .catch(err => err)
@@ -80,8 +89,17 @@ const state = () => ({
             }})
 
             .then((res) => {
-              const makul = _.differenceBy(res.data, result.data, 'id_makul')
-              commit('getMakul', makul)
+            
+              const makulPagi = result.data.filter(kelas => kelas.kelas == 'A')
+              const makulMalam = result.data.filter(kelas => kelas.kelas == 'B')
+              
+              const pagi = _.differenceBy(res.data, makulPagi, 'id_makul')
+              const malam = _.differenceBy(res.data, makulMalam, 'id_makul')
+              
+              commit('getMakulPagi', pagi)
+              commit('getMakulMalam', malam)
+            
+              
               resolve()
             })
             
@@ -130,10 +148,18 @@ const state = () => ({
   
   const mutations = {
     deleteSome(state, vals){
-        const index = state.data.findIndex(val => val.id_makul == vals)
+        const index = state.data.findIndex(val => val.id_jadwal == vals)
         state.data.splice(index, 1)
         store.dispatch('components/setLoadFalse')
 
+    },
+    
+    makulMalam(state, val){
+      state.makulMalam.push(val)
+    },
+    
+    makulPagi(state, val){
+      state.makulPagi.push(val)
     },
 
     addJadwal(state, val){
@@ -159,17 +185,30 @@ const state = () => ({
       store.dispatch('components/setLoadFalse')
 
     },
-    getMakul(state, val){
+    getMakulMalam(state, val){
       console.log(val)
-      state.dataMakul = [...val]
+      state.makulMalam = [...val]
     },
+    getMakulPagi(state, val){
+      console.log(val)
+      state.makulPagi = [...val]
+    },
+    
     addMakul(state, val){
       console.log(val)
       state.dataMakul.push(...val)
     },
     deleteMakul(state, vals){
-      const index = state.dataMakul.findIndex(val => val.id_makul == vals)
-      state.dataMakul.splice(index, 1)
+    const {id_makul, kelas} = vals
+    if(kelas == "A"){
+      const index = state.makulPagi.findIndex(val => val.id_makul == id_makul)
+      state.makulPagi.splice(index, 1)
+    } else {
+      const index = state.makulMalam.findIndex(val => val.id_makul == id_makul)
+      state.makulMalam.splice(index, 1)
+    }
+     
+      
     },
     editMakul(state, val){
       const index = state.dataMakul.findIndex(({id_makul}) => id_makul == val.id_makul )
