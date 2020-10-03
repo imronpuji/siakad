@@ -57,7 +57,7 @@ new Vue({
   },
 
   created(){
-    const error = () => this.$swal("Tidak Ada Koneksi")
+    const error = () => this.$swal("connecting...")
 
     const tokens = localStorage.getItem('token')
     const profile = localStorage.getItem('profile')
@@ -101,7 +101,7 @@ new Vue({
       },
       
       onResponseError(responseError) {
-
+      
         const token = store.state.auth.user[0].data
          
         if(token){
@@ -125,6 +125,9 @@ new Vue({
         if(responseError.toJSON().message == 'Network Error'){
           error()
           store.dispatch('components/setLoadFalse')
+          router.push('/')
+          return responseError
+      
         }
 
         if(responseError.response.status == 401){

@@ -37,8 +37,11 @@ export default {
         },
         minimize() {
             return this.$store.state.components.sidebarMinimize
-        }
+        },
+        
     },
+    
+    
 
 }
 </script>

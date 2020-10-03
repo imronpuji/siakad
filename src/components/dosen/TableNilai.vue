@@ -64,14 +64,6 @@
             <FormulateForm v-model="formValues" @submit="buat" name="buat">
                 <CRow>
                     <CCol sm="6" class="mt-3">
-                        <FormulateInput label="Nilai Huruf" placeholder="Nilai Huruf" type="text" name="nilai_huruf" validation="required" />
-                    </CCol>
-                    <CCol sm="6" class="mt-3">
-                        <FormulateInput label="Nilai Angka" placeholder="Nilai Angka" type="number" name="nilai_angka" validation="required" />
-                    </CCol>
-                </CRow>
-                <CRow>
-                    <CCol sm="6" class="mt-3">
                         <label class="m-0; w-100" style="text-align:left; margin:0; font-size:14px; font-weight:500">Pilih Mata Kuliah</label>
 
                         <select class="select-css" v-model="selectedMakul" required>
@@ -85,10 +77,41 @@
                         <label class="m-0; w-100" style="text-align:left; margin:0; font-size:14px; font-weight:500">Pilih Mahasiswa</label>
 
                         <select class="select-css" required v-model="selectedMahasiswa">
-                            <option v-for="data in $store.state.dosen_nilai.dataMhs" :key="data.id_mahasiswa" :value="{id:data.id_mahasiswa, nama:data.nama}">
+                            <option v-for="data in $store.state.dosen_nilai.dataMhs" :key="data.id_mahasiswa" :value="{id:data.id_mahasiswa, nama:data.nama, nim : data.nim}">
                                 <h1>{{data.nama}}</h1>
                             </option>
                         </select>
+                    </CCol>
+                </CRow>
+                <CRow>
+                    <CCol sm="6" class="mt-3">
+                        <FormulateInput label="Keaktifan" placeholder="Keaktifan" type="number" name="keaktifan" validation="required" />
+                    </CCol>
+                    <CCol sm="6" class="mt-3">
+                        <FormulateInput label="Total Hadir" placeholder="Total Hadir" type="number" name="absen" validation="required" />
+                    </CCol>
+                </CRow>
+                <CRow>
+                    <CCol sm="3" class="mt-3">
+                        <FormulateInput label="Tugas 1" placeholder="0" type="number" name="tugas_1" validation="required" />
+                    </CCol>
+                    <CCol sm="3" class="mt-3">
+                        <FormulateInput label="Tugas 2" placeholder="0" type="number" name="tugas_2" validation="required" />
+                    </CCol>
+                     <CCol sm="3" class="mt-3">
+                        <FormulateInput label="Tugas 3" placeholder="0" type="number" name="tugas_3" validation="required" />
+                    </CCol>
+                     <CCol sm="3" class="mt-3">
+                        <FormulateInput label="Tugas 4" placeholder="0" type="number" name="tugas_4" validation="required" />
+                    </CCol>
+              
+                </CRow>
+                <CRow>
+                    <CCol sm="6" class="mt-3">
+                        <FormulateInput label="UTS" placeholder="0" type="number" name="uts" validation="required" />
+                    </CCol>
+                    <CCol sm="6" class="mt-3">
+                        <FormulateInput label="UAS" placeholder="0" type="number" name="uas" validation="required" />
                     </CCol>
                 </CRow>
                 <CRow class="mt-4">
@@ -128,13 +151,46 @@ var titles = [{
         label: "Mata kuliah"
     },
     {
-        prop: "nilai_angka",
-        label: "Nilai Angka"
+        prop: "nim",
+        label: "NIM"
     },
+    // {
+    //     prop: "kehadiran",
+    //     label: "Total Hadir"
+    // },
+    // {
+    //     prop: "aktif",
+    //     label: "Keaktifan"
+    // },
+    // {
+    //     prop: "bobot",
+    //     label: "Nilai Angka"
+    // },
     {
-        prop: "nilai_huruf",
+        prop: "huruf",
         label: "Nilai Huruf"
-    }
+    }, 
+    // {
+    //     prop : 'uts',
+    //     label : 'UTS'
+    // },
+    // {
+    //     prop : 'uas',
+    //     label : 'UAS'
+    // },
+    {
+        prop :'skor',
+        label : 'Skor'
+    },
+    // {
+    //     prop :'tugas',
+    //     label : 'Tugas'
+    // },
+    {
+        prop : 'keterangan',
+        label : 'Keterangan'
+    },
+
 ]
 
 export default {
@@ -179,11 +235,15 @@ export default {
             id_dosen: '',
             formValues: {},
             editById: '',
+            nim : '',
             editByName: '',
             editByMhs: '',
             editByAngka: '',
             editByHuruf: '',
             deleteById: '',
+            deleteById_makul: '',
+            deleteByMhs_id: '',
+            deleteByName: '',
             titles,
             actionCol: {
                 label: 'Actions',
@@ -191,23 +251,31 @@ export default {
                     align: 'center',
                 },
                 buttons: [{
-                    props: {
-                        type: 'primary',
-                        icon: 'el-icon-edit'
-                    },
-                    handler: row => {
-                        this.$refs.modal.open()
-                        this.editByName = row.nama_makul
-                        this.editByMhs = row.nama
-                        this.editByAngka = row.nilai_angka
-                        this.editByHuruf = row.nilai_huruf
-                        this.editById = row.id_nilai
+                    // props: {
+                    //     type: 'primary',
+                    //     icon: 'el-icon-edit'
+                    // },
+                    // handler: row => {
+                    //     this.$refs.modal.open()
+                    //     this.editByName = row.nama_makul
+                    //     this.editByMhs = row.nama
+                    //     this.editByAngka = row.nilai_angka
+                    //     this.editByHuruf = row.nilai_huruf
+                    //     this.editById = row.id_nilai
 
-                    },
-                    label: 'Edit'
+                    // },
+                    // label: 'Edit'
                 }, {
+                 props: {
+                        type: 'primary',
+                        icon: 'el-icon-remove'
+                    },
                     handler: row => {
                         this.deleteById = row.id_nilai
+                        this.deleteByName = row.nama
+                        this.deleteById_makul = row.id_makul
+                        this.deleteByMhs_id = row.id_mahasiswa
+                        this.nim = row.nim
                         this.$refs.modalDelete.open()
                     },
                     label: 'delete'
@@ -252,8 +320,15 @@ export default {
 
         },
         del() {
-
-            this.$store.dispatch('dosen_nilai/dels', this.deleteById)
+            const data = {
+                id_makul : this.deleteById_makul,
+                id_mahasiswa : this.deleteByMhs_id,
+                id_nilai : this.deleteById,
+                nama : this.deleteByName,
+                nim : this.nim
+                
+            }
+            this.$store.dispatch('dosen_nilai/dels', data)
                 .then(() => this.$refs.success.open())
                 .catch(() => this.$refs.gagal.open())
 
@@ -261,20 +336,21 @@ export default {
             this.$refs.modalDelete.close()
         },
         buat() {
-            const data = {
+            const data = [{
                 ...this.formValues,
                 nama_makul: this.$store.state.dosen_nilai.selectedMakul.nama_makul,
                 nama: this.selectedMahasiswa.nama,
+                nim: this.selectedMahasiswa.nim,
                 mahasiswa_id: this.selectedMahasiswa.id,
                 makul_id: this.$store.state.dosen_nilai.selectedMakul.id_makul,
-            }
+            }]
             console.log(data)
             this.$store.dispatch('dosen_nilai/actAdd', data).then(() => {
                 this.$refs.success.open()
             })
             this.$store.dispatch('components/setLoad')
             this.$refs.modalAdd.close()
-
+            
         }
 
     }

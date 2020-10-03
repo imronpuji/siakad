@@ -1,6 +1,6 @@
 import store from '../../store'
 import qs from 'querystring'
-
+import _ from 'lodash'
 import axios from '../../api/axios/axios'
 
 const token = localStorage.getItem('token')
@@ -12,10 +12,10 @@ const state = () => ({
   })
  
   const actions = {
-      dels({commit}, id){
+      dels({commit}, val){
         return new Promise((resolve) => {
 
-          axios.delete(`/dosen/nilai/${id}`, {
+          axios.delete(`/dosen/nilai/${val.id_nilai}`, {
             
             headers: {
 
@@ -26,7 +26,8 @@ const state = () => ({
           })
           .then((res) => {
            
-            commit('deleteSome', id)
+            commit('deleteSome', val.id_nilai)
+            commit('addMhsMakul', val)
             resolve()
           
           })
@@ -46,17 +47,93 @@ const state = () => ({
           .catch(err => err)
         })
       },
-      actAdd({commit},val ){
-        const {nama, nama_makul, makul_id, mahasiswa_id, nilai_huruf, nilai_angka} = val
-
-        const data = {
-          makul_id, mahasiswa_id, nilai_huruf, nilai_angka
+      actAdd({commit},values ){
+        
+        const [{nama, nama_makul, nim, makul_id}] = values
+        
+        //The percent that we want to get.
+        //i.e. We want to get 50% of 120.
+        const absensi = (val, persen) => {
+          var percentToGet = persen;
+           
+          //Calculate the percent.
+          var percent = (percentToGet / 100) * val * 100;
+          //Alert it out for demonstration purposes.
+          return percent
+        
         }
+        
+        
+        const persen = (val, persen) => {
+          var percentToGet = persen;
+         
+          var percent = (percentToGet / 100) * val
+        
+          return percent
+        
+        }
+        
+        const data = values.map(({makul_id, mahasiswa_id, tugas_1, tugas_2, tugas_3, tugas_4, absen, keaktifan, uts, uas}) => {
+          const absensis = absensi(parseInt(absen) / 16, 15)
+          const tugass = persen((parseInt(tugas_1) + parseInt(tugas_2) + parseInt(tugas_3) + parseInt(tugas_4)) / 4, 30)
+         
+          const utss = persen(parseInt(uts), 20)
+          const uass = persen(parseInt(uas), 25)
+          const aktifann = persen(parseInt(keaktifan), 10)
+        
+        const angka = tugass + utss + uass + absensis + aktifann
+        console.log(angka)
+        if(angka.toFixed(2) > 80 && angka.toFixed(2) <= 100){
+          console.log('A', '4,00')
+          console.log(angka.toFixed(2))
+            return {makul_id, mahasiswa_id, keaktifan : parseInt(keaktifan).toFixed(2) ,skor : angka.toFixed(2), absen : parseInt(absensis).toFixed(2), tugas : tugass.toFixed(2), uts : utss.toFixed(2), uas : uass.toFixed(2), keterangan : 'LULUS', huruf:'A'  }
+        
+        } else if(angka.toFixed(2) > 75 && angka.toFixed(2) <= 80){
+                return {makul_id, mahasiswa_id, keaktifan : parseInt(keaktifan).toFixed(2) ,skor : angka.toFixed(2), absen : parseInt(absensis).toFixed(2), tugas : tugass.toFixed(2), uts : utss.toFixed(2), uas : uass.toFixed(2), keterangan : 'LULUS', huruf:'AB'  }
+        
+        
+        } else if(angka.toFixed(2) > 70 && angka.toFixed(2) <= 75){
+          
+                  return {makul_id, mahasiswa_id, keaktifan : parseInt(keaktifan).toFixed(2) ,skor : angka.toFixed(2), absen : parseInt(absensis).toFixed(2), tugas : tugass.toFixed(2), uts : utss.toFixed(2), uas : uass.toFixed(2), keterangan : 'LULUS', huruf:'B'  }
+        
+        
+        } else if(angka.toFixed(2) > 65 && angka.toFixed(2) <= 70){
+        
+                return {makul_id, mahasiswa_id, keaktifan : parseInt(keaktifan).toFixed(2) ,skor : angka.toFixed(2), absen : parseInt(absensis).toFixed(2), tugas : tugass.toFixed(2), uts : utss.toFixed(2), uas : uass.toFixed(2), keterangan : 'LULUS', huruf:'BC'  }
+        
+        } else if(angka.toFixed(2) > 60 && angka.toFixed(2) <= 65){
+        
+        
+                    return {makul_id, mahasiswa_id, keaktifan : parseInt(keaktifan).toFixed(2) ,skor : angka.toFixed(2), absen : parseInt(absensis).toFixed(2), tugas : tugass.toFixed(2), uts : utss.toFixed(2), uas : uass.toFixed(2), keterangan : 'LULUS', huruf:'C'  }
+        
+        
+        } else if(angka.toFixed(2) > 55 && angka.toFixed(2) <= 60){
+            console.log('CD', '1,50')
+            console.log(angka.toFixed(2))
+                return {makul_id, mahasiswa_id, keaktifan : parseInt(keaktifan).toFixed(2) ,skor : angka.toFixed(2), absen : parseInt(absensis).toFixed(2), tugas : tugass.toFixed(2), uts : utss.toFixed(2), uas : uass.toFixed(2), keterangan : 'LULUS', huruf:'CD'  }
+        
+        } else if(angka.toFixed(2) > 50 && angka.toFixed(2) <= 55){
+            console.log('D', '1,00')
+            console.log(angka.toFixed(2))
+                return {makul_id, mahasiswa_id, keaktifan : parseInt(keaktifan).toFixed(2) ,skor : angka.toFixed(2), absen : parseInt(absensis).toFixed(2), tugas : tugass.toFixed(2), uts : utss.toFixed(2), uas : uass.toFixed(2), keterangan : 'MENGULANG', huruf:'D'  }
+        
+        } else if(angka.toFixed(2) >= 0 && angka.toFixed(2) <= 50){
+            console.log('E', '0,00')
+            console.log(angka.toFixed(2))
+                    return {makul_id, mahasiswa_id, keaktifan : parseInt(keaktifan).toFixed(2) ,skor : angka.toFixed(2), absen : parseInt(absensis).toFixed(2), tugas : tugass.toFixed(2), uts : utss.toFixed(2), uas : uass.toFixed(2), keterangan : 'MENGULANG', huruf:'E'  }
+        
+        } 
+        
+        })
 
+
+        const [newData] = data
+        console.log(newData)
         return new Promise((resolve) => {
-        axios.post('/dosen/nilai', qs.stringify(data)) 
+        axios.post('/dosen/nilai', qs.stringify(newData)) 
         .then((res) => {
-          commit('addData', {...val, id_nilai: res.data.id_nilai})
+          commit('addData', {...newData,nama, nim, nama_makul, id_nilai: res.data.id_nilai})
+          commit('deleteMhs', {nim, id_makul:makul_id})
         })
         .catch(err => err)
         })
@@ -77,6 +154,9 @@ const state = () => ({
           })
           .catch(err => err)
         })
+        
+
+  
       },
 
       actGetDataMakul({commit}){
@@ -102,8 +182,12 @@ const state = () => ({
             
           headers : {'Authorization': `Bearer ${token}`
         
-        }}).then((res) => {
-          commit('addMhs', res.data)
+        }}).then(({data}) => {
+          const newData = data.map(values => {
+            return {...values, id_makul : val.id_makul}
+          })
+          
+          commit('addMhs', newData)
           commit('selectedMakul', val)
         }) 
       },
@@ -164,8 +248,21 @@ const state = () => ({
 
     },
     addMhs(state, val){
-      state.dataMhs = [...val]
+  
+      const data = _.differenceBy(val, state.data, 'id_mahasiswa') && _.differenceBy(val, state.data, 'id_mahasiswa')
+
+      state.dataMhs = data
     },
+    addMhsMakul(state, val){
+      console.log(val)
+  
+        state.dataMhs = []
+      },
+    deleteMhs(state, vals){
+      const index = state.dataMhs.findIndex(val => val.nim == vals.nim)
+      state.dataMhs.splice(index, 1)
+    },
+
     selectedMakul(state, val){
       state.selectedMakul = val
     },

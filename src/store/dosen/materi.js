@@ -163,9 +163,12 @@ const state = () => ({
       if(val == undefined){
         state.data = []
       store.dispatch('components/setLoadFalse')
-      } else {
-      state.data = val
+      } else if(val == "") {
+      state.data = []
       store.dispatch('components/setLoadFalse')
+      } else {
+        state.data = val
+        store.dispatch('components/setLoadFalse')
       }
 
     },

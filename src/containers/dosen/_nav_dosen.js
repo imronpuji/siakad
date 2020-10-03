@@ -1,3 +1,5 @@
+
+
 export default [
     {
       _name: 'CSidebarNav',
@@ -14,11 +16,31 @@ export default [
         }
       },
       {
-        _name: 'CSidebarNavItem',
-        name: 'Nilai',
-        to: '/dosen/mahasiswa',
-        icon: 'cil-star',        
-      },
+                _name: 'CSidebarNavItem',
+                name: 'Nilai',
+                to: '/dosen/mahasiswa',
+                icon: 'cil-cursor',
+                // items: [
+                //   {
+                //     name: 'Tugas',
+                //     to: '/dosen/nilai-uas'
+                //   },
+                //   {
+                //     name: 'Uts',
+                //     to: '/buttons/dropdowns'
+                //   },
+                //   {
+                //     name: 'Uas',
+                //     to: '/buttons/button-groups'
+                //   },
+                //   {
+                //     name: 'keaktifan',
+                //     to: '/buttons/button-groups'
+                //   },
+                
+                // ]
+              },
+      
       {
         _name: 'CSidebarNavItem',
         name: 'Materi',
