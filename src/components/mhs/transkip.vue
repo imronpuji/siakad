@@ -3,7 +3,7 @@
 
     <el-row style="margin-bottom: 10px">
 
-        <el-col :span="5">
+        <el-col :span="4">
             <el-dropdown @command="handleClick">
                 <el-button type="primary">Transkip Nilai<i class="el-icon-caret-bottom el-icon--right"></i></el-button>
                 <el-dropdown-menu slot="dropdown">
@@ -11,7 +11,7 @@
                 </el-dropdown-menu>
             </el-dropdown>
         </el-col>
-        <el-col :span="2" :offset="15">
+        <el-col :span="2">
             <!-- <select class="select-css" required v-model="semester">
               <option v-for="data in $store.state.mhs_transkip.semester" :key="data.semester" :value="{semester : data.semester}">
                 <h1>{{data.semester}}</h1>
@@ -31,8 +31,8 @@
 
     </el-row>
 
-    <data-tables :data="data" :pagination-props="{ pageSizes: [6, 10, 15] }" :filters="filters">
-        <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.label">
+    <data-tables :data="data" :pagination-props="{ pageSizes: [6, 10, 15] }" :table-props="tableProps" :filters="filters">
+        <el-table-column v-for="title in titles" sortable="custom" :prop="title.prop" :label="title.label" :key="title.label">
         </el-table-column>
     </data-tables>
 
@@ -65,10 +65,10 @@
                 <td style="text-align:center; border:2px solid black">{{index + 1}}</td>
                 <td>{{data.id_makul}}</td>
                 <td>{{data.nama_makul}}</td>
-                <td style="text-align:center">{{data.nilai_huruf}}</td>
-                <td style="text-align:center">{{data.nilai_angka}}</td>
+                <td style="text-align:center">{{data.huruf}}</td>
+                <td style="text-align:center">{{data.skor}}</td>
                 <td style="text-align:center">{{data.sks}}</td>
-                <td style="text-align:center">{{parseInt(data.nilai_angka) * parseInt(data.sks)}}</td>
+                <td style="text-align:center">{{parseInt(data.skor) * parseInt(data.sks)}}</td>
             </tr>
             <tr style="border:0px solid; text-align:center">
 
@@ -112,10 +112,10 @@
                 <td style="text-align:center; border:2px solid black">{{index + 1}}</td>
                 <td>{{data.id_makul}}</td>
                 <td>{{data.nama_makul}}</td>
-                <td style="text-align:center">{{data.nilai_huruf}}</td>
-                <td style="text-align:center">{{data.nilai_angka}}</td>
-                <td style="text-align:center">{{data.sks}}</td>
-                <td style="text-align:center">{{parseInt(data.nilai_angka) * parseInt(data.sks)}}</td>
+                <td style="text-align:center">{{data.huruf}}</td>
+                <td style="text-align:center">{{data.skor}}</td>
+                <td style="text-align:center">{{data.sks}}</td> 
+                <td style="text-align:center">{{parseInt(data.skor) * parseInt(data.sks)}}</td>
             </tr>
             <tr style="border:0px solid; text-align:center">
 
@@ -219,19 +219,26 @@ var titles = [
         label: "SKS"
 
     },
+    {
+
+        prop: "huruf",
+
+        label: "Huruf"
+
+    },
 
     {
 
-        prop: "nilai_huruf",
+        prop: "skor",
 
-        label: "Nilai Huruf"
+        label: "Skor"
 
     },
     {
 
-        prop: "nilai_angka",
+        prop: "keterangan",
 
-        label: "Nilai Angka"
+        label: "Keterangan"
 
     },
 
@@ -281,6 +288,13 @@ export default {
     data() {
 
         return {
+        tableProps: {
+        border: true,
+        stripe: true,
+        defaultSort: {
+          prop: 'flow_no',
+          order: 'descending'
+        }},
 
             titles,
 

@@ -3,20 +3,9 @@
 
     <el-row style="margin-bottom: 10px">
 
-        <el-col :span="10">
-            <el-select placeholder="Pilih Semester" v-model="filters[0].value" multiple="multiple">
-                <el-option label="SMT 1" value="1"></el-option>
-                <el-option label="SMT 2" value="2"></el-option>
-                <el-option label="SMT 3" value="3"></el-option>
-                <el-option label="SMT 4" value="4"></el-option>
-                <el-option label="SMT 5" value="5"></el-option>
-                <el-option label="SMT 6" value="6"></el-option>
-                <el-option label="SMT 7" value="7"></el-option>
-                <el-option label="SMT 8" value="8"></el-option>
-            </el-select>
-        </el-col>
+    
 
-        <el-col :span="2" :offset="10">
+        <el-col :span="4">
  
                 <el-dropdown @command="handleClick">
                     <el-button type="primary">Cetak KRS<i class="el-icon-caret-bottom el-icon--right"></i></el-button>
@@ -31,10 +20,22 @@
                 </el-dropdown-menu>
             </el-dropdown> -->
         </el-col>
+            <el-col :span="4">
+            <el-select placeholder="Pilih Semester" v-model="filters[0].value" multiple="multiple">
+                <el-option label="SMT 1" value="1"></el-option>
+                <el-option label="SMT 2" value="2"></el-option>
+                <el-option label="SMT 3" value="3"></el-option>
+                <el-option label="SMT 4" value="4"></el-option>
+                <el-option label="SMT 5" value="5"></el-option>
+                <el-option label="SMT 6" value="6"></el-option>
+                <el-option label="SMT 7" value="7"></el-option>
+                <el-option label="SMT 8" value="8"></el-option>
+            </el-select>
+        </el-col>
     </el-row>
 
-    <data-tables :data="data" :pagination-props="{ pageSizes: [6, 10, 15] }" :filters="filters">
-        <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.label">
+    <data-tables :data="data" :table-props="tableProps" :pagination-props="{ pageSizes: [6, 10, 15] }" :filters="filters">
+        <el-table-column v-for="title in titles" sortable="custom" :prop="title.prop" :label="title.label" :key="title.label">
         </el-table-column>
     </data-tables>
 
@@ -548,6 +549,13 @@ export default {
     data() {
 
         return {
+                tableProps: {
+        border: true,
+        stripe: true,
+        defaultSort: {
+          prop: 'flow_no',
+          order: 'descending'
+        }},
 
             titles,
             

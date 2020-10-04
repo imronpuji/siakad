@@ -1,8 +1,8 @@
 <template>
 <div class="test">
 
-    <data-tables :data="data" :pagination-props="{ pageSizes: [8, 10, 15] }">
-        <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.label">
+    <data-tables :data="data" :table-props="tabelProps" :pagination-props="{ pageSizes: [8, 10, 15] }">
+        <el-table-column v-for="title in titles" sortable="costum" :prop="title.prop" :label="title.label" :key="title.label">
         </el-table-column>
     </data-tables>
 
@@ -33,16 +33,24 @@ var titles = [{
         label: "Mahasiswa"
     },
     {
+        prop: "jurusan",
+        label: "Jurusan"
+    },
+    {
+        prop: "semester",
+        label: "SMT"
+    },
+    {
         prop: "nama_makul",
         label: "Mata Kuliah"
     },
     {
-        prop: "nilai_huruf",
+        prop: "huruf",
         label: "Nilai Huruf"
     },
     {
-        prop: "nilai_angka",
-        label: "Nilai Angka"
+        prop: "skor",
+        label: "Skor"
     }
 ]
 
@@ -59,7 +67,13 @@ export default {
 
     data() {
         return {
-
+             tableProps: {
+        border: true,
+        stripe: true,
+        defaultSort: {
+          prop: 'flow_no',
+          order: 'descending'
+        }},
             titles,
 
         }

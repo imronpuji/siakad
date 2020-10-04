@@ -76,7 +76,7 @@
 
                         <select class="select-css" required v-model="selectedMahasiswa">
                             <option v-for="data in $store.state.dosen_nilai.dataMhs" :key="data.id_mahasiswa" :value="{id:data.id_mahasiswa, nama:data.nama, nim : data.nim}">
-                                <h1>{{data.nama}}</h1>
+                                <h1>{{data.nama + ' ' + (`${data.nim}`)}}</h1>
                             </option>
                         </select>
                     </CCol>

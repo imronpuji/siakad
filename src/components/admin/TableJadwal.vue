@@ -12,11 +12,15 @@
                 </el-dropdown>
             </el-col>
         </el-col>
+        
+         <el-col :span="5" :offset="13">
+            <FormulateInput placeholder="Pencarian" v-model="filters[0].value" />
+        </el-col>
 
     </el-row>
 
-    <data-tables :data="data" :pagination-props="{ pageSizes: [8, 10, 15] }" :action-col="actionCol">
-        <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.label">
+    <data-tables :data="data" :table-props="tableProps" :pagination-props="{ pageSizes: [8, 10, 15] }" :action-col="actionCol" :filters="filters">
+        <el-table-column v-for="title in titles" sortable="costum" :prop="title.prop" :label="title.label" :key="title.label">
         </el-table-column>
     </data-tables>
 
@@ -191,6 +195,13 @@ export default {
 
     data() {
         return {
+          tableProps: {
+        border: true,
+        stripe: true,
+        defaultSort: {
+          prop: 'flow_no',
+          order: 'descending'
+        }},
         kelas : '',
             selectedMakul: null,
             id_dosen: '',
@@ -205,6 +216,20 @@ export default {
             editByHari: '',
             deleteById: '',
             titles,
+            filters: [{
+
+                    value: '',
+
+                    prop: 'nama_makul',
+
+                },
+
+                {
+
+                    value: []
+
+                }
+            ],
             actionCol: {
                 label: 'Actions',
                 props: {

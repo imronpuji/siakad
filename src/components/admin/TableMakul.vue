@@ -17,8 +17,8 @@
 
     </el-row>
 
-    <data-tables :data="data" :pagination-props="{ pageSizes: [8, 10, 15] }" :action-col="actionCol" :filters="filters">
-        <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.label">
+    <data-tables :data="data"  :table-props="tableProps" :pagination-props="{ pageSizes: [8, 10, 15] }" :action-col="actionCol" :filters="filters">
+        <el-table-column v-for="title in titles" sortable="costum" :prop="title.prop" :label="title.label" :key="title.label">
         </el-table-column>
     </data-tables>
 
@@ -184,6 +184,13 @@ export default {
 
     data() {
         return {
+          tableProps: {
+        border: true,
+        stripe: true,
+        defaultSort: {
+          prop: 'flow_no',
+          order: 'descending'
+        }},
             filters: [{
 
                     value: '',
