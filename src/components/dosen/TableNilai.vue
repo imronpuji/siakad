@@ -1,24 +1,22 @@
 <template>
 <div class="test">
     <el-row style="margin-bottom: 10px">
-        <el-col :span="5">
-            <el-col :span="5">
+        <el-col :span="3">
                 <el-dropdown @command="handleClick">
                     <el-button type="primary">Actions<i class="el-icon-caret-bottom el-icon--right"></i></el-button>
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item command="new">new</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
-            </el-col>
         </el-col>
-        <el-col :span="5" :offset="13">
+        <el-col :span="5" :offset="15">
             <FormulateInput placeholder="Pencarian" v-model="filters[0].value" />
         </el-col>
 
     </el-row>
 
-    <data-tables :data="$store.state.dosen_nilai.data" :pagination-props="{ pageSizes: [8, 10, 15] }" :action-col="actionCol" :filters="filters">
-        <el-table-column v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.label">
+    <data-tables  :data="$store.state.dosen_nilai.data" :table-props="tableProps" :pagination-props="{ pageSizes: [8, 10, 15] }" :action-col="actionCol" :filters="filters" >
+        <el-table-column  v-for="title in titles" :prop="title.prop" :label="title.label" :key="title.label"  sortable="custom">
         </el-table-column>
 
     </data-tables>
@@ -217,11 +215,32 @@ export default {
 
     data() {
         return {
+          tableProps: {
+        border: true,
+        stripe: true,
+        defaultSort: {
+          prop: 'flow_no',
+          order: 'descending'
+        }},
             filters: [{
 
                     value: '',
 
                     prop: 'nama',
+
+                },
+
+                {
+
+                    value: []
+
+                }
+            ],
+            filterTwo: [{
+
+                    value: '',
+
+                    prop: 'nim',
 
                 },
 
@@ -284,6 +303,13 @@ export default {
         }
     },
     methods: {
+        
+        getData(){
+    this.$store.dispatch('dosen_nilai/actGetDataMakul')
+        this.$store.dispatch('dosen_nilai/actGetData')
+        this.$store.dispatch('components/setLoad')
+
+        },
 
         getMakul(data) {
             console.log(this.$refs.selectedMakul.value)
@@ -336,6 +362,7 @@ export default {
             this.$refs.modalDelete.close()
         },
         buat() {
+      
             const data = [{
                 ...this.formValues,
                 nama_makul: this.$store.state.dosen_nilai.selectedMakul.nama_makul,
@@ -350,6 +377,9 @@ export default {
             })
             this.$store.dispatch('components/setLoad')
             this.$refs.modalAdd.close()
+            setTimeout(() => {
+            this.getData()
+            }, 1000)
             
         }
 

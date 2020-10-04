@@ -2,13 +2,14 @@ import store from '../../store'
 import qs from 'querystring'
 import _ from 'lodash'
 import axios from '../../api/axios/axios'
-
+import router from '../../router'
 const token = localStorage.getItem('token')
 const state = () => ({
     data :  [],
     dataMakul : [],
     dataMhs : [],
     selectedMakul : [],
+    deletedMhs : []
   })
  
   const actions = {
@@ -227,6 +228,7 @@ const state = () => ({
 
       console.log(val)
       state.data.push(val)
+      state.dataMhs = []
       store.dispatch('components/setLoadFalse')
 
     
@@ -248,10 +250,21 @@ const state = () => ({
 
     },
     addMhs(state, val){
-  
-      const data = _.differenceBy(val, state.data, 'id_mahasiswa') && _.differenceBy(val, state.data, 'id_mahasiswa')
+      if(val.length > 0){
+        const newData = state.data.map(values =>  { return {id_makul: values.id_makul, id_mahasiswa : values.id_mahasiswa}} )
 
+      const dataMakul = newData.filter(values =>  { return values.id_makul == val[0]['id_makul'] } )
+      const data = _.differenceBy(val, dataMakul, 'id_mahasiswa') 
+
+      
       state.dataMhs = data
+      } else {
+      
+      
+      state.dataMhs = []
+      }
+      
+      
     },
     addMhsMakul(state, val){
       console.log(val)
@@ -259,8 +272,12 @@ const state = () => ({
         state.dataMhs = []
       },
     deleteMhs(state, vals){
+    
       const index = state.dataMhs.findIndex(val => val.nim == vals.nim)
       state.dataMhs.splice(index, 1)
+      state.deletedMhs = vals
+    
+  
     },
 
     selectedMakul(state, val){
