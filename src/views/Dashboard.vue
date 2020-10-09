@@ -174,7 +174,7 @@
                   <hr>
                   <div class="row">
                     <div class="col-sm-3">
-                      <h6 class="mb-0">NIY</h6>
+                      <h6 class="mb-0">NIDN</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
                       {{this.$store.state.auth.profile[0].niy}}

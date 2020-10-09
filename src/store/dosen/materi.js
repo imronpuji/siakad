@@ -48,15 +48,17 @@ const state = () => ({
     },
     actAdd({commit},val ){
         const {file, judul, nama_makul, makul_id, sks, semester} = val
+        const tanggal = new Date().toLocaleDateString()
 
         let formData = new FormData()
         formData.append('judul', judul)
         formData.append('file', file)
         formData.append('makul_id', makul_id)
+        formData.append('tanggal', tanggal)
         return new Promise((resolve) => {
         axios.post('/dosen/materi', formData) 
         .then((res) => {
-          commit('addData', {judul, nama_makul, file : file.name, id_materi: res.data.id_materi, sks, semester})
+          commit('addData', {judul, nama_makul, file : file.name, id_materi: res.data.id_materi, sks, semester, tanggal})
         })
         .catch(err => err)
         })

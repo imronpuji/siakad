@@ -80,10 +80,10 @@
                 </CRow>
                 <CRow>
                     <CCol sm="6" class="mt-3">
-                        <FormulateInput label="Waktu Selesai" placeholder="Waktu Selesai" type="time" name="selesai" validation="required" />
+                        <FormulateInput label="Waktu Mulai" type="time" name="mulai" placeholder="Waktu Mulai" validation="required" />
                     </CCol>
                     <CCol sm="6" class="mt-3">
-                        <FormulateInput label="Waktu Mulai" type="time" name="mulai" placeholder="Waktu Mulai" validation="required" />
+                        <FormulateInput label="Waktu Selesai" placeholder="Waktu Selesai" type="time" name="selesai" validation="required" />
                     </CCol>
 
                 </CRow>
@@ -120,10 +120,10 @@
                 </CRow>
                 <CRow>
                     <CCol sm="6" class="mt-3">
-                        <FormulateInput label="Waktu Selesai" placeholder="Waktu Selesai" type="time" name="selesai" validation="required" />
+                        <FormulateInput label="Waktu Mulai" type="time" name="mulai" placeholder="Waktu Mulai" validation="required" />
                     </CCol>
                     <CCol sm="6" class="mt-3">
-                        <FormulateInput label="Waktu Mulai" type="time" name="mulai" placeholder="Waktu Mulai" validation="required" />
+                        <FormulateInput label="Waktu Selesai" placeholder="Waktu Selesai" type="time" name="selesai" validation="required" />
                     </CCol>
 
                 </CRow>
@@ -162,7 +162,7 @@ import {
 // import _ from 'loda'
 var titles = [{
         prop: "nama_makul",
-        label: "Nama"
+        label: "Mata Kuliah"
     },
     {
         prop: "mulai",

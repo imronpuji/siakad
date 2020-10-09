@@ -36,6 +36,12 @@ export default [
       to: '/mahasiswa/kurikulum',
       icon: 'cil-layers',        
     },
+    {
+      _name: 'CSidebarNavItem',
+      name: 'Data Dosen',
+      to: '/mahasiswa/dosen',
+      icon: 'cil-user',        
+    },
   ],
       
   }

@@ -83,45 +83,42 @@ const state = () => ({
           const aktifann = persen(parseInt(keaktifan), 10)
         
         const angka = tugass + utss + uass + absensis + aktifann
-        console.log(angka)
+        
         if(angka.toFixed(2) > 80 && angka.toFixed(2) <= 100){
-          console.log('A', '4,00')
-          console.log(angka.toFixed(2))
-            return {makul_id, mahasiswa_id, keaktifan : parseInt(keaktifan).toFixed(2) ,skor : angka.toFixed(2), absen : parseInt(absensis).toFixed(2), tugas : tugass.toFixed(2), uts : utss.toFixed(2), uas : uass.toFixed(2), keterangan : 'LULUS', huruf:'A'  }
+ 
+        
+            return {makul_id,  mahasiswa_id, keaktifan : parseInt(keaktifan).toFixed(2) ,skor : angka.toFixed(2), absen : parseInt(absensis).toFixed(2), tugas : tugass.toFixed(2), uts : utss.toFixed(2), uas : uass.toFixed(2), keterangan : 'LULUS', huruf:'A', bobot:'4.00'  }
         
         } else if(angka.toFixed(2) > 75 && angka.toFixed(2) <= 80){
-                return {makul_id, mahasiswa_id, keaktifan : parseInt(keaktifan).toFixed(2) ,skor : angka.toFixed(2), absen : parseInt(absensis).toFixed(2), tugas : tugass.toFixed(2), uts : utss.toFixed(2), uas : uass.toFixed(2), keterangan : 'LULUS', huruf:'AB'  }
+                return {makul_id,  mahasiswa_id, keaktifan : parseInt(keaktifan).toFixed(2) ,skor : angka.toFixed(2), absen : parseInt(absensis).toFixed(2), tugas : tugass.toFixed(2), uts : utss.toFixed(2), uas : uass.toFixed(2), keterangan : 'LULUS', huruf:'AB', bobot:'3.50'  }
         
         
         } else if(angka.toFixed(2) > 70 && angka.toFixed(2) <= 75){
           
-                  return {makul_id, mahasiswa_id, keaktifan : parseInt(keaktifan).toFixed(2) ,skor : angka.toFixed(2), absen : parseInt(absensis).toFixed(2), tugas : tugass.toFixed(2), uts : utss.toFixed(2), uas : uass.toFixed(2), keterangan : 'LULUS', huruf:'B'  }
+                  return {makul_id,  mahasiswa_id, keaktifan : parseInt(keaktifan).toFixed(2) ,skor : angka.toFixed(2), absen : parseInt(absensis).toFixed(2), tugas : tugass.toFixed(2), uts : utss.toFixed(2), uas : uass.toFixed(2), keterangan : 'LULUS', huruf:'B', bobot:'3.00'  }
         
         
         } else if(angka.toFixed(2) > 65 && angka.toFixed(2) <= 70){
         
-                return {makul_id, mahasiswa_id, keaktifan : parseInt(keaktifan).toFixed(2) ,skor : angka.toFixed(2), absen : parseInt(absensis).toFixed(2), tugas : tugass.toFixed(2), uts : utss.toFixed(2), uas : uass.toFixed(2), keterangan : 'LULUS', huruf:'BC'  }
+                return {makul_id,  mahasiswa_id, keaktifan : parseInt(keaktifan).toFixed(2) ,skor : angka.toFixed(2), absen : parseInt(absensis).toFixed(2), tugas : tugass.toFixed(2), uts : utss.toFixed(2), uas : uass.toFixed(2), keterangan : 'LULUS', huruf:'BC', bobot:'2.50'  }
         
         } else if(angka.toFixed(2) > 60 && angka.toFixed(2) <= 65){
         
         
-                    return {makul_id, mahasiswa_id, keaktifan : parseInt(keaktifan).toFixed(2) ,skor : angka.toFixed(2), absen : parseInt(absensis).toFixed(2), tugas : tugass.toFixed(2), uts : utss.toFixed(2), uas : uass.toFixed(2), keterangan : 'LULUS', huruf:'C'  }
+                    return {makul_id,  mahasiswa_id, keaktifan : parseInt(keaktifan).toFixed(2) ,skor : angka.toFixed(2), absen : parseInt(absensis).toFixed(2), tugas : tugass.toFixed(2), uts : utss.toFixed(2), uas : uass.toFixed(2), keterangan : 'LULUS', huruf:'C', bobot:'2.00'  }
         
         
         } else if(angka.toFixed(2) > 55 && angka.toFixed(2) <= 60){
-            console.log('CD', '1,50')
-            console.log(angka.toFixed(2))
-                return {makul_id, mahasiswa_id, keaktifan : parseInt(keaktifan).toFixed(2) ,skor : angka.toFixed(2), absen : parseInt(absensis).toFixed(2), tugas : tugass.toFixed(2), uts : utss.toFixed(2), uas : uass.toFixed(2), keterangan : 'LULUS', huruf:'CD'  }
+            
+                return {makul_id,  mahasiswa_id, keaktifan : parseInt(keaktifan).toFixed(2) ,skor : angka.toFixed(2), absen : parseInt(absensis).toFixed(2), tugas : tugass.toFixed(2), uts : utss.toFixed(2), uas : uass.toFixed(2), keterangan : 'LULUS', huruf:'CD', bobot:'1.50'  }
         
         } else if(angka.toFixed(2) > 50 && angka.toFixed(2) <= 55){
-            console.log('D', '1,00')
-            console.log(angka.toFixed(2))
-                return {makul_id, mahasiswa_id, keaktifan : parseInt(keaktifan).toFixed(2) ,skor : angka.toFixed(2), absen : parseInt(absensis).toFixed(2), tugas : tugass.toFixed(2), uts : utss.toFixed(2), uas : uass.toFixed(2), keterangan : 'MENGULANG', huruf:'D'  }
+            
+                return {makul_id,  mahasiswa_id, keaktifan : parseInt(keaktifan).toFixed(2) ,skor : angka.toFixed(2), absen : parseInt(absensis).toFixed(2), tugas : tugass.toFixed(2), uts : utss.toFixed(2), uas : uass.toFixed(2), keterangan : 'MENGULANG', huruf:'D', bobot:'1.00'  }
         
         } else if(angka.toFixed(2) >= 0 && angka.toFixed(2) <= 50){
-            console.log('E', '0,00')
-            console.log(angka.toFixed(2))
-                    return {makul_id, mahasiswa_id, keaktifan : parseInt(keaktifan).toFixed(2) ,skor : angka.toFixed(2), absen : parseInt(absensis).toFixed(2), tugas : tugass.toFixed(2), uts : utss.toFixed(2), uas : uass.toFixed(2), keterangan : 'MENGULANG', huruf:'E'  }
+            
+                    return {makul_id,  mahasiswa_id, keaktifan : parseInt(keaktifan).toFixed(2) ,skor : angka.toFixed(2), absen : parseInt(absensis).toFixed(2), tugas : tugass.toFixed(2), uts : utss.toFixed(2), uas : uass.toFixed(2), keterangan : 'MENGULANG', huruf:'E', bobot:'0.00'  }
         
         } 
         

@@ -3,24 +3,7 @@
 
     <el-row style="margin-bottom: 10px">
 
-    
-
-        <el-col :span="4">
- 
-                <el-dropdown @command="handleClick">
-                    <el-button type="primary">Cetak KRS<i class="el-icon-caret-bottom el-icon--right"></i></el-button>
-                    <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item command="A">Kelas A</el-dropdown-item>
-                        <el-dropdown-item command="B">Kelas B</el-dropdown-item>
-                    </el-dropdown-menu>
-                </el-dropdown>
-
-            <!-- <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item :command="$store.state.auth.profile[0].semester">SMT {{$store.state.auth.profile[0].semester}}</el-dropdown-item>
-                </el-dropdown-menu>
-            </el-dropdown> -->
-        </el-col>
-            <el-col :span="4">
+        <el-col :span="4" >
             <el-select placeholder="Pilih Semester" v-model="filters[0].value" multiple="multiple">
                 <el-option label="SMT 1" value="1"></el-option>
                 <el-option label="SMT 2" value="2"></el-option>
@@ -32,6 +15,36 @@
                 <el-option label="SMT 8" value="8"></el-option>
             </el-select>
         </el-col>
+        
+        <el-col :span="4" :offset="1">
+            <el-dropdown @command="handleClick">
+                <el-button v-if="$store.state.auth.profile[0]['status_krs'] == 'buka'" type="primary">Cetak KRS<i class="el-icon-caret-bottom el-icon--right"></i></el-button>
+                <el-button disabled v-else type="primary">Cetak KRS<i class="el-icon-caret-bottom el-icon--right"></i></el-button>
+                <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item command="A">Kelas A</el-dropdown-item>
+                    <el-dropdown-item command="B">Kelas B</el-dropdown-item>
+                </el-dropdown-menu>
+            </el-dropdown>
+
+            <!-- <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item :command="$store.state.auth.profile[0].semester">SMT {{$store.state.auth.profile[0].semester}}</el-dropdown-item>
+                </el-dropdown-menu>
+            </el-dropdown> -->
+        </el-col>
+
+        <el-col :span="4">
+            <el-dropdown @command="handleClick">
+                <el-button v-if="$store.state.auth.profile[0]['status_uts'] == 'buka'" type="primary">Cetak UTS</el-button>
+                <el-button disabled v-else type="primary">Cetak UTS</el-button>
+            </el-dropdown>
+        </el-col>
+        <el-col :span="4">
+            <el-dropdown @command="handleClick">
+                <el-button v-if="$store.state.auth.profile[0]['status_uas'] == 'buka'" type="primary">Cetak UAS</el-button>
+                <el-button disabled v-else type="primary">Cetak UAS</el-button>
+            </el-dropdown>
+        </el-col>
+
     </el-row>
 
     <data-tables :data="data" :table-props="tableProps" :pagination-props="{ pageSizes: [6, 10, 15] }" :filters="filters">
@@ -72,7 +85,6 @@
                             <td>{{dataKrs.hari + ', ' + '' + dataKrs.mulai + '-' + dataKrs.selesai + ',' + ' ' + `(${dataKrs.kelas})`}}</td>
                             <td>{{dataKrs.sks}}</td>
                         </tr>
-                       
 
                     </tbody>
                     <thead>
@@ -109,7 +121,6 @@
                             <td>:</td>
                             <td class="prop">{{new Date().getFullYear() + '/' + dataProfile.afterAkademik.getFullYear()}}</td>
                         </tr>
-                       
 
                     </tbody>
                 </table>
@@ -124,7 +135,7 @@
                         <tr>
                             <td class="prop">NIM</td>
                             <td>:</td>
-                            <td class="prop"    >{{$store.state.auth.profile[0].nim}}</td>
+                            <td class="prop">{{$store.state.auth.profile[0].nim}}</td>
                         </tr>
                         <tr>
                             <td class="prop">Prodi</td>
@@ -186,8 +197,8 @@
             </div>
 
         </div>
-        
-           <div class="containerss" style="visibility: hidden;width:100%; display:flex;flex-direction:row-reverse">
+
+        <div class="containerss" style="visibility: hidden;width:100%; display:flex;flex-direction:row-reverse">
 
             <div class="boxKrs" style="width:50%; position:relative;  display:flex; flex-direction:column; justify-content:flex-end">
                 <p class="lembar">Lembar 1 : Prodi</p>
@@ -210,7 +221,6 @@
                             <td>{{dataKrs.hari + ', ' + '' + dataKrs.mulai + '-' + dataKrs.selesai + ',' + ' ' + `(${dataKrs.kelas})`}}</td>
                             <td>{{dataKrs.sks}}</td>
                         </tr>
-                       
 
                     </tbody>
                     <thead>
@@ -247,7 +257,6 @@
                             <td>:</td>
                             <td class="prop">{{new Date().getFullYear() + '/' + dataProfile.afterAkademik.getFullYear()}}</td>
                         </tr>
-                       
 
                     </tbody>
                 </table>
@@ -262,7 +271,7 @@
                         <tr>
                             <td class="prop">NIM</td>
                             <td>:</td>
-                            <td class="prop"    >{{$store.state.auth.profile[0].nim}}</td>
+                            <td class="prop">{{$store.state.auth.profile[0].nim}}</td>
                         </tr>
                         <tr>
                             <td class="prop">Prodi</td>
@@ -324,9 +333,8 @@
             </div>
 
         </div>
-        
-        
-           <div class="containerss" style="visibility: hidden;width:100%; display:flex;flex-direction:row-reverse">
+
+        <div class="containerss" style="visibility: hidden;width:100%; display:flex;flex-direction:row-reverse">
 
             <div class="boxKrs" style="width:50%; position:relative;  display:flex; flex-direction:column; justify-content:flex-end">
                 <p class="lembar">Lembar 3 : Mahasiswa</p>
@@ -349,7 +357,6 @@
                             <td>{{dataKrs.hari + ', ' + '' + dataKrs.mulai + '-' + dataKrs.selesai + ',' + ' ' + `(${dataKrs.kelas})`}}</td>
                             <td>{{dataKrs.sks}}</td>
                         </tr>
-                       
 
                     </tbody>
                     <thead>
@@ -386,7 +393,6 @@
                             <td>:</td>
                             <td class="prop">{{new Date().getFullYear() + '/' + dataProfile.afterAkademik.getFullYear()}}</td>
                         </tr>
-                       
 
                     </tbody>
                 </table>
@@ -401,7 +407,7 @@
                         <tr>
                             <td class="prop">NIM</td>
                             <td>:</td>
-                            <td class="prop"    >{{$store.state.auth.profile[0].nim}}</td>
+                            <td class="prop">{{$store.state.auth.profile[0].nim}}</td>
                         </tr>
                         <tr>
                             <td class="prop">Prodi</td>
@@ -463,10 +469,6 @@
             </div>
 
         </div>
-        
-
-        
- 
 
     </div>
 </div>
@@ -485,13 +487,6 @@ var titles = [
 
     {
 
-        prop: "semester",
-
-        label: "Semester"
-    },
-
-    {
-
         prop: "nama_makul",
 
         label: "Mata Kuliah"
@@ -499,9 +494,37 @@ var titles = [
     },
     {
 
+        prop: "semester",
+
+        label: "Semester"
+    },
+
+    {
+
         prop: "sks",
 
         label: "SKS"
+
+    },
+    {
+
+        prop: "mulai",
+
+        label: "Waktu Mulai"
+
+    },
+    {
+
+        prop: "selesai",
+
+        label: "Waktu Selesai"
+
+    },
+    {
+
+        prop: "kelas",
+
+        label: "Kelas"
 
     },
     {
@@ -523,17 +546,17 @@ export default {
     },
 
     created() {
-          const beforeAkademik = new Date()
-            beforeAkademik.setFullYear(beforeAkademik.getFullYear() - 1)
-            
-            const afterAkademik = new Date()
-            afterAkademik.setFullYear(afterAkademik.getFullYear() + 1)
-            
-            this.dataProfile = {
-                afterAkademik,
-                beforeAkademik,
-                
-            }
+        const beforeAkademik = new Date()
+        beforeAkademik.setFullYear(beforeAkademik.getFullYear() - 1)
+
+        const afterAkademik = new Date()
+        afterAkademik.setFullYear(afterAkademik.getFullYear() + 1)
+
+        this.dataProfile = {
+            afterAkademik,
+            beforeAkademik,
+
+        }
         if (this.data.length < 1) {
             const token = this.$store.state.auth.token
             this.$store.dispatch('mhs_kurikulum/actGetData', token)
@@ -549,17 +572,18 @@ export default {
     data() {
 
         return {
-                tableProps: {
-        border: true,
-        stripe: true,
-        defaultSort: {
-          prop: 'flow_no',
-          order: 'descending'
-        }},
+            tableProps: {
+                border: true,
+                stripe: true,
+                defaultSort: {
+                    prop: 'flow_no',
+                    order: 'descending'
+                }
+            },
 
             titles,
-            
-            dataProfile : [],
+
+            dataProfile: [],
 
             filters: [{
 
@@ -580,9 +604,8 @@ export default {
     },
     methods: {
         handleClick(val) {
-      
+
             this.$store.dispatch('mhs_kurikulum/getKrs', val)
-            
 
         }
 
@@ -723,5 +746,4 @@ table.blueTable {
     text-align: center;
     border-collapse: collapse;
 }
-
 </style>

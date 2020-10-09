@@ -56,8 +56,11 @@
         <div>
             <FormulateForm v-model="formValues" @submit="buat" name="buat">
                 <CRow>
-                    <CCol sm="12" class="mt-3">
+                    <CCol sm="6" class="mt-3">
                         <FormulateInput label="Nama" placeholder="Nama" type="text" name="nama" validation="required" />
+                    </CCol>
+                    <CCol sm="6" class="mt-3">
+                        <FormulateInput label="Prodi" placeholder="Prodi" name="prodi" type="text"  />
                     </CCol>
                 </CRow>
                 <CRow>
@@ -65,7 +68,23 @@
                         <FormulateInput class="mhs_email" label="Email" placeholder="Email" type="email" name="email" validation="required|email" />
                     </CCol>
                     <CCol sm="6" class="mt-3">
-                        <FormulateInput label="Niy" placeholder="NIY" type="number" name="niy" validation="required" />
+                        <FormulateInput label="NIDN" placeholder="NIDN" type="number" name="niy" validation="required" />
+                    </CCol>
+                </CRow>
+                <CRow>
+                    <CCol sm="6" class="mt-3">
+                        <FormulateInput v-model="jenis_kelamin" :options="{P: 'Perempuan', L: 'Laki-Laki'}" type="select" placeholder="Jenis Kelamin" label="Jenis Kelamin" />
+                    </CCol>
+                    <CCol sm="6" class="mt-3">
+                        <FormulateInput label="Status" placeholder="Status" type="text" name="status" validation="required" />
+                    </CCol>
+                </CRow>
+                <CRow>
+                    <CCol sm="6" class="mt-3">
+                        <FormulateInput label="Alamat" placeholder="Alamat" type="text" name="alamat" validation="required" />
+                    </CCol>
+                    <CCol sm="6" class="mt-3">
+                        <FormulateInput label="Nomor HP" placeholder="Nomor HP" type="text" name="no_hp" validation="required" />
                     </CCol>
                 </CRow>
                 <CRow>
@@ -110,8 +129,24 @@ var titles = [{
         label: "Email"
     },
     {
-        prop: "foto",
-        label: "Foto"
+        prop : 'alamat',
+        label : 'Alamat'
+    },
+    {
+        prop : 'status',
+        label : 'Status'
+    },
+    {
+        prop : 'no_hp',
+        label : 'Nomor HP'
+    },
+    {
+        prop : 'jenis_kelamin',
+        label : 'Jenis Kelamin'
+    },
+    {
+        prop: "prodi",
+        label: "Prodi"
     }
 ]
 
@@ -152,6 +187,7 @@ export default {
                 }
             ],
             formValues: {},
+            jenis_kelamin: '',    
             editById: '',
             editByName: '',
             editByNik: '',
@@ -222,7 +258,11 @@ export default {
             this.$refs.modalDelete.close()
         },
         buat() {
-            this.$store.dispatch('admin_dosen/actAdd', this.formValues).then(() => {
+            const data = {
+                ...this.formValues,
+                jenis_kelamin : this.jenis_kelamin
+            }
+            this.$store.dispatch('admin_dosen/actAdd', data).then(() => {
                 this.$refs.success.open()
             })
             this.$store.dispatch('components/setLoad')

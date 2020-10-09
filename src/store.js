@@ -19,6 +19,7 @@ import dosen_materi from './store/dosen/materi'
 import mhs_materi from './store/mhs/materi'
 import mhs_transkip from './store/mhs/transkip'
 import mhs_kurikulum from './store/mhs/kurikulum'
+import mhs_dosen from './store/mhs/dosen'
 
 Vue.use(Vuex)
 
@@ -43,7 +44,8 @@ export default new Vuex.Store({
     // mhs
     mhs_materi,
     mhs_transkip,
-    mhs_kurikulum
+    mhs_kurikulum,
+    mhs_dosen
     
   },
   strict: debug,

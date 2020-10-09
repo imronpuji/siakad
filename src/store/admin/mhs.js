@@ -9,6 +9,12 @@ const token = localStorage.getItem('token')
 const state = () => ({
     
   data :  [],
+  load : false,
+  uas : null,
+  uts : null,
+  krs : null,
+  id_mahasiswa : '',
+  khs : null,
         
 })
 
@@ -52,19 +58,19 @@ const actions = {
       })
     },
     
-    // actEdit({commit}, val){
-      //   const {nim, nama, email} = val
+    actEdit({commit}, val){
+        const {id_mahasiswa, semester} = val
 
-      //   return new Promise((resolve) => {
-      //     axios.put(`/mahasiswa/${id_mahasiswa}/edit`, qs.stringify({nim, nama, email})).then(res => {
-      //         console.log(res)
+        return new Promise((resolve) => {
+          axios.put(`/admin/mahasiswa/${id_mahasiswa}/edit`, qs.stringify({semester})).then(res => {
+              commit('edit', val)
               
-      //     }).catch(err => err)
-      //     resolve()
-      //   })
-      // },
+          }).catch(err => err)
+          resolve()
+        })
+      },
     
-    actAdd({commit}, {nama, nim, email, tahun_masuk, jurusan}){ 
+    actAdd({commit}, {nama, nim, email, tahun_masuk, jurusan, semester, jenis_kelamin}){ 
       console.log(tahun_masuk)
       const user = {
 
@@ -76,11 +82,18 @@ const actions = {
       const data = {
 
         nim,
-        nama,
+        nama:nama.toUpperCase(),
         foto : 'avatar.jpg',
         email,
         tahun_masuk,
-        jurusan
+        jurusan,
+        jenis_kelamin,
+        semester,
+        status_krs : 'tutup',
+        status_uts : 'tutup',
+        status_uas : 'tutup',
+        status_khs : 'tutup',
+       
         
       }
       console.log(data)
@@ -148,15 +161,196 @@ const actions = {
 
       })
   
-    }
- 
+    },
+    
+    
+    
+     uas({commit}, val){
+      
+        
+        const data = {
+          status_krs : val.krs,
+          status_uts : val.uts,
+          status_uas : val.uas,
+          status_khs : val.khs,
+          
+        }
+      
+        console.log(data)
+      
+        
+          axios.put(`/admin/mahasiswa/status/${val.id_mahasiswa}`, data, {
+            
+          headers : {'Authorization': `Bearer ${token}`
+          
+        }}).then(res => {
+          console.log('berhasil')
+          commit('setUas', data)          
+        })
+    
+      
+      
+       
+    },
+    khs({commit}, val){
+      
+        
+      const data = {
+        status_krs : val.krs,
+        status_uts : val.uts,
+        status_uas : val.uas,
+        status_khs : val.khs,
+        
+      }
+    
+      console.log(data)
+    
+      
+        axios.put(`/admin/mahasiswa/status/${val.id_mahasiswa}`, data, {
+          
+        headers : {'Authorization': `Bearer ${token}`
+        
+      }}).then(res => {
+        console.log('berhasil')
+        commit('setKhs', data)          
+      })
+  
+    
+    
+     
+  },
+    
+    uts({commit, state}, val){
+
+      const data = {
+        status_krs : val.krs,
+        status_uts : val.uts,
+        status_uas : val.uas,
+        status_khs : val.khs,
+        
+      }
+      axios.put(`/admin/mahasiswa/status/${val.id_mahasiswa}`, data, {
+         
+       headers : {'Authorization': `Bearer ${token}`
+       
+     }}).then(res => {
+         
+       commit('setUts', data)
+   
+       
+     }).catch(err => err)  
+       
+    },
+    
+    krs({commit}, val){
+
+      const id_mhs = val.id_mahasiswa
+      const data = {
+        status_krs : val.krs,
+        status_uts : val.uts,
+        status_uas : val.uas,
+        status_khs : val.khs,
+        
+      }
+      axios.put(`/admin/mahasiswa/status/${id_mhs}`, data, {
+         
+       headers : {'Authorization': `Bearer ${token}`
+       
+     }}).then(res => {
+         
+      commit('setKrs', data)
+   
+       
+     }).catch(err => err)  
+       
+    },
+    
+    // krsSet({commit}, val){
+
+      
+    //   commit('setKrsBefore', val)
+       
+    // },
+    // uasSet({commit}, val){
+
+      
+    //   commit('setUasBefore', val)
+       
+    // },
+    // utsSet({commit}, val){
+
+      
+    //   commit('setUtsBefore', val)
+       
+    // },
+    setLoad({commit}){
+      commit('load', '')
+    },
+    
   
   
 }
   
   
 const mutations = {
+load(state, val){
+  state.load = true
+},
+setKrsBefore(state, val){
+  
+  state.krs = val
+  state.load = false
 
+
+},
+setUasBefore(state, val){
+  
+  state.uas = val
+  state.load = false
+
+
+},
+setUtsBefore(state, val){
+  
+  state.uts = val
+  state.load = false
+
+
+},
+    setUas(state, val){
+        console.log(val)
+        state.uas = val.status_uas
+        state.load = false
+
+      
+    },
+    
+    setKhs(state, val){
+      console.log(val)
+      state.khs = val.status_khs
+      state.load = false
+
+    
+  },
+    setUts(state, val){
+    
+  
+      state.uts = val.status_uts
+      state.load = false
+
+    },
+    setKrs(state, val){
+    
+      state.krs = val.status_krs
+      state.load = false
+
+    },
+    setId(state, val){
+    
+      state.id_mahasiswa = val
+
+
+    },
     deleteSome(state, vals){
         
       const index = state.data.findIndex(val => val.user_id == vals)
@@ -179,13 +373,10 @@ const mutations = {
 
     edit(state, val){
 
-      const index = state.data.findIndex(({id}) => id == val.id )
+      const index = state.data.findIndex(({id_mahasiswa}) => id_mahasiswa == val.id_mahasiswa )
       
-      state.data[index]['nama'] = val.nama
-      
-      state.data[index]['kontak'] = val.kontak
-      
-      state.data[index]['nim'] = val.nim
+      state.data[index]['semester'] = val.semester
+
       
       store.dispatch('components/setLoadFalse')
 

@@ -3,6 +3,7 @@ import Materi from '../../views/mhs/materi'
 import Transkip from '../../views/mhs/transkip'
 import Krs from '../../views/mhs/krs'
 import Khs from '../../views/mhs/khs'
+import Dosen from '../../views/mhs/dosen'
 import Kurikulum from '../../views/mhs/kurikulum'
 import decode from 'jwt-decode'
 
@@ -70,9 +71,9 @@ const mhs = [
 
 },
 {
-  name : 'khs',
-  path : '/mahasiswa/khs',
-  component : Khs,
+  name : 'dosen',
+  path : '/mahasiswa/dosen',
+  component : Dosen,
   meta :  'mahasiswa',
   beforeEnter :  (to, from, next) => {
       if(getRole() == 'mahasiswa'){

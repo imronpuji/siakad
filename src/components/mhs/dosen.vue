@@ -1,7 +1,11 @@
 <template>
 <div class="test">
-
-    <data-tables :data="data" :pagination-props="{ pageSizes: [8, 10, 15] }"  :table-props="tableProps">
+<el-row style="margin-bottom: 10px">
+        <el-col :span="5">
+            <FormulateInput placeholder="Pencarian" type="search" v-model="filters[0].value" />
+        </el-col>
+    </el-row>
+    <data-tables :data="data" :pagination-props="{ pageSizes: [8, 10, 15] }" :table-props="tableProps" :action-col="actionCol" :filters="filters">
         <el-table-column v-for="title in titles" sortable="costum" :prop="title.prop" :label="title.label" :key="title.label">
         </el-table-column>
     </data-tables>
@@ -30,50 +34,81 @@ import {
 // import _ from 'loda'
 var titles = [{
         prop: "nama",
-        label: "Mahasiswa"
+        label: "Nama"
     },
     {
-        prop: "jurusan",
-        label: "Jurusan"
+        prop: "email",
+        label: "Email"
     },
     {
-        prop: "semester",
-        label: "SMT"
+        prop: 'alamat',
+        label: 'Alamat'
     },
+
     {
-        prop: "nama_makul",
-        label: "Mata Kuliah"
+        prop: 'no_hp',
+        label: 'Nomor HP'
     },
+
     {
-        prop: "huruf",
-        label: " Huruf"
-    },
-    {
-        prop: "bobot",
-        label: "Bobot"
+        prop: "prodi",
+        label: "Prodi"
     }
+
 ]
 
 export default {
     computed: mapState({
-        data: state => state.admin_nilai.data,
+        data: state => state.mhs_dosen.data,
     }),
     created() {
 
-        this.$store.dispatch('admin_nilai/actGetData')
+        this.$store.dispatch('mhs_dosen/actGetData')
         this.$store.dispatch('components/setLoad')
 
     },
 
     data() {
         return {
-             tableProps: {
-        border: true,
-        stripe: true,
-        defaultSort: {
-          prop: 'flow_no',
-          order: 'descending'
-        }},
+        filters: [{
+
+                    value: '',
+
+                    prop: 'nama',
+
+                },
+
+                {
+
+                    value: []
+
+                }
+            ],
+            actionCol: {
+                label: 'Actions',
+                props: {
+                    align: 'center',
+                },
+                buttons: [{
+                    props: {
+                        type: 'primary',
+                    },
+                    handler: row => {
+                    const number_wa = row.no_hp.substring(1);
+                         window.open( 
+              `https://wa.me/62${number_wa}`, "_blank")
+                    },
+                    label: 'hubungi'
+                }]
+            },
+            tableProps: {
+                border: true,
+                stripe: true,
+                defaultSort: {
+                    prop: 'flow_no',
+                    order: 'descending'
+                }
+            },
             titles,
 
         }

@@ -152,6 +152,12 @@ var titles = [{
 
         label: "Semester"
     },
+    {
+
+        prop: "tanggal",
+
+        label: "Tanggal"
+    },
 
     {
 
@@ -218,7 +224,7 @@ export default {
 
                     value: '',
 
-                    prop: 'nama',
+                    prop: 'judul',
 
                 },
 

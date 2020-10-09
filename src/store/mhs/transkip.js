@@ -72,22 +72,22 @@ const state = () => ({
         axios.get(`/mahasiswa/cetak/khs/${user.id_mahasiswa}`)
         .then((result) => {
             console.log(result)
-            let semester = _.unionBy(result.data.data, 'semester');
+            let semester = _.unionBy(result.data, 'semester');
             
               
             const hasil = []
         
             const sks = []
-            result.data.data.map((val) => sks.push(val.sks) );
+            result.data.map((val) => sks.push(val.sks) );
     
-            result.data.data.map(val => hasil.push(parseInt(val.sks) * parseInt(val.skor)))
+            result.data.map(val => hasil.push(parseFloat(val.bobot)))
             const allHasil =  hasil.reduce((a, b) => a + b)
             const allSks =  sks.reduce((a, b) => parseInt(a) + parseInt(b))
             const data = {
             allSks, allHasil}
             commit('setSksHasil', data)
             commit('setSmt', semester)
-            commit('getData', [...result.data.data ])
+            commit('getData', [...result.data ])
         }).catch(err =>      store.dispatch('components/setLoadFalse')
         )
         
@@ -139,7 +139,7 @@ const state = () => ({
                   const sks = []
                   state.data.map((val) => sks.push(val.sks) );
           
-                  state.data.map(val => hasil.push(parseInt(val.sks) * parseInt(val.skor)))
+                  state.data.map(val => hasil.push(parseInt(val.sks) * parseFloat(val.bobot)))
                   const allHasil =  hasil.reduce((a, b) => a + b)
                   const allSks =  sks.reduce((a, b) => parseInt(a) + parseInt(b))
                   
@@ -211,7 +211,7 @@ const state = () => ({
             const sks = []
             data.map((val) => sks.push(val.sks) );
     
-            data.map(val => hasil.push(parseInt(val.sks) * parseInt(val.skor)))
+            data.map(val => hasil.push(parseInt(val.sks) * parseFloat(val.bobot)))
             const allHasil =  hasil.reduce((a, b) => a + b)
             const allSks =  sks.reduce((a, b) => parseInt(a) + parseInt(b))
             

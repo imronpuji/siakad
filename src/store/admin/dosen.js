@@ -90,7 +90,7 @@ const state = () => ({
         }, 2000)})
       },
  
-      actAdd({commit}, {niy, email, nama}){
+      actAdd({commit}, {niy, email, nama, prodi, jenis_kelamin, no_hp, alamat, status}){
         const user = {
 
         username : niy,
@@ -103,7 +103,12 @@ const state = () => ({
         niy,
         nama,
         foto : 'avatar.jpg',
-        email
+        email,
+        prodi,
+        jenis_kelamin,
+        no_hp,
+        alamat,
+        status
         
       }
       return new Promise((resolve) => {

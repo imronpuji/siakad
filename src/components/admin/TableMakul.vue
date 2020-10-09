@@ -68,7 +68,7 @@
             <FormulateForm v-model="formValues" @submit="buat" name="buat">
                 <CRow>
                     <CCol sm="6" class="mt-3">
-                        <FormulateInput label="Nama" placeholder="Nama" type="text" name="nama_makul" validation="required" />
+                        <FormulateInput label="Mata Kuliah" placeholder="Mata Kuliah" type="text" name="nama_makul" validation="required" />
                     </CCol>
                     <CCol sm="6" class="mt-3">
                         <FormulateInput label="Sks" placeholder="SKS" type="number" name="sks" validation="required" />
@@ -91,9 +91,15 @@
                 </CRow>
                 <CRow class="mt-3">
                     <CCol>
-                        <FormulateInput v-model="jurusan" :options="{informatika: 'informatika', DKV: 'DKV'}" type="select" placeholder="Pilih Jurusan" label="Jurusan" />
+                        <FormulateInput v-model="jurusan" :options="{informatika: 'Teknik Informatika', DKV: 'Desain Komunikasi Visual'}" type="select" placeholder="Pilih Prodi" label="Prodi" />
                     </CCol>
-                    <CCol class="mt-4" sm="6">
+                    <CCol>
+                        <FormulateInput label="Kode Makul" placeholder="Kode Makul" type="number" name="id_makul" validation="required|number" />
+                    </CCol>
+  
+                </CRow>
+                <CRow class="mt-3">
+                    <CCol class="mt-4" sm="12">
 
                         <b-button type="submit" class="w-100">Buat</b-button>
                     </CCol>
@@ -132,7 +138,7 @@ import {
 } from 'vuex'
 var titles = [{
         prop: "nama_makul",
-        label: "Nama"
+        label: "Mata Kuliah"
     },
     {
         prop: "sks",
@@ -148,7 +154,7 @@ var titles = [{
     },
     {
         prop: "jurusan",
-        label: "Jurusan"
+        label: "Prodi"
     }
 ]
 

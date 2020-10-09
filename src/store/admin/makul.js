@@ -48,20 +48,30 @@ const state = () => ({
         })
       },
       actAdd({commit},val ){
-        const {dosen_id, nama_makul, sks, semester, nama, jurusan} = val
+        const {dosen_id, nama_makul, sks, semester, nama, jurusan, id_makul} = val
 
         const data = {
           dosen_id : dosen_id,
-          nama_makul : nama_makul,
+          nama_makul : nama_makul.toUpperCase(),
           sks,
           semester,
-          jurusan
+          jurusan,
+          id_makul
+        }
+        const dataMakul = {
+          dosen_id : dosen_id,
+          nama_makul : nama_makul.toUpperCase(),
+          sks,
+          semester,
+          jurusan,
+          id_makul,
+          nama
         }
 
         console.log(data)
         return new Promise((resolve) => {
         axios.post('/admin/makul', qs.stringify(data)) 
-        .then((res) => commit('addMakul', {...val, id_makul: res.data.id_makul}))
+        .then((res) => commit('addMakul', {...dataMakul, id_makul}))
         .catch(err => err)
         })
       

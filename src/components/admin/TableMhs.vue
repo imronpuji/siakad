@@ -25,39 +25,117 @@
     </data-tables>
 
     <sweet-modal ref="modal">
+        <CToaster :autohide="1000" style="z-index:999; width:100px ">
+            <template v-for="toast in fixedToasts">
+                <CToast :key="'toast' + toast" :show="true" header="Sukses">
+                    <b>sukses</b>
+                </CToast>
+            </template>
+        </CToaster>
+        <sweet-modal-tab title="Semester" id="tab1">
+            <div>
+                <FormulateForm @submit="edit">
 
-        <div>
+                    <CRow>
+                        <CCol sm="6">
+                            <FormulateInput disabled label="Nama" v-model="editByName" placeholder="Nama" type="text" name="nama" validation="required" />
+                        </CCol>
+                        <CCol sm="6">
+                            <FormulateInput disabled label="Jurusan" v-model="editByJurusan" placeholder="Jurusan" type="text" name="jurusan" validation="required" />
+                        </CCol>
+                    </CRow>
 
-            <FormulateForm @submit="edit">
+                    <CRow class="mt-3">
+                        <CCol sm="6">
+                            <FormulateInput disabled label="NIM" v-model="editByNim" placeholder="NIM" type="text" name="nim" validation="required" />
+                        </CCol>
+                        <CCol sm="6">
+                            <FormulateInput label="Semester" v-model="editBySemester" placeholder="Semester" type="text" name="semester" validation="required" />
+                        </CCol>
+                    </CRow>
 
-                <CRow>
-                    <CCol sm="12">
-                        <FormulateInput v-model="editByName" placeholder="Nama" type="text" name="nama" validation="required" />
-                    </CCol>
-                </CRow>
+                    <CRow class="mt-3">
+                        <CCol sm="12">
+                            <b-button type="submit" class="w-100">Edit</b-button>
+                        </CCol>
+                    </CRow>
 
-                <CRow class="mt-3">
-                    <CCol sm="6">
-                        <FormulateInput v-model="editByNim" placeholder="NIM" type="text" name="nim" validation="required" />
-                    </CCol>
-                    <CCol sm="6">
-                        <FormulateInput v-model="editByEmail" placeholder="Email" type="text" name="email" validation="required|email" />
-                    </CCol>
-                </CRow>
+                </FormulateForm>
 
-                <CRow class="mt-4">
-                    <CCol sm="6" class="mt-3">
-                        <FormulateInput v-model="editByJurusan" placeholder="Jurusan" type="text" name="jurusan" validation="required" />
-                    </CCol>
-                    <CCol sm="6" class="mt-3">
-                        <b-button type="submit" class="w-100">Edit</b-button>
-                    </CCol>
-                </CRow>
+            </div>
+        </sweet-modal-tab>
+        <sweet-modal-tab title="UAS" id="tab2">
 
-            </FormulateForm>
+            <CRow>
+                <div class="overlay" v-if="$store.state.admin_mahasiswa.load">
+                    <div class="spinner-grow text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <CCol sm="4">
+                    <div class="overlay" v-if="$store.state.admin_mahasiswa.load">
 
-        </div>
+                    </div>
+                    <label>{{uasStatus}}</label>
+                    <FormulateInput v-model="uas" :options="{buka: 'Buka', tutup:'Tutup'}" type="radio" label="Status UAS mahasiswa" />
+                </CCol>
+            </CRow>
 
+        </sweet-modal-tab>
+        <sweet-modal-tab title="UTS" id="tab3">
+            <CRow>
+                <div class="overlay" v-if="$store.state.admin_mahasiswa.load">
+                    <div class="spinner-grow text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <CCol sm="4">
+                    <div class="overlay" v-if="$store.state.admin_mahasiswa.load">
+
+                    </div>
+                    <label>{{utsStatus}}</label>
+
+                    <FormulateInput v-model="uts" :options="{buka: 'Buka', tutup:'Tutup'}" type="radio" label="Status UTS mahasiswa" />
+                </CCol>
+            </CRow>
+
+        </sweet-modal-tab>
+        <sweet-modal-tab title="KRS" id="tab4">
+            <CRow>
+                <div class="overlay" v-if="$store.state.admin_mahasiswa.load">
+                    <div class="spinner-grow text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <CCol sm="4">
+                    <div class="overlay" v-if="$store.state.admin_mahasiswa.load">
+
+                    </div>
+                    <label>{{krsStatus}}</label>
+
+                    <FormulateInput v-model="krs" :options="{buka: 'Buka', tutup:'Tutup'}" type="radio" label="Status KRS mahasiswa" />
+                </CCol>
+            </CRow>
+
+        </sweet-modal-tab>
+        <sweet-modal-tab title="KHS" id="tab5">
+            <CRow>
+                <div class="overlay" v-if="$store.state.admin_mahasiswa.load">
+                    <div class="spinner-grow text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <CCol sm="4">
+                    <div class="overlay" v-if="$store.state.admin_mahasiswa.load">
+
+                    </div>
+                    <label>{{khsStatus}}</label>
+
+                    <FormulateInput v-model="khs" :options="{buka: 'Buka', tutup:'Tutup'}" type="radio" label="Status KRS mahasiswa" />
+                </CCol>
+            </CRow>
+
+        </sweet-modal-tab>
     </sweet-modal>
 
     <sweet-modal icon="success" ref="success">
@@ -94,7 +172,15 @@
 
                 <CRow class="mt-3">
                     <CCol sm="6">
-                        <FormulateInput v-model="jurusan" :options="{informatika: 'informatika', dkv: 'DKV'}" type="select" placeholder="Pilih Jurusan" label="Jurusan" />
+                        <FormulateInput v-model="jurusan" :options="{informatika: 'Teknik Informatika', dkv: 'Desain Komunikasi Visual'}" type="select" placeholder="Pilih Prodi" label="Prodi" />
+                    </CCol>
+                    <CCol sm="6">
+                        <FormulateInput label="Semester" placeholder="Semester" type="text" name="semester" validation="required" />
+                    </CCol>
+                </CRow>
+                <CRow>
+                    <CCol sm="6">
+                        <FormulateInput v-model="jenis_kelamin" :options="{P: 'Perempuan', L: 'Laki-Laki'}" type="select" placeholder="Jenis Kelamin" label="Jenis Kelamin" />
                     </CCol>
                     <CCol sm="6" class="mt-4">
                         <b-button type="submit" class="w-100">Buat</b-button>
@@ -161,6 +247,12 @@ var titles = [{
 
         label: "Nama"
     },
+    {
+
+        prop: "jenis_kelamin",
+
+        label: "Gender"
+    },
 
     {
 
@@ -173,18 +265,101 @@ var titles = [{
 
         prop: "jurusan",
 
-        label: "Jurusan"
+        label: "Prodi"
+
+    },
+    {
+
+        prop: "semester",
+
+        label: "Semester"
 
     }
 ]
 
 export default {
 
-    computed: mapState({
+    computed: {
 
-        data: state => state.admin_mahasiswa.data
+        data() {
+            return this.$store.state.admin_mahasiswa.data
+        },
+        uas: {
+            get() {
+                return this.$store.state.admin_mahasiswa.uas
+            },
+            set(value) {
+                console.log(value)
+                const data = {
+                    uas: value,
+                    khs: this.khsStatus,
+                    uts: this.utsStatus,
+                    krs: this.krsStatus,
+                    id_mahasiswa: this.id_mhs
+                }
+                this.$store.dispatch('admin_mahasiswa/setLoad')
 
-    }),
+                this.$store.dispatch('admin_mahasiswa/uas', data)
+            }
+        },
+        khs: {
+            get() {
+                return this.$store.state.admin_mahasiswa.khs
+            },
+            set(value) {
+                console.log(value)
+                const data = {
+                    uas: this.utsStatus,
+                    khs: value,
+                    uts: this.utsStatus,
+                    krs: this.krsStatus,
+                    id_mahasiswa: this.id_mhs
+                }
+                this.$store.dispatch('admin_mahasiswa/setLoad')
+
+                this.$store.dispatch('admin_mahasiswa/khs', data)
+            }
+        },
+        uts: {
+            get() {
+                return this.$store.state.admin_mahasiswa.uts
+
+            },
+            set(value) {
+                const data = {
+                    uts: value,
+                    khs: this.khsStatus,
+                    uas: this.utsStatus,
+                    krs: this.krsStatus,
+                    id_mahasiswa: this.id_mhs
+                }
+
+                this.$store.dispatch('admin_mahasiswa/setLoad')
+
+                this.$store.dispatch('admin_mahasiswa/uts', data)
+            }
+        },
+        krs: {
+            get() {
+                return this.$store.state.admin_mahasiswa.krs
+
+            },
+            set(value) {
+                const data = {
+                    krs: value,
+                    khs: this.khsStatus,
+                    uas: this.uasStatus,
+                    uts: this.utsStatus,
+                    id_mahasiswa: this.id_mhs
+                }
+
+                this.$store.dispatch('admin_mahasiswa/setLoad')
+
+                this.$store.dispatch('admin_mahasiswa/krs', data)
+            }
+        }
+
+    },
 
     created() {
 
@@ -203,13 +378,21 @@ export default {
     data() {
 
         return {
-          tableProps: {
-        border: true,
-        stripe: true,
-        defaultSort: {
-          prop: 'flow_no',
-          order: 'descending'
-        }},
+            fixedToasts: 0,
+            uasStatus: '',
+            utsStatus: '',
+            khsStatus: '',
+            jenis_kelamin : '',
+            id_mhs: '',
+            krsStatus: '',
+            tableProps: {
+                border: true,
+                stripe: true,
+                defaultSort: {
+                    prop: 'flow_no',
+                    order: 'descending'
+                }
+            },
 
             formValues: {},
 
@@ -226,6 +409,8 @@ export default {
             editByEmail: '',
 
             editByTahunMasuk: '',
+
+            editBySemester: '',
 
             deleteById: '',
 
@@ -259,27 +444,27 @@ export default {
                 },
 
                 buttons: [{
-                    //   props: {
-                    //     type: 'primary',
-                    //     icon: 'el-icon-edit'
-                    //   },
-                    //   handler: row => {
-                    //     this.$refs.modal.open()
-                    //     this.editByName = row.nama
-                    //     this.editByEmail = row.email
-                    //     this.editByNim = row.nim
-                    //     this.editById = row.id_mahasiswa
-
-                    //   },
-                    //   label: 'Edit'
-                    // }, {
                     props: {
-
                         type: 'primary',
-
-                        icon: 'el-icon-delete'
+                        icon: 'el-icon-setting'
+                    },
+                    handler: row => {
+                        this.$refs.modal.open()
+                        this.editBySemester = row.semester
+                        this.editByName = row.nama
+                        this.editByJurusan = row.jurusan
+                        this.editByNim = row.nim
+                        this.editById = row.id_mahasiswa
+                        this.uasStatus = row.status_uas
+                        this.utsStatus = row.status_uts
+                        this.krsStatus = row.status_krs
+                        this.khsStatus = row.status_khs
+                        this.id_mhs = row.id_mahasiswa
+                        // this.getStatus(row)
 
                     },
+                    label: 'Setting'
+                }, {
 
                     handler: row => {
 
@@ -297,7 +482,16 @@ export default {
         }
     },
     methods: {
+        addFixedToast() {
+            this.fixedToasts++
+        },
+        getStatus(row) {
 
+            this.$store.dispatch('admin_mahasiswa/uasSet', row.status_uas)
+            this.$store.dispatch('admin_mahasiswa/utsSet', row.status_uts)
+            this.$store.dispatch('admin_mahasiswa/krsSet', row.status_krs)
+            this.$store.commit('admin_mahasiswa/setId', row.id_mahasiswa)
+        },
         handleClick(command) {
 
             if (command == 'import')
@@ -326,11 +520,7 @@ export default {
 
             const data = {
 
-                nama: this.editByName,
-
-                email: this.editByEmail,
-
-                nim: this.editByNim,
+                semester: this.editBySemester,
 
                 id_mahasiswa: this.editById
 
@@ -344,7 +534,7 @@ export default {
 
             })
 
-            this.$store.dispatch('admin_mahasiswa/setLoad')
+            this.$store.dispatch('components/setLoad')
 
         },
 
@@ -369,7 +559,8 @@ export default {
 
             this.$store.dispatch('admin_mahasiswa/actAdd', {
                     ...this.formValues,
-                    jurusan: this.jurusan
+                    jurusan: this.jurusan,
+                    jenis_kelamin : this.jenis_kelamin
                 })
 
                 .then(() => {
@@ -446,11 +637,17 @@ export default {
 
                         userData.push({
                             nim: val.nim,
-                            nama: val.nama,
+                            nama: val.nama.toUpperCase(),
                             foto: 'index.jpg',
                             email: val.email,
                             tahun_masuk: val.tahun_masuk,
-                            jurusan: val.jurusan
+                            jurusan: val.prodi,
+                            semester: val.semester,
+                            jenis_kelamin: val.jenis_kelamin,
+                            status_khs: 'tutup',
+                            status_krs: 'tutup',
+                            status_uas: 'tutup',
+                            status_uts: 'tutup',
                         })
 
                     })
@@ -477,6 +674,12 @@ export default {
 
                                 tahun_masuk: userData[i]['tahun_masuk'],
                                 jurusan: userData[i]['jurusan'],
+                                jenis_kelamin: userData[i]['jenis_kelamin'],
+                                semester: userData[i]['semester'],
+                                status_khs: userData[i]['status_khs'],
+                                status_krs: userData[i]['status_krs'],
+                                status_uts: userData[i]['status_uts'],
+                                status_uas: userData[i]['status_uas'],
 
                             }
 

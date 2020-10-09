@@ -119,6 +119,13 @@ var titles = [
     },
     {
 
+        prop: "tanggal",
+
+        label: "Tanggal"
+
+    },
+    {
+
         prop: "file",
 
         label: "File"
@@ -157,7 +164,7 @@ export default {
         border: true,
         stripe: true,
         defaultSort: {
-          prop: 'flow_no',
+          prop: 'nama',
           order: 'descending'
         }},
 
@@ -185,7 +192,7 @@ export default {
 
                     value: '',
 
-                    prop: 'nama',
+                    prop: 'judul',
 
                 },
 

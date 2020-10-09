@@ -18,7 +18,8 @@
               </option>
                 </select> -->
             <el-dropdown @command="cetakKhs">
-                <el-button type="primary">Cetak KHS<i class="el-icon-caret-bottom el-icon--right"></i></el-button>
+               <el-button v-if="$store.state.auth.profile[0]['status_khs'] == 'buka'" type="primary">Cetak KHS<i class="el-icon-caret-bottom el-icon--right"></i></el-button>
+                <el-button disabled v-else type="primary">Cetak KHS<i class="el-icon-caret-bottom el-icon--right"></i></el-button>
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item v-for="data in $store.state.mhs_transkip.semester" :key="data.semester" :command="data.semester">SMT {{data.semester}}</el-dropdown-item>
                 </el-dropdown-menu>
@@ -66,9 +67,9 @@
                 <td>{{data.id_makul}}</td>
                 <td>{{data.nama_makul}}</td>
                 <td style="text-align:center">{{data.huruf}}</td>
-                <td style="text-align:center">{{data.skor}}</td>
+                <td style="text-align:center">{{data.bobot}}</td>
                 <td style="text-align:center">{{data.sks}}</td>
-                <td style="text-align:center">{{parseInt(data.skor) * parseInt(data.sks)}}</td>
+                <td style="text-align:center">{{parseFloat(data.bobot) * parseInt(data.sks)}}</td>
             </tr>
             <tr style="border:0px solid; text-align:center">
 
@@ -113,9 +114,9 @@
                 <td>{{data.id_makul}}</td>
                 <td>{{data.nama_makul}}</td>
                 <td style="text-align:center">{{data.huruf}}</td>
-                <td style="text-align:center">{{data.skor}}</td>
+                <td style="text-align:center">{{data.bobot}}</td>
                 <td style="text-align:center">{{data.sks}}</td> 
-                <td style="text-align:center">{{parseInt(data.skor) * parseInt(data.sks)}}</td>
+                <td style="text-align:center">{{parseFloat(data.bobot) * parseInt(data.sks)}}</td>
             </tr>
             <tr style="border:0px solid; text-align:center">
 
@@ -229,9 +230,9 @@ var titles = [
 
     {
 
-        prop: "skor",
+        prop: "bobot",
 
-        label: "Skor"
+        label: "Bobot"
 
     },
     {
