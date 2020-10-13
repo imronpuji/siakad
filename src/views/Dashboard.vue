@@ -1,275 +1,309 @@
 <template>
-  <div>
+<div>
     <div class="container">
-    <div class="main-body">
-          <div v-if="$store.state.auth.user[0].data.role == 'mahasiswa'" class="row gutters-sm">
-            <div class="col-md-4 mb-3">
-              <div class="card">
-                <div class="card-body">
-                  <div class="d-flex flex-column align-items-center text-center">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
-                    <div class="mt-3">
-                      <h4>{{this.$store.state.auth.profile[0].nama}}</h4>
-                      <p class="text-secondary mb-1">{{this.$store.state.auth.user[0].data.role == 'admin' ? 'admin' : this.$store.state.auth.user[0].data.role }}</p>
-                    </div>
-                  </div>
+        <div class="main-body">
+            <div class=" col-md-12 alert alert-success  d-flex justify-content-between align-items-center bg-primary" style=" height:240px" role="alert">
+                <div class="text-greeting" style="position:relative; top:-30px; left:30px">
+                    <h4 v-if="$store.state.auth.user[0].data.role == 'admin'" class="alert-heading text-white mb-3">Selamat Datang admin</h4>
+                    <h4 v-else class="alert-heading text-white mb-3">Selamat Datang {{$store.state.auth.profile[0].nama.toLowerCase()}}</h4>
+                    <p class="text-white m-0">Selamat Berselancar di Sistem Informasi</p>
+                    <p class="text-white">Akademis UNISS</p>
+
                 </div>
-              </div>
-              <div class="card mt-3 p-2">
-                <FormulateForm v-model="formValues" @submit="buat" name="buat">
+                <div class="img-greeting">
+                    <img style="height:200px" src="./greeting.svg" alt="">
+                </div>
 
-                <CRow>
-                    <CCol sm="12" class="mt-3">
-                        <FormulateInput label="username" placeholder="Username" type="text" name="username" validation="required" />
-                    </CCol>
-                    <CCol sm="12" class="mt-3">
-                        <FormulateInput label="password" placeholder="Password" type="password" name="password" validation="required" />
-                    </CCol>
-                </CRow>
+            </div>
+            <div v-if="$store.state.auth.user[0].data.role == 'mahasiswa'" class="row gutters-sm">
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex flex-column align-items-center text-center">
+                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                                <div class="mt-3">
+                                    <h4>{{this.$store.state.auth.profile[0].nama}}</h4>
+                                    <p class="text-secondary mb-1">{{this.$store.state.auth.user[0].data.role == 'admin' ? 'admin' : this.$store.state.auth.user[0].data.role }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mt-3 p-2">
+                        <FormulateForm v-model="formValues" @submit="buat" name="buat">
 
-                <CRow>
-                    <CCol sm="12" class="mt-3">
-                        <b-button type="submit" class="w-100">Perbarui</b-button>
-                    </CCol>
-                </CRow>
+                            <CRow>
+                                <CCol sm="12" class="mt-3">
+                                    <FormulateInput label="username" placeholder="Username" type="text" name="username" validation="required" />
+                                </CCol>
+                                <CCol sm="12" class="mt-3">
+                                    <FormulateInput label="password" placeholder="Password" type="password" name="password" validation="required" />
+                                </CCol>
+                            </CRow>
 
-            </FormulateForm>
-            <div class="overlay" v-if="load">
-        <div class="spinner-grow text-primary" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
+                            <CRow>
+                                <CCol sm="12" class="mt-3">
+                                    <b-button type="submit" class="w-100">Perbarui</b-button>
+                                </CCol>
+                            </CRow>
 
-        <div>
-            Loading..
+                        </FormulateForm>
+                        <div class="overlay" v-if="load">
+                            <div class="spinner-grow text-primary" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+
+                            <div>
+                                Loading..
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Nama Lengkap</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    {{this.$store.state.auth.profile[0].nama}}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Email</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    {{this.$store.state.auth.profile[0].email}}
+                                </div>
+                            </div>
+                            <hr>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Jurusan</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    {{this.$store.state.auth.profile[0].jurusan}}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">NIM</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    {{this.$store.state.auth.profile[0].nim}}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Tahun Masuk</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    {{this.$store.state.auth.profile[0].tahun_masuk}}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Semester</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    {{this.$store.state.auth.profile[0].semester}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div v-if="$store.state.auth.user[0].data.role == 'dosen'" class="row gutters-sm">
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <!-- <div v-for="data in this.$store.state.auth.profile[1]['makul']" :key="data.dosen_id">
+                                <h2>{{data.nama_makul}}</h2>
+                            </div> -->
+                            <div class="d-flex flex-column align-items-center text-center">
+                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                                <div class="mt-3">
+                                    <h4>{{this.$store.state.auth.profile[0].nama}}</h4>
+                                    <p class="text-secondary mb-1">{{this.$store.state.auth.user[0].data.role == 'admin' ? 'admin' : this.$store.state.auth.user[0].data.role }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mt-3 p-2">
+                        <FormulateForm v-model="formValues" @submit="buat" name="buat">
+
+                            <CRow>
+                                <CCol sm="12" class="mt-3">
+                                    <FormulateInput label="username" placeholder="Username" type="text" name="username" validation="required" />
+                                </CCol>
+                                <CCol sm="12" class="mt-3">
+                                    <FormulateInput label="password" placeholder="Password" type="password" name="password" validation="required" />
+                                </CCol>
+                            </CRow>
+
+                            <CRow>
+                                <CCol sm="12" class="mt-3">
+                                    <b-button type="submit" class="w-100">Perbarui</b-button>
+                                </CCol>
+                            </CRow>
+
+                        </FormulateForm>
+                        <div class="overlay" v-if="load">
+                            <div class="spinner-grow text-primary" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+
+                            <div>
+                                Loading..
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Full Name</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    {{this.$store.state.auth.profile[0].nama}}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Email</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    {{this.$store.state.auth.profile[0].email}}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">NIDN</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    {{this.$store.state.auth.profile[0].niy}}
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="row">
+                               <h4>Mata Kuliah</h4>
+                            </div>
+                            <hr>
+                            <div v-if="this.$store.state.auth.profile[1]['makul'].length > 0">
+                            <div v-for="data in this.$store.state.auth.profile[1]['makul']" :key="data.dosen_id">
+                                <p>{{data.nama_makul}}</p>
+                                <p>{{data.jurusan}}</p>
+                                <hr>
+                            </div>
+                            </div>
+                            <p v-else>Mata Kuliah Masih Kosong</p>
+                            
+                        </div>
+                    </div>
+
+                </div>
+                
+
+            </div>
+
+            <div v-if="$store.state.auth.user[0].data.role == 'admin'" class="row gutters-sm">
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex flex-column align-items-center text-center">
+                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                                <div class="mt-3">
+                                    <h4>Admin</h4>
+                                    <p class="text-secondary mb-1">{{this.$store.state.auth.user[0].data.role == 'admin' ? 'admin' : this.$store.state.auth.user[0].data.role }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mt-3 p-2">
+                        <FormulateForm v-model="formValues" @submit="buat" name="buat">
+
+                            <CRow>
+                                <CCol sm="12" class="mt-3">
+                                    <FormulateInput label="username" placeholder="Username" type="text" name="username" validation="required" />
+                                </CCol>
+                                <CCol sm="12" class="mt-3">
+                                    <FormulateInput label="password" placeholder="Password" type="password" name="password" validation="required" />
+                                </CCol>
+                            </CRow>
+
+                            <CRow>
+                                <CCol sm="12" class="mt-3">
+                                    <b-button type="submit" class="w-100">Perbarui</b-button>
+                                </CCol>
+                            </CRow>
+
+                        </FormulateForm>
+                        <div class="overlay" v-if="load">
+                            <div class="spinner-grow text-primary" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+
+                            <div>
+                                Loading..
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Full Name</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    Admin Admin
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Email</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    admin@gmail.com
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">NIY</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    123Admin
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
         </div>
     </div>
-              </div>
-            </div>
-            <div class="col-md-8">
-              <div class="card mb-3">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">Full Name</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                      {{this.$store.state.auth.profile[0].nama}}
-                    </div>
-                  </div>
-                  <hr>
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">Email</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                      {{this.$store.state.auth.profile[0].email}}
-                    </div>
-                  </div>
-                  <hr>
-                  <hr>
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">Jurusan</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                      {{this.$store.state.auth.profile[0].jurusan}}
-                    </div>
-                  </div>
-                  <hr>
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">NIM</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                      {{this.$store.state.auth.profile[0].nim}}
-                    </div>
-                  </div>
-                  <hr>
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">Tahun Masuk</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                      {{this.$store.state.auth.profile[0].tahun_masuk}}
-                    </div>
-                  </div>
-                  <hr>
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">Semester</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                      {{this.$store.state.auth.profile[0].semester}}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-            </div>
-          </div>
-          
-          <div v-if="$store.state.auth.user[0].data.role == 'dosen'" class="row gutters-sm">
-            <div class="col-md-4 mb-3">
-              <div class="card">
-                <div class="card-body">
-                  <div class="d-flex flex-column align-items-center text-center">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
-                    <div class="mt-3">
-                      <h4>{{this.$store.state.auth.profile[0].nama}}</h4>
-                      <p class="text-secondary mb-1">{{this.$store.state.auth.user[0].data.role == 'admin' ? 'admin' : this.$store.state.auth.user[0].data.role }}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card mt-3 p-2">
-                <FormulateForm v-model="formValues" @submit="buat" name="buat">
-
-                <CRow>
-                    <CCol sm="12" class="mt-3">
-                        <FormulateInput label="username" placeholder="Username" type="text" name="username" validation="required" />
-                    </CCol>
-                    <CCol sm="12" class="mt-3">
-                        <FormulateInput label="password" placeholder="Password" type="password" name="password" validation="required" />
-                    </CCol>
-                </CRow>
-
-                <CRow>
-                    <CCol sm="12" class="mt-3">
-                        <b-button type="submit" class="w-100">Perbarui</b-button>
-                    </CCol>
-                </CRow>
-
-            </FormulateForm>
-            <div class="overlay" v-if="load">
-        <div class="spinner-grow text-primary" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
-
-        <div>
-            Loading..
-        </div>
-    </div>
-              </div>
-            </div>
-            <div class="col-md-8">
-              <div class="card mb-3">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">Full Name</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                      {{this.$store.state.auth.profile[0].nama}}
-                    </div>
-                  </div>
-                  <hr>
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">Email</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                      {{this.$store.state.auth.profile[0].email}}
-                    </div>
-                  </div>
-                  <hr>
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">NIDN</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                      {{this.$store.state.auth.profile[0].niy}}
-                    </div>
-                  </div>
-                  <hr>
-                </div>
-              </div>
-              
-            </div>
-          </div>
-          
-          <div v-if="$store.state.auth.user[0].data.role == 'admin'" class="row gutters-sm">
-            <div class="col-md-4 mb-3">
-              <div class="card">
-                <div class="card-body">
-                  <div class="d-flex flex-column align-items-center text-center">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
-                    <div class="mt-3">
-                      <h4>Admin</h4>
-                      <p class="text-secondary mb-1">{{this.$store.state.auth.user[0].data.role == 'admin' ? 'admin' : this.$store.state.auth.user[0].data.role }}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card mt-3 p-2">
-                <FormulateForm v-model="formValues" @submit="buat" name="buat">
-
-                <CRow>
-                    <CCol sm="12" class="mt-3">
-                        <FormulateInput label="username" placeholder="Username" type="text" name="username" validation="required" />
-                    </CCol>
-                    <CCol sm="12" class="mt-3">
-                        <FormulateInput label="password" placeholder="Password" type="password" name="password" validation="required" />
-                    </CCol>
-                </CRow>
-
-                <CRow>
-                    <CCol sm="12" class="mt-3">
-                        <b-button type="submit" class="w-100">Perbarui</b-button>
-                    </CCol>
-                </CRow>
-
-            </FormulateForm>
-            <div class="overlay" v-if="load">
-        <div class="spinner-grow text-primary" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
-
-        <div>
-            Loading..
-        </div>
-    </div>
-              </div>
-            </div>
-            <div class="col-md-8">
-              <div class="card mb-3">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">Full Name</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                      Admin Admin
-                    </div>
-                  </div>
-                  <hr>
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">Email</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                      admin@gmail.com
-                    </div>
-                  </div>
-                  <hr>
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">NIY</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                      123Admin
-                    </div>
-                  </div>
-                  <hr>
-                </div>
-              </div>
-              
-            </div>
-          </div>
-     
-          
-        </div>
-    </div>
-      <!-- <CCard>
+    <!-- <CCard>
         <CCardBody>
           <CRow>
             <CCol sm="5">
@@ -350,8 +384,8 @@
           </CRow>
         </CCardFooter>
       </CCard> -->
-      <!-- <WidgetsBrand/> -->
-      <!-- <CRow>
+    <!-- <WidgetsBrand/> -->
+    <!-- <CRow>
         <CCol md="12">
           <CCard>
             <CCardHeader>
@@ -718,8 +752,7 @@
           </CCard>
         </CCol>
       </CRow> -->
-  </div>
-
+</div>
 </template>
 
 <script>
@@ -749,11 +782,11 @@ export default {
                     password
                 }))
                 .then(res => {
-                  this.load = false
+                    this.load = false
                 })
                 .catch(err => this.load = false)
         },
-  
+
     }
 }
 </script>

@@ -175,6 +175,7 @@ export default {
     }),
 
     created() {
+    console.log(this.$store.state.auth.profile[1]['makul'])
 
         const token = this.$store.state.auth.token
         if(this.$store.state.dosen_materi.isResfresh == true){

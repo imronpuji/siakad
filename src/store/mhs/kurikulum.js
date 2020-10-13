@@ -60,11 +60,11 @@ const state = () => ({
 	
 	// alert('cetak khs')
   },
-  
   getKrs({commit}, val){
   const user = store.state.auth.profile[0].semester
+  const semester = parseInt(user) + 1
   const jurusan = store.state.auth.profile[0].jurusan
-  axios.get(`/mahasiswa/cetak/krs/${user}/${jurusan}/${val}`)
+  axios.get(`/mahasiswa/cetak/krs/${semester}/${jurusan}/${val}`)
   .then(values => commit('cetakKrs', values.data))
   .catch(err => console.log(err))
   
@@ -73,7 +73,6 @@ const state = () => ({
   
   },
 
- 
     actGetData({commit, state}){
         const user_id = store.state.auth.user[0].data.id
         const user = store.state.auth.profile[0]
@@ -151,165 +150,133 @@ const state = () => ({
     state.dataKrs = val
     setTimeout(() => {
     print({
-      printable: 'TableKrs',
+      printable: 'kartuKrs',
       type: 'html',
+      maxWidth: 2000,
       style: `
 
-      .inbioP {position:relative; width:50%;margin:0px ;}
+.containerUas {
+    border : 2px solid;  
+    position:relative;
+    overflow:hidden;
+    height:630px !important;
 
-      .biograph {padding-left:5px;width:100%;border:2px solid; margin-top:15px !important;padding-top:2px; height:140px !important;}
+}
+.setTh {
+    width:500px !important;
+}
 
-      .inBios {margin-top:8px !important; display:flex; flex-direction:row; }
+.table-nama {
+    width:400px !important;
+}
 
-      .inBio {margin-top:0px; display:flex; flex-direction:row; padding : 0px !important; }
+.border {
+    border:1px solid
+}
 
-.wrapTh { display:flex; flex-direction:row}
-.rest { text-align:center !important}
-.wrapSmt {display:flex; flex-direction:row; margin:0px 0px;}
-table.bodyTable {
-border: 2px solid;
-width: 100%;
-text-align: left;
-border-collapse: collapse;
-font-size:10px;
+.header {
+    display: flex;
+    padding:8px;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    border-bottom:2px solid;
+    margin-bottom:6px;
+}
+.header img {
+    width:50px;
+    height:50px
+
+}
+.header .title-card {
+    position: absolute;
+    width:500px !important ;
+    left:50%;
+    text-align:center;
+    top:25%;
+    font-size:24px;
+    transform: translate(-50%,-50%);
+
+}
+.header .tahun-ajaran {
+border:2px solid;
+    width:200px;
+    text-align : center;
+    position:relative;
+    right:28px;
+    margin:0;
+    line-height : 30px;
+    font-size:20px;
+}
+.hr-header {
+    border : 1px solid !important;
+    width : 100%;
+    position:relative;
+    top:-3px
+}
+.header-bio th {
+    text-align : left;
+}
+.header-bio {
+    display: flex;
+    padding:0 20px;
+    justify-content : space-between
+}
+.table-makul {
+    width:100%;
+    border-collapse: collapse;
+}
+.table-nama {
+
+}
+.titik-dua {
+text-align:right;
+padding-right:8px;
+}
+.makul-table {
+    padding : 20px
+}
+.makul-table th {
+    border : 2px solid;
+    background-color:rgba(100, 100, 100, 0.4)
+}
+.makul-table td {
+    border : 2px solid;
+}
+.makul-table .nomor {
+    text-align:center
+}
+
+.footer {
+    height : 100px;
+    display: flex;
+    padding:0 20px;
+    justify-content: space-between;
+
+}
+.table-kelas {
+    position:relative;
+    right : 35px;
 
 }
 
-table.bodyTables {
-border: 2px solid;
-width: 100%;
-text-align: left;
-margin-top:15px;
-border-collapse: collapse;
-font-size:10px;
-
+.keterangan h4 {
+    margin:5px 0;
+    font-size:16px
 }
-.jadwal {
-text-align:center !important}
-.prop {
-width:200px !important;
-padding-left:5px
-}
-.bodyTable td {
-height:-20px !important;
-}
-      .titlesBody {margin:0; position:relative !important; width:50%;; height:200px !important; font-size:10px !important;}
-
-.tittlesBodyP {font-size:10px !important; margin:0px !important; !important; position:relative;  } 
-
-.titlesBodySpan {position:absolute !important; right:0 !important; top:0; padding-right:20px !important;}
-
-.signatureMhs {margin-top:15px !important;display:flex; width:100%; justify-content:space-between;}
-
-.titles {text-align:center; width:100%; margin:0 !important;padding:0 !important; line-height:25px; font-size:12px;}
-
-.titleBody.title {text-align:center}
-
-.ketua {margin-bottom:70px; margin-top:20px !important; font-size:10px}
-
-.titleBody {width:100%;border:2px solid; padding-left:5px;height:50px !important; padding-top:2px;}
-
-.mhsP {text-align:center !important;  font-size:10px; width:100% !important; margin-left:5px }
-.titleBody.wrapSmt{ display:flex; flex-direction:row;}
-.dosenP3 {text-align:center;position:absolute; bottom:5px; left:0; right:0}
-.dosenP {text-align:center;position:absolute; bottom:-10px; left:0; right:0; font-size:10px !important}
-.titleHeader.title {margin:0;width:100%; text-align:center !important; font-weight:bold;}
-.lembar {width:100%; text-align:right; font-size:10px}
-.titleHeader img {width:50px !important; height:50px !important; margin-bottom:10px; margin-left:auto; margin-right:auto;}
-.signatureKrs {width:100%; display:flex; justify-content:flex-end; margin-top:5px; border:1px}
-.titleHeader {width:48% !important; margin-right:30px; display:flex; flex-direction:column} 
-.signatureDosen {width:70px !important%;height:60px !important; border:2px solid; position:relative;  padding-top:6px}
-
-table.blueTable {font-size : font-size:10px !important; font-family: Arial, Helvetica, sans-serif;border: 2px solid #000000;background-color: white;width: 100%;text-align: center;border-collapse: collapse; height:10px} 
-
-.boxMhs {width:45% !important;height:60px !important; border:2px solid; margin-right:0px; padding-top:6px; text-align:center}
-table.blueTable td, table.blueTable th {white-space: nowrap; border: 2px solid #000000;  font-size:10px !important; } 
-.blueTable tr {line-height:5px}
-.number { width: 15px; text-align: center !important; } 
-.makul {padding-left:4px }
-table.blueTable tbody td { height:2px !important; }
-.boxKrs {width:48%; position:relative;  display:flex; flex-direction:column; justify-content:flex-end}
-p { margin: 0px !important; }
-table.blueTable thead { background: #D5D6F7; border-bottom: 2px solid #444444; }
-.signature {width:70%; text-align:center}
-
-table.blueTable {
-padding:0 !important;
-font-family: Arial, Helvetica, sans-serif;
-border: 2px solid #000000;
-background-color: white;
-width: 100%;
-text-align: center;
-border-collapse: collapse;
+.ttd {
+    padding-top:0px;
 }
 
-table.blueTable td,
-table.blueTable th {
-border: 2px solid #000000;
-}
-
-.number {
-width: 15px;
-text-align: center !important;
-}
-
-table.blueTable tbody td {
-font-size: 10px;
+.ttd h4 {
+margin : 0;
+font-size:16px
 
 }
-
-table.blueTable thead {
-background: #D5D6F7;
-border-bottom: 2px solid #444444;
+.ttd .user {
+    margin-top:20px
 }
-
-
-table.blueTable thead th {
-font-size: 15px;
-font-weight: bold;
-color: #000000;
-text-align: left;
-border-left: 2px solid #000000;
-
-}
-
-table.blueTable thead th:first-child {
-border-left: none;
-}
-
-.containerss {
-position:relative;
-z-index:999;
-display: flex;
-width: 100%;
-justify-content: space-between;
-flex-direction:row-reverse;
-
-}
-.kode {
-width: 100px;
-padding-left:5px
-}
-
-.MK {
-text-align: left !important;
-
-padding-left:5px !important;
-
-}
-
-
-
-
-
-.namaDosen {
-font-size : 10px;
-font-weight:bold;
-margin-top:40px !important;}
-table.blueTable thead th { font-size: 15px; font-weight: bold; color: #000000; text-align: left; border-left: 2px solid #000000; } table.blueTable thead th:first-child { border-left: none; } .container { display: flex; width: 100%; justify-content: center; } .kode { width: 100px; } .MK { text-align: left !important } table.blueTable tfoot td { font-size: 14px; } table.blueTable tfoot .links { text-align: right; } table.blueTable tfoot .links a { display: inline-block; background: #1C6EA4; color: #FFFFFF; padding: 2px 8px; border-radius: 5px; }`,
-      maxWidth: 2000,
-  })
-}, 2000)
+`}, 2000)})
     
   
     } else {
@@ -325,4 +292,5 @@ table.blueTable thead th { font-size: 15px; font-weight: bold; color: #000000; t
       actions,
       mutations,
   }
+  
   

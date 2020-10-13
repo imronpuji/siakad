@@ -50,7 +50,7 @@ const state = () => ({
       },
       actAdd({commit},values ){
         
-        const [{nama, nama_makul, nim, makul_id}] = values
+        const [{nama, nama_makul, nim, makul_id, jurusan}] = values
         
         //The percent that we want to get.
         //i.e. We want to get 50% of 120.
@@ -74,9 +74,19 @@ const state = () => ({
         
         }
         
-        const data = values.map(({makul_id, mahasiswa_id, tugas_1, tugas_2, tugas_3, tugas_4, absen, keaktifan, uts, uas}) => {
+        const data = values.map(({makul_id, mahasiswa_id, tugas_1, tugas_2, tugas_3, tugas_4, tugas_5, tugas_6, tugas_7, tugas_8, absen, keaktifan, uts, uas}) => {
           const absensis = absensi(parseInt(absen) / 16, 15)
-          const tugass = persen((parseInt(tugas_1) + parseInt(tugas_2) + parseInt(tugas_3) + parseInt(tugas_4)) / 4, 30)
+          
+          var tugass = ''
+          if(jurusan == 'informatika'){
+
+            tugass =   persen((parseInt(tugas_1) + parseInt(tugas_2) + parseInt(tugas_3) + parseInt(tugas_4)) / 4, 30)
+          } else {
+            tugass =   persen((parseInt(tugas_1) + parseInt(tugas_2) + parseInt(tugas_3) + parseInt(tugas_4) + parseInt(tugas_5) + parseInt(tugas_6) + parseInt(tugas_7) + parseInt(tugas_8)) / 8, 30)
+
+          }
+          
+          
          
           const utss = persen(parseInt(uts), 20)
           const uass = persen(parseInt(uas), 25)
@@ -225,7 +235,6 @@ const state = () => ({
 
       console.log(val)
       state.data.push(val)
-      state.dataMhs = []
       store.dispatch('components/setLoadFalse')
 
     

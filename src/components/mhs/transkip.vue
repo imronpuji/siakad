@@ -178,7 +178,7 @@
             <p>SKS Kumulatif <span class="tab3"></span> : {{$store.state.mhs_transkip.allSks}}</p>
         </div>
         <div class="dekan">
-            <p>Kendal, {{new Date().getDate() + ' ' + new Date().toLocaleString('default', { month: 'long' }) + ' ' + new Date().getFullYear()}}</p>
+            <p></p>
             <p class="status">Kaprodi</p>
 
             <p class="hr"><b><u>Yusuf Wahyu Setya Putra, S.Kom, M.Kom</u></b></p>
@@ -273,6 +273,8 @@ export default {
     },
 
     created() {
+    
+    console.log(this.$store.state.auth.profile)
 
         if (this.data.length < 1) {
             const token = this.$store.state.auth.token

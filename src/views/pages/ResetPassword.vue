@@ -1,65 +1,28 @@
 <template>
 <div style="background: #5C9DFF" class="c-app flex-row align-items-center">
     <CContainer>
-        <div style="margin-top:20px">
-            <b-navbar toggleable="lg" type="dark">
-                <b-navbar-brand href="#">
-                    <b-icon class="mr-2" icon="back" aria-hidden="true"></b-icon>Siakad
-                </b-navbar-brand>
-
-                <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-
-                <b-collapse id="nav-collapse" is-nav>
-
-                    <!-- Right aligned nav items -->
-                    <b-navbar-nav class="ml-auto">
-
-                        <!-- Using 'button-content' slot -->
-                        <b-nav-item href="#">
-                            <b-icon class="mr-2" icon="shield-lock" aria-hidden="true"></b-icon>Login
-                        </b-nav-item>
-                         <b-nav-item href="#/pages/forgetpassword"> <b-icon class="mr-2" icon="shield-lock" aria-hidden="true"></b-icon>Lupa Password</b-nav-item>
-                       
-                    </b-navbar-nav>
-                </b-collapse>
-            </b-navbar>
-        </div>
 
         <CRow class="justify-content-center">
-       
             <CCol md="4">
-              <div class="overlay" v-if="overlays">
-        <div class="spinner-grow text-primary" role="status">
-          <span class="sr-only">Loading...</span>
-        </div>
-        </div>
-                <h1 style="width:100%; text-align:center; color:white;font-size:28px; margin:80px 0"></h1>
-               
+                <h1 style="width:100%; text-align:center; color:white;font-size:28px; margin:80px 0">{{message}}</h1>
 
                 <CCard class="p-4" style="background:#306AFF; border:none; border-radius:12px">
 
                     <CCardBody>
                         <FormulateForm @submit="submit" class="login">
                             <div style="margin-bottom:67px">
- 
+
                                 <span style="font-size:14px" class="text-white">
                                     <b-icon class="mr-2" icon="back" aria-hidden="true"></b-icon>Siakad Filkom
                                 </span>
                             </div>
-                            <h1 style="font-size:48px;" class="text-white">Login</h1>
-                            <p style="margin-bottom:60px; font-size:14px" class="text-white">Silahkan login untuk melanjutkan</p>
 
                             <CRow>
                                 <CCol sm="12">
-                                    <FormulateInput label="username" v-model="username" type="text" name='username' validation="required" />
+                                    <FormulateInput label="New Password" v-model="password" type="text" name='password' validation="required" />
                                 </CCol>
                             </CRow>
-                            <CRow class="mt-4">
-                                <CCol sm="12">
-                                    <FormulateInput label="password" v-model="password" type="password" name='password' validation="required" />
-                                </CCol>
-                            </CRow>
-                            <CRow class="mt-5">
+                            <CRow class="mt-2">
                                 <CCol col="12" class="text-left">
                                     <button v-if="load" disabled class="btn btn-warning  w-100" type="button">
                                         <span class="d-flex align-items-center justify-content-around">
@@ -69,7 +32,7 @@
                                     </button>
                                     <button v-else class="btn btn-warning  w-100" type="submit">
                                         <span>
-                                            Login
+                                            Perbarui Password
                                         </span>
                                     </button>
                                 </CCol>
@@ -90,12 +53,15 @@
             </CCol>
         </CRow>
 
-        <!-- 
+        <!-- <div class="overlay" v-if="load">
+        <div class="spinner-grow text-primary" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
 
         <div>
           Loading..
         </div>  
- -->
+      </div> -->
 
     </CContainer>
 </div>
@@ -114,12 +80,9 @@ export default {
         return {
             isClicked: false,
 
-            username: '',
-            
-            overlays : false,
-
             password: '',
-
+            token: '',
+            message: '',
             load: false
 
         }
@@ -134,63 +97,35 @@ export default {
 
             this.load = true
 
-            let data = {
+            const form = new FormData()
+            form.append('password', this.password)
 
-                username: this.username,
-
-                password: this.password
-
-            }
-
-            axios.post('/auth/login', qs.stringify(data))
+            axios.post(`/resetpassword?token=${this.token}`, form)
 
                 .then((res) => {
 
-                 
-                    if (res.data.status == 201) {
-                        return false
-                    } else {
-                        const token = res.data.token
-
-                        localStorage.setItem('token', token)
-
-                        this.$store.dispatch('auth/setToken', token);
-
-                        if (res.data.profile != undefined) {
-                            this.$store.dispatch('auth/setProfile', res.data.profile)
-                            localStorage.setItem('profile', JSON.stringify(res.data.profile))
-
-                            // if (res.data.profile[0].id_dosen !== undefined) {
-                            //     setTimeout(() => {
-                            //         this.$store.dispatch('dosen_nilai/actGetDataMakul')
-
-                            //     }, 10000)
-
-                            // }
-                        }
-                                                this.overlays = false
-
-                        console.log(token)
-                        setTimeout(() => {
-                        this.load = false
-                            this.$router.push('/')
-                        }, 4000)
-
-                    }
+                    this.message = res.data.message
+                    this.load = false
+                    setTimeout(() => {
+                        this.$router.push('/pages/login')
+                    }, 2000)
                 })
 
                 .catch(err => {
 
                     this.load = false
-                    this.$swal('Login failed')
+                    this.$swal('gagal')
                     console.log(err)
 
                 })
 
         }
 
+    },
+    mounted() {
+        const token = this.$route.query.token
+        this.token = token
     }
-
 }
 </script>
 
@@ -225,15 +160,13 @@ export default {
 }
 
 .overlay {
+    background: rgba(255, 255, 255, 0.582);
     position: absolute;
     height: 100%;
     top: 0;
     width: 100%;
     left: 0;
-    z-index:999;
-    background-color: rgb(61, 159, 250);
     display: flex;
-    opacity:0.4;
     justify-content: center;
     align-items: center;
 }

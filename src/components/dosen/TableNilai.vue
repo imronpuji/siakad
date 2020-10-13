@@ -102,6 +102,18 @@
                      <CCol sm="3" class="mt-3">
                         <FormulateInput label="Tugas 4" placeholder="0" type="number" name="tugas_4" validation="required" />
                     </CCol>
+                    <CCol sm="3" class="mt-3">
+                        <FormulateInput label="Tugas 5" placeholder="0" type="number" name="tugas_5" validation="required" />
+                    </CCol>
+                    <CCol sm="3" class="mt-3">
+                        <FormulateInput label="Tugas 6" placeholder="0" type="number" name="tugas_6" validation="required" />
+                    </CCol>
+                     <CCol sm="3" class="mt-3">
+                        <FormulateInput label="Tugas 7" placeholder="0" type="number" name="tugas_7" validation="required" />
+                    </CCol>
+                     <CCol sm="3" class="mt-3">
+                        <FormulateInput label="Tugas 8" placeholder="0" type="number" name="tugas_8" validation="required" />
+                    </CCol>
               
                 </CRow>
                 <CRow>
@@ -177,8 +189,8 @@ var titles = [{
     //     label : 'UAS'
     // },
     {
-        prop :'skor',
-        label : 'Skor'
+        prop :'bobot',
+        label : 'Bobot'
     },
     // {
     //     prop :'tugas',
@@ -370,6 +382,7 @@ export default {
                 nim: this.selectedMahasiswa.nim,
                 mahasiswa_id: this.selectedMahasiswa.id,
                 makul_id: this.$store.state.dosen_nilai.selectedMakul.id_makul,
+                jurusan: this.$store.state.dosen_nilai.selectedMakul.jurusan,
             }]
             console.log(data)
             this.$store.dispatch('dosen_nilai/actAdd', data).then(() => {

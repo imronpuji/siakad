@@ -45,6 +45,7 @@ export default [
       to: '/admin/Nilai',
       icon: 'cil-star',        
     },
+    
   ],
       
   }

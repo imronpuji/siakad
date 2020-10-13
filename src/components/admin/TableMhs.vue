@@ -76,8 +76,8 @@
                     <div class="overlay" v-if="$store.state.admin_mahasiswa.load">
 
                     </div>
-                    <label>{{uasStatus}}</label>
-                    <FormulateInput v-model="uas" :options="{buka: 'Buka', tutup:'Tutup'}" type="radio" label="Status UAS mahasiswa" />
+                    <label style="width:280px">{{'status mahasiswa saat ini ' + ' ' + uasStatus}} </label>
+                    <FormulateInput v-model="uas" :options="{buka: 'Buka', tutup:'Tutup'}" type="radio" />
                 </CCol>
             </CRow>
 
@@ -93,9 +93,9 @@
                     <div class="overlay" v-if="$store.state.admin_mahasiswa.load">
 
                     </div>
-                    <label>{{utsStatus}}</label>
-
-                    <FormulateInput v-model="uts" :options="{buka: 'Buka', tutup:'Tutup'}" type="radio" label="Status UTS mahasiswa" />
+                    <label style="width:280px">{{'status mahasiswa saat ini ' + ' ' + utsStatus}} </label>
+                    
+                    <FormulateInput v-model="uts" :options="{buka: 'Buka', tutup:'Tutup'}" type="radio" />
                 </CCol>
             </CRow>
 
@@ -111,9 +111,9 @@
                     <div class="overlay" v-if="$store.state.admin_mahasiswa.load">
 
                     </div>
-                    <label>{{krsStatus}}</label>
-
-                    <FormulateInput v-model="krs" :options="{buka: 'Buka', tutup:'Tutup'}" type="radio" label="Status KRS mahasiswa" />
+                    <label style="width:280px">{{'status mahasiswa saat ini ' + ' ' + krsStatus}} </label>
+                    
+                    <FormulateInput v-model="krs" :options="{buka: 'Buka', tutup:'Tutup'}" type="radio" />
                 </CCol>
             </CRow>
 
@@ -129,9 +129,9 @@
                     <div class="overlay" v-if="$store.state.admin_mahasiswa.load">
 
                     </div>
-                    <label>{{khsStatus}}</label>
-
-                    <FormulateInput v-model="khs" :options="{buka: 'Buka', tutup:'Tutup'}" type="radio" label="Status KRS mahasiswa" />
+                    <label style="width:280px">{{'status mahasiswa saat ini ' + ' ' + khsStatus}} </label>
+                    
+                    <FormulateInput v-model="khs" :options="{buka: 'Buka', tutup:'Tutup'}" type="radio" />
                 </CCol>
             </CRow>
 
@@ -286,6 +286,7 @@ export default {
         },
         uas: {
             get() {
+            this.uasStatus = this.$store.state.admin_mahasiswa.uas
                 return this.$store.state.admin_mahasiswa.uas
             },
             set(value) {
@@ -304,12 +305,14 @@ export default {
         },
         khs: {
             get() {
+                        this.khsStatus = this.$store.state.admin_mahasiswa.khs
+
                 return this.$store.state.admin_mahasiswa.khs
             },
             set(value) {
                 console.log(value)
                 const data = {
-                    uas: this.utsStatus,
+                    uas: this.uasStatus,
                     khs: value,
                     uts: this.utsStatus,
                     krs: this.krsStatus,
@@ -322,6 +325,8 @@ export default {
         },
         uts: {
             get() {
+                        this.utsStatus = this.$store.state.admin_mahasiswa.uts
+
                 return this.$store.state.admin_mahasiswa.uts
 
             },
@@ -341,6 +346,8 @@ export default {
         },
         krs: {
             get() {
+                        this.krsStatus = this.$store.state.admin_mahasiswa.krs
+
                 return this.$store.state.admin_mahasiswa.krs
 
             },
@@ -600,7 +607,7 @@ export default {
                 this.$store.dispatch('admin_mahasiswa/actImport', mhs)
 
                     .then(() => {
-
+                        
                         this.$refs.success.open()
 
                     })
@@ -688,8 +695,8 @@ export default {
                         axios.post('/admin/mahasiswa/import', mhs)
 
                             .then(result => {
-
-                                submit(mhs)
+                    console.log(mhs)
+                                submit(result.data.data)
                             })
 
                             .catch(err => err)
