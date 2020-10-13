@@ -257,6 +257,7 @@ padding-right:8px;
 .table-kelas {
     position:relative;
     right : 35px;
+    width:400px !important;
 
 }
 

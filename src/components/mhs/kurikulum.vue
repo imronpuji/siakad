@@ -96,17 +96,17 @@
                     <tr>
                         <td>Kelas</td>
                         <td>:</td>
-                        <th>0</th>
+                        <th class="setTh">0</th>
                     </tr>
                     <tr>
                         <td>Semester</td>
                         <td>:</td>
-                        <th>8</th>
+                        <th class="setTh">8</th>
                     </tr>
                     <tr>
                         <td>Progam Studi</td>
                         <td>:</td>
-                        <th>S-1 Informatika</th>
+                        <th class="setTh">S-1 Informatika</th>
                     </tr>
             
                     </table>
