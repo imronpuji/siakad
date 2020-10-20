@@ -83,7 +83,7 @@ const actions = {
 
         nim,
         nama:nama.toUpperCase(),
-        foto : 'avatar.jpg',
+        foto : null,
         email,
         tahun_masuk,
         jurusan,

@@ -72,7 +72,7 @@
                 <hr>
                 <CRow>
                     <CCol sm="6" class="mt-3">
-                        <FormulateInput label="Nama" placeholder="Nama" type="text" name="judul" validation="required" />
+                        <FormulateInput label="Mata Kuliah" placeholder="Nama" type="text" name="judul" validation="required" />
                     </CCol>
                     <CCol sm="6" class="mt-3">
                         <label class="m-0; w-100" style="text-align:left; margin:0; font-size:14px; font-weight:500">Pilih Mata Kuliah</label>

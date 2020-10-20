@@ -2,7 +2,7 @@
 <div>
     <div class="container">
         <div class="main-body">
-            <div class=" col-md-12 alert alert-success  d-flex justify-content-between align-items-center bg-primary" style=" height:240px" role="alert">
+            <div class=" col-md-12 alert alert-success  d-flex justify-content-between align-items-center" style="background-color:green; height:240px" role="alert">
                 <div class="text-greeting" style="position:relative; top:-30px; left:30px">
                     <h4 v-if="$store.state.auth.user[0].data.role == 'admin'" class="alert-heading text-white mb-3">Selamat Datang admin</h4>
                     <h4 v-else class="alert-heading text-white mb-3">Selamat Datang {{$store.state.auth.profile[0].nama.toLowerCase()}}</h4>
@@ -11,7 +11,7 @@
 
                 </div>
                 <div class="img-greeting">
-                    <img style="height:200px" src="./greeting.svg" alt="">
+                    <img style="height:240px" src="./greeting.svg" alt="">
                 </div>
 
             </div>
@@ -20,10 +20,26 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex flex-column align-items-center text-center">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                            <div class="overlay" v-if="loadImg">
+                            <div class="spinner-grow text-primary" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+
+                            <div>
+                                Loading..
+                            </div>
+                        </div>
+                                <img :src="$store.state.auth.profile[0].foto" alt="Admin" class="rounded-circle" style="width:150px; height:150px">
                                 <div class="mt-3">
                                     <h4>{{this.$store.state.auth.profile[0].nama}}</h4>
                                     <p class="text-secondary mb-1">{{this.$store.state.auth.user[0].data.role == 'admin' ? 'admin' : this.$store.state.auth.user[0].data.role }}</p>
+                                </div>
+                                <div class="changeProfil">
+                                    
+                                      <b-button type="button"
+                                      class="bg-dark"
+                                             @click="upload" 
+                                             >ubah profil</b-button>
                                 </div>
                             </div>
                         </div>
@@ -42,7 +58,7 @@
 
                             <CRow>
                                 <CCol sm="12" class="mt-3">
-                                    <b-button type="submit" class="w-100">Perbarui</b-button>
+                                    <b-button type="submit" class="w-100 bg-dark">Perbarui</b-button>
                                 </CCol>
                             </CRow>
 
@@ -129,10 +145,26 @@
                                 <h2>{{data.nama_makul}}</h2>
                             </div> -->
                             <div class="d-flex flex-column align-items-center text-center">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                             <div class="overlay" v-if="loadImg">
+                            <div class="spinner-grow text-primary" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+
+                            <div>
+                                Loading..
+                            </div>
+                        </div>
+                                <img :src="$store.state.auth.profile[0].foto" alt="Admin" class="rounded-circle" style="width:150px;height:150px">
                                 <div class="mt-3">
                                     <h4>{{this.$store.state.auth.profile[0].nama}}</h4>
                                     <p class="text-secondary mb-1">{{this.$store.state.auth.user[0].data.role == 'admin' ? 'admin' : this.$store.state.auth.user[0].data.role }}</p>
+                                </div>
+                                <div class="changeProfil">
+                                    
+                                      <b-button type="button"
+                                      class="bg-dark"
+                                             @click="upload" 
+                                             >ubah profil</b-button>
                                 </div>
                             </div>
                         </div>
@@ -758,6 +790,7 @@
 <script>
 import axios from '../api/axios/axios'
 import qs from 'query-string'
+const token = localStorage.getItem('token')
 
 export default {
     name: 'TheHeaderDropdownAccnt',
@@ -766,10 +799,46 @@ export default {
             formValues: {},
             itemsCount: 42,
             load: false,
+            loadImg: false,
         }
     },
     methods: {
+    upload(){
+    var input = document.createElement('input');
+input.type = 'file';
 
+input.onchange = e => { 
+    this.loadImg= true
+
+   var file = e.target.files[0];
+   var id = ''
+   if(this.$store.state.auth.user[0].data.role == 'mahasiswa'){
+       id = this.$store.state.auth.profile[0].id_mahasiswa
+   } else {
+            id = this.$store.state.auth.profile[0].id_dosen
+
+   }
+   const form = new FormData()
+   form.append('file', file)
+   const profile = localStorage.getItem('profile')
+   const newProfile = JSON.parse(profile)
+   axios.post(`/changephoto/${id}`, form, {
+    headers : {'Authorization': `Bearer ${token}`
+    }})
+   .then(res =>{
+    this.$store.dispatch('auth/setImgProfile', res.data.messages.link)
+    newProfile[0].foto =  res.data.messages.link
+    localStorage.setItem('profile', JSON.stringify(newProfile))
+        this.loadImg= false
+
+   })
+   .catch(err =>  this.loadImg= false)
+   console.log(file)
+}
+
+input.click();
+    }
+,
         buat() {
             this.load = true
             const id = this.$store.state.auth.user[0].data.id

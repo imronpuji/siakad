@@ -19,6 +19,11 @@ const state = () => ({
     
     },
     
+    setImgProfile({commit}, val){
+      commit("setProfilImg", val)
+
+    }
+,    
     setProfile({commit}, val){
     
       commit("profil", val)
@@ -46,6 +51,9 @@ const state = () => ({
       
       state.user.push(user)
       
+    },
+    setProfilImg(state, val){
+      state.profile[0].foto = val
     },
 
     delete(state){

@@ -94,17 +94,17 @@
                 </table>
                 <table class="table-kelas">
                     <tr>
-                        <td>Kelas</td>
+                        <td class="setTd">Kelas</td>
                         <td>:</td>
                         <th class="setTh">0</th>
                     </tr>
                     <tr>
-                        <td>Semester</td>
+                        <td class="setTd">Semester</td>
                         <td>:</td>
                         <th class="setTh">8</th>
                     </tr>
                     <tr>
-                        <td>Progam Studi</td>
+                        <td class="setTd">Progam Studi</td>
                         <td>:</td>
                         <th class="setTh">S-1 Informatika</th>
                     </tr>
@@ -265,7 +265,7 @@
             </div>
         </div>
     </div>
-    <div id="kartuTs" class="containerUas">
+    <div id="kartuUts" class="containerUas">
         <img class="img-banner" src="https://uniss.ac.id/wp-content/uploads/2018/07/cropped-LOGO-UNISS-PNG.png" alt="">
 
         <div class="header">
@@ -435,15 +435,11 @@ export default {
             beforeAkademik,
 
         }
-        if (this.data.length < 1) {
             const token = this.$store.state.auth.token
             this.$store.dispatch('mhs_kurikulum/actGetData', token)
 
             this.$store.dispatch('components/setLoad')
 
-        } else {
-            this.$store.dispatch('components/setLoadFalse')
-        }
 
     },
 

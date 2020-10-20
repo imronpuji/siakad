@@ -102,7 +102,7 @@ const state = () => ({
 
         niy,
         nama,
-        foto : 'avatar.jpg',
+        foto : null,
         email,
         prodi,
         jenis_kelamin,

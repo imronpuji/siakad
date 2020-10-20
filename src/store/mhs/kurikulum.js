@@ -166,12 +166,26 @@ const state = () => ({
     width:500px !important;
 }
 
+.setTd {
+    width:200px !important;
+}
+
 .table-nama {
     width:400px !important;
 }
 
 .border {
-    border:1px solid
+    border:1px solid;
+    position:absolute !important;
+    top:85%;
+    text-align:center;
+    align-items : center;
+}
+
+.border .keterangan {
+    border :1px solid;
+    width: 100% !important;
+    text-align:center;
 }
 
 .header {
@@ -257,7 +271,7 @@ padding-right:8px;
 .table-kelas {
     position:relative;
     right : 35px;
-    width:400px !important;
+    width:300px !important;
 
 }
 

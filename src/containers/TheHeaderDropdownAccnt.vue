@@ -4,7 +4,8 @@
         <template #toggler>
             <CHeaderNavLink>
                 <div class="c-avatar">
-                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="c-avatar-img " />
+                    <img v-if="$store.state.auth.profile[0] != undefined " style="height:34px; width:34px" :src="$store.state.auth.profile[0].foto" class="c-avatar-img " />
+                    <img style="height:34px; width:34px" v-else src="https://avatar.oxro.io/avatar.svg?name=Eddie&background=ff6b6b&caps=3&bold=true" class="c-avatar-img "/>
                 </div>
             </CHeaderNavLink>
         </template>

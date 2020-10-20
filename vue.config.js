@@ -18,5 +18,9 @@ module.exports = {
     },
     transpileDependencies: [
       '@coreui/utils'
-    ]
+    ],
+    publicPath: process.env.NODE_ENV === 'production'
+      ? '/siakad/'
+      : '/'
   }
+  
