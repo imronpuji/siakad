@@ -31,6 +31,9 @@ const state = () => ({
     },
     deleteToken({commit}){
       commit('delete')
+    },
+    setStatus({commit}, val){
+      commit('setStatusCetak', val)
     }
   }
   const getters = {
@@ -40,6 +43,10 @@ const state = () => ({
   }
   
   const mutations = {
+  
+  setStatusCetak(state, val){
+    state.profile[0][val] = 'tutup'
+  },
   
     token(state,  val){
         

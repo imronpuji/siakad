@@ -2,7 +2,7 @@
 <div>
     <div class="container">
         <div class="main-body">
-            <div class=" col-md-12 alert alert-success  d-flex justify-content-between align-items-center" style="background-color:green; height:240px" role="alert">
+            <div class=" col-md-12 alert alert-success  d-flex justify-content-between align-items-center" style="background: rgb(62, 148, 235); height:240px" role="alert">
                 <div class="text-greeting" style="position:relative; top:-30px; left:30px">
                     <h4 v-if="$store.state.auth.user[0].data.role == 'admin'" class="alert-heading text-white mb-3">Selamat Datang admin</h4>
                     <h4 v-else class="alert-heading text-white mb-3">Selamat Datang {{$store.state.auth.profile[0].nama.toLowerCase()}}</h4>

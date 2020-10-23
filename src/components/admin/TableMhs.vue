@@ -12,8 +12,20 @@
                 </el-dropdown-menu>
             </el-dropdown>
         </el-col>
+        
+        <el-col :span="4">
+            <el-dropdown @command="handleCloseAll">
+                <el-button type="primary">Tutup Semua<i class="el-icon-caret-bottom el-icon--right"></i></el-button>
+                <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item command="krs">KRS</el-dropdown-item>
+                    <el-dropdown-item command="khs">KHS</el-dropdown-item>
+                    <el-dropdown-item command="uas">UAS</el-dropdown-item>
+                    <el-dropdown-item command="uts">UTS</el-dropdown-item>
+                </el-dropdown-menu>
+            </el-dropdown>
+        </el-col>
 
-        <el-col :span="5" :offset="13">
+        <el-col :span="5" :offset="5">
             <FormulateInput placeholder="Pencarian" v-model="filters[0].value" />
         </el-col>
 
@@ -55,7 +67,10 @@
                     </CRow>
 
                     <CRow class="mt-3">
-                        <CCol sm="12">
+                     <CCol sm="6">
+                        <FormulateInput v-model="editByKelas" :options="{A: 'A', B: 'B'}" type="select" placeholder="Pilih Kelas" label="Kelas" />
+                    </CCol>
+                        <CCol sm="6">
                             <b-button type="submit" class="w-100">Edit</b-button>
                         </CCol>
                     </CRow>
@@ -182,7 +197,14 @@
                     <CCol sm="6">
                         <FormulateInput v-model="jenis_kelamin" :options="{P: 'Perempuan', L: 'Laki-Laki'}" type="select" placeholder="Jenis Kelamin" label="Jenis Kelamin" />
                     </CCol>
-                    <CCol sm="6" class="mt-4">
+                    <CCol sm="6">
+                        <FormulateInput v-model="kelas" :options="{A: 'A', B: 'B'}" type="select" placeholder="Pilih Kelas" label="Kelas" />
+                    </CCol>
+  
+                </CRow>
+                 <CRow>
+
+                    <CCol sm="12" class="mt-4">
                         <b-button type="submit" class="w-100">Buat</b-button>
                     </CCol>
                 </CRow>
@@ -274,6 +296,10 @@ var titles = [{
 
         label: "Semester"
 
+    },
+    {
+        prop: 'kelas',
+        label : 'Kelas'
     }
 ]
 
@@ -385,6 +411,7 @@ export default {
     data() {
 
         return {
+            kelas : '',
             fixedToasts: 0,
             uasStatus: '',
             utsStatus: '',
@@ -400,7 +427,9 @@ export default {
                     order: 'descending'
                 }
             },
-
+            
+            editByKelas : '',
+            
             formValues: {},
 
             jurusan: null,
@@ -467,6 +496,7 @@ export default {
                         this.krsStatus = row.status_krs
                         this.khsStatus = row.status_khs
                         this.id_mhs = row.id_mahasiswa
+                        this.editByKelas = row.kelas
                         // this.getStatus(row)
 
                     },
@@ -516,6 +546,19 @@ export default {
             }
 
         },
+        
+        handleCloseAll(command) {
+
+        
+                this.$store.dispatch('admin_mahasiswa/closeAll', command).then(() => {
+                                           this.$refs.success.open()
+
+                })
+                            this.$store.dispatch('components/setLoad')
+
+      
+
+        },
 
         imports() {
 
@@ -528,6 +571,8 @@ export default {
             const data = {
 
                 semester: this.editBySemester,
+                
+                kelas : this.editByKelas,
 
                 id_mahasiswa: this.editById
 
@@ -567,6 +612,7 @@ export default {
             this.$store.dispatch('admin_mahasiswa/actAdd', {
                     ...this.formValues,
                     jurusan: this.jurusan,
+                    kelas : this.kelas,
                     jenis_kelamin : this.jenis_kelamin
                 })
 
@@ -646,6 +692,7 @@ export default {
                             nim: val.nim,
                             nama: val.nama.toUpperCase(),
                             foto: 'index.jpg',
+                            kelas : val.kelas,
                             email: val.email,
                             tahun_masuk: val.tahun_masuk,
                             jurusan: val.prodi,
@@ -678,6 +725,7 @@ export default {
                                 foto: 'index.jpg',
 
                                 email: userData[i]['email'],
+                                kelas : userData[i]['kelas'],
 
                                 tahun_masuk: userData[i]['tahun_masuk'],
                                 jurusan: userData[i]['jurusan'],
@@ -709,6 +757,7 @@ export default {
 
             reader.readAsArrayBuffer(this.dataSiswa);
         },
+        
         previewFiles(oEvent) {
             var oFile = oEvent.target.files[0];
             this.dataSiswa = oFile

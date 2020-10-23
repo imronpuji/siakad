@@ -2,7 +2,6 @@ import Nilai from '../../views/mhs/nilai'
 import Materi from '../../views/mhs/materi'
 import Transkip from '../../views/mhs/transkip'
 import Krs from '../../views/mhs/krs'
-import Khs from '../../views/mhs/khs'
 import Dosen from '../../views/mhs/dosen'
 import Kurikulum from '../../views/mhs/kurikulum'
 import decode from 'jwt-decode'
@@ -98,6 +97,7 @@ const mhs = [
   }
 
 },
+
 ]
 
 export default mhs

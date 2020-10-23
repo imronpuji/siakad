@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import admin from './admin/admin' 
 import dosen from './dosen/dosen' 
 import mhs from './mhs/mhs' 
+import axios from '../api/axios/axios'
 const getRole = () => {
   const roles = localStorage.getItem('token')
   return roles
@@ -79,6 +80,7 @@ const router =  new Router({
 
 function configRoutes () {
   return [
+ 
     {
       path: '/',
       meta : {rule : 'parent'},

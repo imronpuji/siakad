@@ -18,7 +18,7 @@
               </option>
                 </select> -->
             <el-dropdown @command="cetakKhs">
-               <el-button v-if="$store.state.auth.profile[0]['status_khs'] == 'buka'" type="primary">Cetak KHS<i class="el-icon-caret-bottom el-icon--right"></i></el-button>
+                <el-button v-if="$store.state.auth.profile[0]['status_khs'] == 'buka'" type="primary">Cetak KHS<i class="el-icon-caret-bottom el-icon--right"></i></el-button>
                 <el-button disabled v-else type="primary">Cetak KHS<i class="el-icon-caret-bottom el-icon--right"></i></el-button>
                 <el-dropdown-menu slot="dropdown">
                     <el-dropdown-item v-for="data in $store.state.mhs_transkip.semester" :key="data.semester" :command="data.semester">SMT {{data.semester}}</el-dropdown-item>
@@ -93,8 +93,8 @@
 
         </div>
     </div>
-    
-     <div id="TableTranskip">
+
+    <div id="TableTranskip">
 
         <table>
             <tr>
@@ -115,7 +115,7 @@
                 <td>{{data.nama_makul}}</td>
                 <td style="text-align:center">{{data.huruf}}</td>
                 <td style="text-align:center">{{data.bobot}}</td>
-                <td style="text-align:center">{{data.sks}}</td> 
+                <td style="text-align:center">{{data.sks}}</td>
                 <td style="text-align:center">{{parseFloat(data.bobot) * parseInt(data.sks)}}</td>
             </tr>
             <tr style="border:0px solid; text-align:center">
@@ -273,8 +273,8 @@ export default {
     },
 
     created() {
-    
-    console.log(this.$store.state.auth.profile)
+
+        console.log(this.$store.state.auth.profile)
 
         if (this.data.length < 1) {
             const token = this.$store.state.auth.token
@@ -291,13 +291,14 @@ export default {
     data() {
 
         return {
-        tableProps: {
-        border: true,
-        stripe: true,
-        defaultSort: {
-          prop: 'flow_no',
-          order: 'descending'
-        }},
+            tableProps: {
+                border: true,
+                stripe: true,
+                defaultSort: {
+                    prop: 'flow_no',
+                    order: 'descending'
+                }
+            },
 
             titles,
 
@@ -320,7 +321,18 @@ export default {
     },
     methods: {
         cetakKhs(value) {
-            this.$store.dispatch('mhs_transkip/cetakKhs', value)
+        const id_mahasiswa = this.$store.state.auth.profile[0]['id_mahasiswa']
+            axios.get(`/mahasiswa/checkstatus/${id_mahasiswa}`)
+                .then((res) => {
+                    if (res.data[0]['status_khs'] == 'buka') {
+                        this.$store.dispatch('mhs_transkip/cetakKhs', value)
+
+                    } else {
+                        this.$swal('Status Khs Tutup')
+                        this.$store.dispatch('auth/setStatus', 'status_uts')
+                    }
+                })
+                .catch((err) => console.log(err))
         },
 
         handleClick(command) {

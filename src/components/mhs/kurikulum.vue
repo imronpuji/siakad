@@ -90,96 +90,94 @@
                     <td>:</td>
                     <th class="setFilkom"> Ilmu Komputer</th>
                 </tr>
-        
-                </table>
-                <table class="table-kelas">
-                    <tr>
-                        <td class="setTd">Kelas</td>
-                        <td>:</td>
-                        <th class="setTh">0</th>
-                    </tr>
-                    <tr>
-                        <td class="setTd">Semester</td>
-                        <td>:</td>
-                        <th class="setTh">8</th>
-                    </tr>
-                    <tr>
-                        <td class="setTd">Progam Studi</td>
-                        <td>:</td>
-                        <th class="setTh">S-1 Informatika</th>
-                    </tr>
-            
-                    </table>
+
+            </table>
+            <table class="table-kelas">
+                <tr>
+                    <td class="setTd">Kelas</td>
+                    <td>:</td>
+                    <th class="setTh">0</th>
+                </tr>
+                <tr>
+                    <td class="setTd">Semester</td>
+                    <td>:</td>
+                    <th class="setTh">8</th>
+                </tr>
+                <tr>
+                    <td class="setTd">Progam Studi</td>
+                    <td>:</td>
+                    <th class="setTh">S-1 Desain Komunikasi Visual</th>
+                </tr>
+
+            </table>
         </div>
         <div class="makul-table">
-        
+
             <table border="2" class="table-makul">
-            <tr>
-                <th>No</th>
-                <th>Kode Makul</th>
-                <th>Mata Kuliah</th>
-                <th>SKS</th>
-            </tr>
-            <tr>
-                <td class="nomor">1</td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td class="nomor">1</td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td class="nomor">1</td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td class="nomor">1</td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td class="nomor">1</td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td class="nomor">1</td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-      
-     
-            
+                <tr>
+                    <th>No</th>
+                    <th>Kode Makul</th>
+                    <th>Mata Kuliah</th>
+                    <th>SKS</th>
+                </tr>
+                <tr>
+                    <td class="nomor">1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="nomor">1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="nomor">1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="nomor">1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="nomor">1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td class="nomor">1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+
             </table>
         </div>
         <div class="footer">
             <div class="keterangan">
-            <h4>Mahasiswa</h4>
+                <h4>Mahasiswa</h4>
 
             </div>
             <div class="ttd">
                 <h4>Dosen Wali</h4>
                 <h4 class="user">Hasnan Afif, S.kom. ,M.Kom.</h4>
 
-                </div>
-            
-        </div>
-        <div class="footer border">
-            <div class="keterangan">
-            <h4>Mahasiswa</h4>
+            </div>
+
+            <div class="ttd">
+                <h4>Ketua Program Studi</h4>
+                <h4 class="user">Yusuf Wahyu Setia Putra S.kom. ,M.Kom.</h4>
 
             </div>
-            
+
         </div>
+
     </div>
 
     <div id="kartuUas" class="containerUas">
@@ -293,7 +291,7 @@
                 <tr>
                     <td>Fakultas</td>
                     <td class="titik-dua">:</td>
-                    <th class="setTh">Ilmu Komputer lkjlkjlkjlkjlkjlkjlkj</th>
+                    <th class="setTh">Ilmu Komputer </th>
                 </tr>
 
             </table>
@@ -435,11 +433,10 @@ export default {
             beforeAkademik,
 
         }
-            const token = this.$store.state.auth.token
-            this.$store.dispatch('mhs_kurikulum/actGetData', token)
+        const token = this.$store.state.auth.token
+        this.$store.dispatch('mhs_kurikulum/actGetData', token)
 
-            this.$store.dispatch('components/setLoad')
-
+        this.$store.dispatch('components/setLoad')
 
     },
 
@@ -479,15 +476,34 @@ export default {
     methods: {
         handleClick(val) {
 
-            this.$store.dispatch('mhs_kurikulum/getKrs', val)
+            const id_mahasiswa = this.$store.state.auth.profile[0]['id_mahasiswa']
+
+            axios.get(`/mahasiswa/checkstatus/${id_mahasiswa}`)
+                .then((res) => {
+                    if (res.data[0]['status_krs'] == 'buka') {
+                        this.$store.dispatch('mhs_kurikulum/getKrs', val)
+
+                    } else {
+                        this.$swal('Status Krs Tutup')
+                        this.$store.dispatch('auth/setStatus', 'status_krs')
+                    }
+                })
+                .catch((err) => console.log(err))
 
         },
+
         cetakUas() {
-            printJS({
-                printable: 'kartuUas',
-                type: 'html',
-                maxWidth: 2000,
-                style: `
+
+            const id_mahasiswa = this.$store.state.auth.profile[0]['id_mahasiswa']
+
+            axios.get(`/mahasiswa/checkstatus/${id_mahasiswa}`)
+                .then((res) => {
+                    if (res.data[0]['status_uas'] == 'buka') {
+                        printJS({
+                            printable: 'kartuUas',
+                            type: 'html',
+                            maxWidth: 2000,
+                            style: `
 .containerUas {
     border : 2px solid;  
     position:relative;
@@ -609,14 +625,29 @@ font-size:16px
     top:50%;
     transform: translate(-50%,-50%);
 }`
-            })
+                        })
+
+                    } else {
+                        this.$swal('Status Uas Tutup')
+                        this.$store.dispatch('auth/setStatus', 'status_uas')
+                    }
+                })
+                .catch((err) => console.log(err))
+
         },
+
         cetakUts() {
-            printJS({
-                printable: 'kartuUts',
-                type: 'html',
-                maxWidth: 2000,
-                style: `
+
+            const id_mahasiswa = this.$store.state.auth.profile[0]['id_mahasiswa']
+
+            axios.get(`/mahasiswa/checkstatus/${id_mahasiswa}`)
+                .then((res) => {
+                    if (res.data[0]['status_uts'] == 'buka') {
+                        printJS({
+                            printable: 'kartuUts',
+                            type: 'html',
+                            maxWidth: 2000,
+                            style: `
 .containerUas {
     border : 2px solid;  
     position:relative;
@@ -738,7 +769,14 @@ font-size:16px
     top:50%;
     transform: translate(-50%,-50%);
 }`
-            })
+                        })
+
+                    } else {
+                        this.$swal('Status Uts Tutup')
+                        this.$store.dispatch('auth/setStatus', 'status_uts')
+                    }
+                })
+                .catch((err) => console.log(err))
         }
 
     }
@@ -883,7 +921,7 @@ table.blueTable {
     border: 2px solid;
     position: relative;
     height: 0;
-    width:100%;
+    width: 100%;
     visibility: hidden
 }
 
@@ -1001,15 +1039,16 @@ table.blueTable {
     top: 50%;
     transform: translate(-50%, -50%);
 }
+
 .ttds {
-position: absolute;
-border:2px solid;
-width:100%;
-display: flex;
-flex-direction: column;
-align-items: center;
-top:100%;
-left:-2px;
-    padding-top:0px;
+    position: absolute;
+    border: 2px solid;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    top: 100%;
+    left: -2px;
+    padding-top: 0px;
 }
 </style>

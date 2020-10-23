@@ -59,19 +59,19 @@ const actions = {
     },
     
     actEdit({commit}, val){
-        const {id_mahasiswa, semester} = val
+        const {id_mahasiswa, semester, kelas} = val
 
         return new Promise((resolve) => {
-          axios.put(`/admin/mahasiswa/${id_mahasiswa}/edit`, qs.stringify({semester})).then(res => {
+          axios.put(`/admin/mahasiswa/${id_mahasiswa}/edit`, qs.stringify({semester, kelas})).then(res => {
               commit('edit', val)
+              commit('editSmtKelas', val)
               
           }).catch(err => err)
           resolve()
         })
       },
     
-    actAdd({commit}, {nama, nim, email, tahun_masuk, jurusan, semester, jenis_kelamin}){ 
-      console.log(tahun_masuk)
+    actAdd({commit}, {nama, nim, email, tahun_masuk, jurusan, semester, jenis_kelamin, kelas}){ 
       const user = {
 
         username : nim,
@@ -86,6 +86,7 @@ const actions = {
         foto : null,
         email,
         tahun_masuk,
+        kelas,
         jurusan,
         jenis_kelamin,
         semester,
@@ -163,6 +164,20 @@ const actions = {
   
     },
     
+    closeAll({commit}, val){
+    return new Promise((resolve) => {
+      return axios.post(`/admin/closeall/${val}`)
+      .then(res => {
+       commit('closeStatus', val)
+       resolve()
+       })
+      .catch(err => err)
+      
+     
+    })
+      
+    },
+    
     
     
      uas({commit}, val){
@@ -185,7 +200,9 @@ const actions = {
           
         }}).then(res => {
           console.log('berhasil')
-          commit('setUas', data)          
+          commit('setUas', data) 
+          commit('setKrsKhsUas', val)
+
         })
     
       
@@ -212,7 +229,9 @@ const actions = {
         
       }}).then(res => {
         console.log('berhasil')
-        commit('setKhs', data)          
+        commit('setKhs', data)    
+        commit('setKrsKhsUas', val)
+
       })
   
     
@@ -236,6 +255,8 @@ const actions = {
      }}).then(res => {
          
        commit('setUts', data)
+       commit('setKrsKhsUas', val)
+
    
        
      }).catch(err => err)  
@@ -259,6 +280,7 @@ const actions = {
      }}).then(res => {
          
       commit('setKrs', data)
+      commit('setKrsKhsUas', val)
    
        
      }).catch(err => err)  
@@ -382,6 +404,18 @@ setUtsBefore(state, val){
 
 
     },
+    editSmtKelas(state, val){
+
+      const index = state.data.findIndex(({id_mahasiswa}) => id_mahasiswa == val.id_mahasiswa )
+      
+      state.data[index]['semester'] = val.semester
+      state.data[index]['kelas'] = val.kelas
+
+      
+      store.dispatch('components/setLoadFalse')
+
+
+    },
 
 
     getData(state, val){
@@ -399,6 +433,31 @@ setUtsBefore(state, val){
       store.dispatch('components/setLoadFalse')
 
 
+    },
+    
+    setKrsKhsUas(state, val){
+      const index = state.data.findIndex(({id_mahasiswa}) => id_mahasiswa == val.id_mahasiswa )
+      
+      state.data[index]['status_krs'] = val.krs
+      state.data[index]['status_khs'] = val.khs
+      state.data[index]['status_uas'] = val.uas
+      state.data[index]['status_uts'] = val.uts
+
+      
+      store.dispatch('components/setLoadFalse')
+    },
+    
+    closeStatus(state, val){
+      const newData = state.data.map((values) => {
+        values[`status_${val}`] = 'tutup'
+        return values
+      } )
+      
+      state.data = newData
+      
+
+      
+      store.dispatch('components/setLoadFalse')
     }
  
   

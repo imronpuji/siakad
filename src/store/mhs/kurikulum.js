@@ -158,8 +158,7 @@ const state = () => ({
 .containerUas {
     border : 2px solid;  
     position:relative;
-    overflow:hidden;
-    height:630px !important;
+    height:auto !important;
 
 }
 .setTh {
@@ -264,7 +263,6 @@ padding-right:8px;
 .footer {
     height : 100px;
     display: flex;
-    padding:0 20px;
     justify-content: space-between;
 
 }
@@ -276,11 +274,13 @@ padding-right:8px;
 }
 
 .keterangan h4 {
-    margin:5px 0;
-    font-size:16px
+    font-size:16px;
+    margin-left:20px;
 }
 .ttd {
     padding-top:0px;
+    text-align:center;
+    padding-top:10px;
 }
 
 .ttd h4 {
@@ -291,6 +291,8 @@ font-size:16px
 .ttd .user {
     margin-top:20px
 }
+
+
 `}, 2000)})
     
   
