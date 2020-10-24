@@ -78,12 +78,12 @@
                 <tr>
                     <td>Nama</td>
                     <td>:</td>
-                    <th class="setTh">Imron</th>
+                    <th class="setTh">{{$store.state.auth.profile[0].nama}}</th>
                 </tr>
                 <tr>
                     <td>NIM</td>
                     <td>:</td>
-                    <th class="setTh">20117035</th>
+                    <th class="setTh">{{$store.state.auth.profile[0].nim}}</th>
                 </tr>
                 <tr>
                     <td>Fakultas</td>
@@ -96,17 +96,17 @@
                 <tr>
                     <td class="setTd">Kelas</td>
                     <td>:</td>
-                    <th class="setTh">0</th>
+                    <th class="setTh">{{kelasKrs}}</th>
                 </tr>
                 <tr>
                     <td class="setTd">Semester</td>
                     <td>:</td>
-                    <th class="setTh">8</th>
+                    <th class="setTh">{{parseInt($store.state.auth.profile[0].semester) + 1}}</th>
                 </tr>
                 <tr>
                     <td class="setTd">Progam Studi</td>
                     <td>:</td>
-                    <th class="setTh">S-1 Desain Komunikasi Visual</th>
+                    <th class="setTh">S-1 {{$store.state.auth.profile[0].jurusan}}</th>
                 </tr>
 
             </table>
@@ -120,42 +120,13 @@
                     <th>Mata Kuliah</th>
                     <th>SKS</th>
                 </tr>
-                <tr>
-                    <td class="nomor">1</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                <tr v-for="(dataKrs, index) in $store.state.mhs_kurikulum.dataKrs" :key="index">
+                    <td class="nomor">{{index + 1}}</td>
+                    <td class="kodemakul">{{dataKrs.kode_makul}}</td>
+                    <td class="namamakul">{{dataKrs.nama_makul}}</td>
+                    <td class="sks">{{dataKrs.sks}}</td>
                 </tr>
-                <tr>
-                    <td class="nomor">1</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="nomor">1</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="nomor">1</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="nomor">1</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="nomor">1</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
+            
 
             </table>
         </div>
@@ -455,6 +426,8 @@ export default {
             titles,
 
             dataProfile: [],
+            
+            kelasKrs : '',
 
             filters: [{
 
@@ -482,6 +455,7 @@ export default {
                 .then((res) => {
                     if (res.data[0]['status_krs'] == 'buka') {
                         this.$store.dispatch('mhs_kurikulum/getKrs', val)
+                        this.kelasKrs = val
 
                     } else {
                         this.$swal('Status Krs Tutup')

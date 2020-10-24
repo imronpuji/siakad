@@ -61,11 +61,22 @@ new Vue({
 
     const tokens = localStorage.getItem('token')
     const profile = localStorage.getItem('profile')
+    
       if(tokens){
         store.dispatch('auth/setToken', tokens)
+
       }
       if(profile != undefined){
         store.dispatch('auth/setProfile', JSON.parse(profile))
+        
+        if(store.state.auth.profile[0]['id_mahasiswa'] != undefined){
+          axios.get(`/refresh?token=${tokens}`)
+          .then((res) => {
+            store.dispatch('auth/setProfile', res.data)
+          })
+          .catch(err => err)
+        }
+
       }
     
     const service = new Service(axios);

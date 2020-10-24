@@ -62,15 +62,14 @@ const state = () => ({
   },
   getKrs({commit}, val){
   const user = store.state.auth.profile[0].semester
+  const id = store.state.auth.profile[0]['id_mahasiswa']
   const semester = parseInt(user) + 1
   const jurusan = store.state.auth.profile[0].jurusan
-  axios.get(`/mahasiswa/cetak/krs/${semester}/${jurusan}/${val}`)
+  axios.get(`/mahasiswa/cetak/krs/${id}/${semester}/${jurusan}/${val}`)
   .then(values => commit('cetakKrs', values.data))
   .catch(err => console.log(err))
   
-    
-   
-  
+ 
   },
 
     actGetData({commit, state}){
@@ -142,11 +141,7 @@ const state = () => ({
     
     cetakKrs(state, val){
     if(val.length > 0){
-      const sks = []
-      val.map((values) => sks.push(values.sks) );
-
-      const allSks =  sks.reduce((a, b) => parseInt(a) + parseInt(b))
-      state.allSks = allSks
+ 
     state.dataKrs = val
     setTimeout(() => {
     print({
@@ -189,7 +184,6 @@ const state = () => ({
 
 .header {
     display: flex;
-    padding:8px;
     justify-content: space-between;
     align-items: center;
     position: relative;
@@ -198,8 +192,9 @@ const state = () => ({
 }
 .header img {
     width:50px;
-    height:50px
-
+    height:50px;
+    position:relative;
+    left:20px;
 }
 .header .title-card {
     position: absolute;
@@ -257,6 +252,17 @@ padding-right:8px;
     border : 2px solid;
 }
 .makul-table .nomor {
+    text-align:center
+}
+
+.makul-table .sks {
+    text-align:center
+}
+.makul-table .kodemakul {
+    text-align:center
+}
+
+.makul-table .namamakul {
     text-align:center
 }
 

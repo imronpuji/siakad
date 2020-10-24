@@ -5,7 +5,8 @@
             <div class=" col-md-12 alert alert-success  d-flex justify-content-between align-items-center" style="background: rgb(62, 148, 235); height:240px" role="alert">
                 <div class="text-greeting" style="position:relative; top:-30px; left:30px">
                     <h4 v-if="$store.state.auth.user[0].data.role == 'admin'" class="alert-heading text-white mb-3">Selamat Datang admin</h4>
-                    <h4 v-else class="alert-heading text-white mb-3">Selamat Datang {{$store.state.auth.profile[0].nama.toLowerCase()}}</h4>
+                    <h4 v-if="$store.state.auth.user[0].data.role == 'dosen'" class="alert-heading text-white mb-3">Selamat Datang {{$store.state.auth.profile[0].nama_dosen }}</h4>
+                    <h4 v-if="$store.state.auth.user[0].data.role == 'mahasiswa'" class="alert-heading text-white mb-3">Selamat Datang {{$store.state.auth.profile[0].nama.toLowerCase() }}</h4>
                     <p class="text-white m-0">Selamat Berselancar di Sistem Informasi</p>
                     <p class="text-white">Akademis UNISS</p>
 
@@ -154,9 +155,9 @@
                                 Loading..
                             </div>
                         </div>
-                                <img :src="$store.state.auth.profile[0].foto" alt="Admin" class="rounded-circle" style="width:150px;height:150px">
+                                <img :src="$store.state.auth.profile[0].foto_dosen" alt="Admin" class="rounded-circle" style="width:150px;height:150px">
                                 <div class="mt-3">
-                                    <h4>{{this.$store.state.auth.profile[0].nama}}</h4>
+                                    <h4>{{this.$store.state.auth.profile[0].nama_dosen}}</h4>
                                     <p class="text-secondary mb-1">{{this.$store.state.auth.user[0].data.role == 'admin' ? 'admin' : this.$store.state.auth.user[0].data.role }}</p>
                                 </div>
                                 <div class="changeProfil">
@@ -207,7 +208,7 @@
                                     <h6 class="mb-0">Full Name</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
-                                    {{this.$store.state.auth.profile[0].nama}}
+                                    {{this.$store.state.auth.profile[0].nama_dosen}}
                                 </div>
                             </div>
                             <hr>
@@ -216,7 +217,7 @@
                                     <h6 class="mb-0">Email</h6>
                                 </div>
                                 <div class="col-sm-9 text-secondary">
-                                    {{this.$store.state.auth.profile[0].email}}
+                                    {{this.$store.state.auth.profile[0].email_dosen}}
                                 </div>
                             </div>
                             <hr>

@@ -148,8 +148,10 @@ const state = () => ({
       
       },
       actGetData({commit}){
+      const id_dosen = store.state.auth.profile[0]['id_dosen']
         return new Promise((resolve) => {
-          axios.get(`/dosen/nilai`, {
+        
+          axios.get(`/dosen/nilai/${id_dosen}`, {
             
             headers : {'Authorization': `Bearer ${token}`
           
