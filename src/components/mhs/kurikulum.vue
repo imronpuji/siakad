@@ -122,7 +122,7 @@
                 </tr>
                 <tr v-for="(dataKrs, index) in $store.state.mhs_kurikulum.dataKrs" :key="index">
                     <td class="nomor">{{index + 1}}</td>
-                    <td class="kodemakul">{{dataKrs.kode_makul}}</td>
+                    <td class="kodemakul">{{dataKrs.id_makul}}</td>
                     <td class="namamakul">{{dataKrs.nama_makul}}</td>
                     <td class="sks">{{dataKrs.sks}}</td>
                 </tr>

@@ -37,7 +37,7 @@
                                 </div>
                                 <div class="changeProfil">
                                     
-                                      <b-button type="button"
+                                      <b-button style="color:white" type="button"
                                       class="bg-dark"
                                              @click="upload" 
                                              >ubah profil</b-button>
@@ -59,7 +59,7 @@
 
                             <CRow>
                                 <CCol sm="12" class="mt-3">
-                                    <b-button type="submit" class="w-100 bg-dark">Perbarui</b-button>
+                                    <b-button style="color:white" type="submit" class="w-100 bg-dark">Perbarui</b-button>
                                 </CCol>
                             </CRow>
 
@@ -162,8 +162,9 @@
                                 </div>
                                 <div class="changeProfil">
                                     
-                                      <b-button type="button"
+                                      <b-button style="color:white" type="button"
                                       class="bg-dark"
+                                      
                                              @click="upload" 
                                              >ubah profil</b-button>
                                 </div>
@@ -184,7 +185,7 @@
 
                             <CRow>
                                 <CCol sm="12" class="mt-3">
-                                    <b-button type="submit" class="w-100">Perbarui</b-button>
+                                    <b-button style="color:white" type="submit" class="w-100">Perbarui</b-button>
                                 </CCol>
                             </CRow>
 
@@ -282,7 +283,7 @@
 
                             <CRow>
                                 <CCol sm="12" class="mt-3">
-                                    <b-button type="submit" class="w-100">Perbarui</b-button>
+                                    <b-button style="color:white" type="submit" class="w-100">Perbarui</b-button>
                                 </CCol>
                             </CRow>
 

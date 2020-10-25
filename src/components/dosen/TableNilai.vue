@@ -89,7 +89,22 @@
                         <FormulateInput label="Total Hadir" placeholder="Total Hadir" type="number" name="absen" validation="required" />
                     </CCol>
                 </CRow>
-                <CRow>
+                <CRow v-if="$store.state.dosen_nilai.selectedMakul.jurusan == 'informatika'">
+                    <CCol sm="3" class="mt-3">
+                        <FormulateInput label="Tugas 1" placeholder="0" type="number" name="tugas_1" validation="required" />
+                    </CCol>
+                    <CCol sm="3" class="mt-3">
+                        <FormulateInput label="Tugas 2" placeholder="0" type="number" name="tugas_2" validation="required" />
+                    </CCol>
+                     <CCol sm="3" class="mt-3">
+                        <FormulateInput label="Tugas 3" placeholder="0" type="number" name="tugas_3" validation="required" />
+                    </CCol>
+                     <CCol sm="3" class="mt-3">
+                        <FormulateInput label="Tugas 4" placeholder="0" type="number" name="tugas_4" validation="required" />
+                    </CCol>
+                </CRow>
+                
+                <CRow v-else>
                     <CCol sm="3" class="mt-3">
                         <FormulateInput label="Tugas 1" placeholder="0" type="number" name="tugas_1" validation="required" />
                     </CCol>

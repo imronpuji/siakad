@@ -28,6 +28,10 @@
         <el-col :span="5" :offset="5">
             <FormulateInput placeholder="Pencarian" v-model="filters[0].value" />
         </el-col>
+        
+        <el-col :span="5" :offset="5">
+            <b-button @click="testpdf">test pdf</b-button>
+        </el-col>
 
     </el-row>
 
@@ -254,6 +258,8 @@ import {
 import XLSX from 'xlsx'
 import axios from '../../api/axios/axios'
 import qs from 'querystring'
+import fileDownload from 'js-file-download'
+
 
 var titles = [{
 
@@ -774,6 +780,25 @@ export default {
             };
 
             reader.readAsArrayBuffer(oFile);
+        }
+    ,
+        testpdf(){
+            axios.get(`/testpdf`, 
+            {
+              responseType: 'blob',
+            }
+            )
+          .then(res => {
+          if(res.status == 201){
+            alert('maaf file tidak tersedia')
+          } else {
+            fileDownload(res.data, 'krs.pdf');
+          }
+ 
+            resolve()
+          
+          })
+          .catch(err => err)
         }
     }
 }
