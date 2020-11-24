@@ -48,7 +48,7 @@ const state = () => ({
         })
       },
       actAdd({commit},val ){
-        const {dosen_id, nama_makul, sks, semester, nama, jurusan, id_makul} = val
+        const {dosen_id, nama_makul, sks, semester, nama_dosen, jurusan, id_makul} = val
 
         const data = {
           dosen_id : dosen_id,
@@ -65,7 +65,7 @@ const state = () => ({
           semester,
           jurusan,
           id_makul,
-          nama
+          nama_dosen
         }
 
         console.log(data)
@@ -86,8 +86,8 @@ const state = () => ({
           }})
           .then(res => {
             const result = res.data.map(val => {
-              if(val.nama == null){
-                val['nama'] = 'dosen removed'
+              if(val.nama_dosen == null){
+                val['nama_dosen'] = 'dosen removed'
                 return val
 
               } else {
@@ -131,7 +131,7 @@ const state = () => ({
       state.data[index]['sks'] = val.sks
       state.data[index]['semester'] = val.semester
       state.data[index]['dosen_id'] = val.dosen_id
-      state.data[index]['nama'] = val.nama
+      state.data[index]['nama_dosen'] = val.nama_dosen
 
       store.dispatch('components/setLoadFalse')
 

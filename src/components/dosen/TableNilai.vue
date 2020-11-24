@@ -104,7 +104,7 @@
                     </CCol>
                 </CRow>
                 
-                <CRow v-else>
+                <CRow v-if="$store.state.dosen_nilai.selectedMakul.jurusan == 'DKV'">
                     <CCol sm="3" class="mt-3">
                         <FormulateInput label="Tugas 1" placeholder="0" type="number" name="tugas_1" validation="required" />
                     </CCol>
@@ -145,6 +145,11 @@
                     </CCol>
                 </CRow>
             </FormulateForm>
+             <div class="overlay" v-if="$store.state.components.loading">
+                <div class="spinner-grow text-primary" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
         </div>
     </sweet-modal>
 
@@ -225,10 +230,13 @@ export default {
         },
         selectedMakul: {
             get() {
+                this.$store.dispatch('components/setLoadFalse')
                 return this.$store.state.dosen_nilai.selectedMakul
             },
             set(value) {
                 this.$store.dispatch('dosen_nilai/actGetDataMhs', value)
+                this.$store.dispatch('components/setLoad')
+
             }
         }
     },

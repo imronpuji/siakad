@@ -2,14 +2,11 @@
 <div class="test">
 
     <el-row style="margin-bottom: 10px">
-
-        <el-col :span="4">
-            <el-dropdown @command="handleClick">
-                <el-button type="primary">Transkip Nilai<i class="el-icon-caret-bottom el-icon--right"></i></el-button>
-                <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item command="transkip">Cetak Transkip Nilai</el-dropdown-item>
-                </el-dropdown-menu>
-            </el-dropdown>
+         <el-col :span="5">
+            <FormulateInput placeholder="Pencarian" v-model="filters[0].value" />
+        </el-col>
+        <el-col :span="5" :offset="1">
+            <el-button @click="cetakTranskip" type="primary">Cetak Transkip Nilai</el-button>
         </el-col>
         <el-col :span="2">
             <!-- <select class="select-css" required v-model="semester">
@@ -303,25 +300,23 @@ export default {
             titles,
 
             filters: [{
-
-                    value: '',
-
-                    prop: 'nama',
-
-                },
-
-                {
-
-                    value: []
-
+                value: '',
+                filterFn: (row, filter) => {
+                    return Object.keys(row).some(prop => {
+                        if (prop === 'date') {
+                            return this.getDate(row.date).indexOf(filter.value) > -1
+                        } else {
+                            return row[prop].toLowerCase().indexOf(filter.value.toLowerCase()) > -1
+                        }
+                    })
                 }
-            ],
+            }],
 
         }
     },
     methods: {
         cetakKhs(value) {
-        const id_mahasiswa = this.$store.state.auth.profile[0]['id_mahasiswa']
+            const id_mahasiswa = this.$store.state.auth.profile[0]['id_mahasiswa']
             axios.get(`/mahasiswa/checkstatus/${id_mahasiswa}`)
                 .then((res) => {
                     if (res.data[0]['status_khs'] == 'buka') {
@@ -335,14 +330,12 @@ export default {
                 .catch((err) => console.log(err))
         },
 
-        handleClick(command) {
+        cetakTranskip(command) {
             const data = this.$store.state.mhs_transkip.data
             const table = document.getElementById('Table')
-            if (command == 'transkip')
-
-            {
+       
                 this.$store.dispatch('mhs_transkip/cetakTranskip')
-            }
+            
 
         },
 

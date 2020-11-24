@@ -36,6 +36,7 @@
     "lodash": "^4.17.20",
     "print-js": "^1.3.0",
     "qs": "^6.9.4",
+    "serve": "^11.3.2",
     "sweet-modal-vue": "^2.0.0",
     "vue": "~2.6.11",
     "vue-data-tables": "^3.4.5",

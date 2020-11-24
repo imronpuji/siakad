@@ -20,11 +20,9 @@ const state = () => ({
           commit('setLoadToFalse')
       },
       setDesktop({commit}){
-          console.log('lklk')
           commit('toggleSidebarDesktop', 'lol')
       },
       setMobile({commit}){
-        console.log('lklk')
 
         commit('toggleSidebarMobile', 'lol')
       },

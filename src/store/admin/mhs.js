@@ -79,11 +79,12 @@ const actions = {
         role : 'mahasiswa'
 
       }
+      const fotos = jenis_kelamin == 'L' ? `https://apisiakad.hilmimubarok.com/assets/img/profile/avatar_male.png` :  `https://apisiakad.hilmimubarok.com/assets/img/profile/avatar_female.png`
       const data = {
 
         nim,
         nama:nama.toUpperCase(),
-        foto : null,
+        foto : fotos,
         email,
         tahun_masuk,
         kelas,

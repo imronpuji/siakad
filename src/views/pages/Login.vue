@@ -1,47 +1,23 @@
 <template>
 <div style="background: #5C9DFF" class="c-app flex-row align-items-center">
     <CContainer>
-        <div style="margin-top:20px">
-            <b-navbar toggleable="lg" type="dark">
-                <b-navbar-brand href="#">
-                    <b-icon class="mr-2" icon="back" aria-hidden="true"></b-icon>Siakad
-                </b-navbar-brand>
-
-                <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-
-                <b-collapse id="nav-collapse" is-nav>
-
-                    <!-- Right aligned nav items -->
-                    <b-navbar-nav class="ml-auto">
-
-                        <!-- Using 'button-content' slot -->
-                        <b-nav-item href="#">
-                            <b-icon class="mr-2" icon="shield-lock" aria-hidden="true"></b-icon>Login
-                        </b-nav-item>
-                         <b-nav-item href="#/pages/forgetpassword"> <b-icon class="mr-2" icon="shield-lock" aria-hidden="true"></b-icon>Lupa Password</b-nav-item>
-                       
-                    </b-navbar-nav>
-                </b-collapse>
-            </b-navbar>
-        </div>
 
         <CRow class="justify-content-center">
-       
+
             <CCol md="4">
-              <div class="overlay" v-if="overlays">
-        <div class="spinner-grow text-primary" role="status">
-          <span class="sr-only">Loading...</span>
-        </div>
-        </div>
+                <div class="overlay" v-if="overlays">
+                    <div class="spinner-grow text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
                 <h1 style="width:100%; text-align:center; color:white;font-size:28px; margin:80px 0"></h1>
-               
 
                 <CCard class="p-4" style="background:#306AFF; border:none; border-radius:12px">
 
                     <CCardBody>
                         <FormulateForm @submit="submit" class="login">
                             <div style="margin-bottom:67px">
- 
+
                                 <span style="font-size:14px" class="text-white">
                                     <b-icon class="mr-2" icon="back" aria-hidden="true"></b-icon>Siakad Filkom
                                 </span>
@@ -55,7 +31,7 @@
                                 </CCol>
                             </CRow>
                             <CRow class="mt-4">
-                                <CCol sm="12">
+                                <CCol sm="12" align="right">
                                     <FormulateInput label="password" v-model="password" type="password" name='password' validation="required" />
                                 </CCol>
                             </CRow>
@@ -68,10 +44,12 @@
                                         </span>
                                     </button>
                                     <button v-else class="btn btn-warning  w-100" type="submit">
-                                        <span>
+                                        <span style="font-weight:bold">
                                             Login
                                         </span>
                                     </button>
+                                    <a style="font-size:14px; color:yellow;margin-top:20px;display:block" href="#/pages/forgetpassword">forget password</a>
+
                                 </CCol>
                             </CRow>
                         </FormulateForm>
@@ -115,8 +93,8 @@ export default {
             isClicked: false,
 
             username: '',
-            
-            overlays : false,
+
+            overlays: false,
 
             password: '',
 
@@ -146,7 +124,6 @@ export default {
 
                 .then((res) => {
 
-                 
                     if (res.data.status == 201) {
                         return false
                     } else {
@@ -168,13 +145,12 @@ export default {
 
                             // }
                         }
-                                                this.overlays = false
+                        this.overlays = false
 
                         console.log(token)
-                        setTimeout(() => {
+
                         this.load = false
-                            this.$router.push('/')
-                        }, 4000)
+                        window.location.reload()
 
                     }
                 })
@@ -196,7 +172,7 @@ export default {
 
 <style lang="scss">
 .formulate-input-error {
-    color: red;
+    color: yellow !important;
     font-size: 12px;
     position: relative;
     list-style-type: none;
@@ -230,10 +206,10 @@ export default {
     top: 0;
     width: 100%;
     left: 0;
-    z-index:999;
+    z-index: 999;
     background-color: rgb(61, 159, 250);
     display: flex;
-    opacity:0.4;
+    opacity: 0.4;
     justify-content: center;
     align-items: center;
 }

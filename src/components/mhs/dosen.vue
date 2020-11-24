@@ -6,8 +6,14 @@
         </el-col>
     </el-row>
     <data-tables :data="data" :pagination-props="{ pageSizes: [8, 10, 15] }" :table-props="tableProps" :action-col="actionCol" :filters="filters">
+        <el-table-column  label="Foto" min-width="100px">
+            <template slot-scope="scope">
+                <img style="width:110px; height:100px" :src="scope.row.foto_dosen"/>
+            </template>
+        </el-table-column>
         <el-table-column v-for="title in titles" sortable="costum" :prop="title.prop" :label="title.label" :key="title.label">
         </el-table-column>
+        
     </data-tables>
 
     <sweet-modal icon="success" ref="success">
@@ -33,25 +39,25 @@ import {
 } from 'vuex'
 // import _ from 'loda'
 var titles = [{
-        prop: "nama",
+        prop: "nama_dosen",
         label: "Nama"
     },
     {
-        prop: "email",
+        prop: "email_dosen",
         label: "Email"
     },
     {
-        prop: 'alamat',
+        prop: 'alamat_dosen',
         label: 'Alamat'
     },
 
     {
-        prop: 'no_hp',
+        prop: 'no_hp_dosen',
         label: 'Nomor HP'
     },
 
     {
-        prop: "prodi",
+        prop: "prodi_dosen",
         label: "Prodi"
     }
 
@@ -94,7 +100,8 @@ export default {
                         type: 'primary',
                     },
                     handler: row => {
-                    const number_wa = row.no_hp.substring(1);
+                   
+                    const number_wa = row.no_hp_dosen.substring(1);
                          window.open( 
               `https://wa.me/62${number_wa}`, "_blank")
                     },

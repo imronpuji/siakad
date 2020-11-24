@@ -327,7 +327,7 @@ import {
 import XLSX from 'xlsx'
 import axios from '../../api/axios/axios'
 import qs from 'querystring'
-import print from 'print-js'
+import fileDownload from 'js-file-download'
 import printJS from 'print-js'
 
 var titles = [
@@ -376,7 +376,7 @@ var titles = [
     },
     {
 
-        prop: "nama",
+        prop: "nama_dosen",
 
         label: "Dosen"
 
@@ -446,7 +446,9 @@ export default {
 
         }
     },
+    
     methods: {
+    
         handleClick(val) {
 
             const id_mahasiswa = this.$store.state.auth.profile[0]['id_mahasiswa']
@@ -467,140 +469,19 @@ export default {
         },
 
         cetakUas() {
+                    this.$store.dispatch('components/setLoad')
 
             const id_mahasiswa = this.$store.state.auth.profile[0]['id_mahasiswa']
 
             axios.get(`/mahasiswa/checkstatus/${id_mahasiswa}`)
                 .then((res) => {
+                        this.$store.dispatch('components/setLoadFalse')
+
                     if (res.data[0]['status_uas'] == 'buka') {
-                        printJS({
-                            printable: 'kartuUas',
-                            type: 'html',
-                            maxWidth: 2000,
-                            style: `
-.containerUas {
-    border : 2px solid;  
-    position:relative;
-    overflow:hidden;
-    height:650px !important;
-
-}
-.setTh {
-    width:500px !important;
-}
-.header {
-    display: flex;
-    padding:8px;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    border-bottom:2px solid;
-    margin-bottom:6px;
-}
-.header img {
-    width:50px;
-    height:50px
-
-}
-.header .title-card-test {
-    position: absolute;
-    width:600px ;
-    left:30%;
-    top:30%;
-    font-size:24px;
-    transform: translate(-50%,-50%);
-
-}
-.header .tahun-ajaran {
-border:2px solid;
-    width:200px;
-    text-align : center;
-    position:relative;
-    right:28px;
-    margin:0;
-    line-height : 30px;
-    font-size:20px;
-}
-.hr-header {
-    border : 1px solid !important;
-    width : 100%;
-    position:relative;
-    top:-3px
-}
-.header-bio th {
-    text-align : left
-}
-.header-bio {
-    display: flex;
-    padding:0 20px;
-    justify-content : space-between
-}
-.table-makul {
-    width:100%;
-    border-collapse: collapse;
-}
-.table-nama {
-
-}
-.titik-dua {
-text-align:right;
-padding-right:8px;
-}
-.makul-table {
-    padding : 20px
-}
-.makul-table th {
-    border : 2px solid;
-    background-color:rgba(100, 100, 100, 0.4)
-}
-.makul-table td {
-    border : 2px solid;
-}
-.makul-table .nomor {
-    text-align:center
-}
-
-.footer {
-    height : 100px;
-    display: flex;
-    padding:0 20px;
-    justify-content: space-between;
-
-}
-.table-kelas {
-    position:relative;
-    right : 35px;
-
-}
-.keterangan {
-    padding-top:10px
-}
-.keterangan h4 {
-    margin:5px 0;
-    font-size:16px
-}
-.ttd {
-    padding-top:0px;
-    padding-right : 50px
-}
-.ttd h4 {
-margin : 0;
-font-size:16px
-
-}
-.ttd .user {
-    margin-top:20px
-}
-.img-banner {
-    position: absolute;
-    opacity: 0.2;
-    width:43%;
-    left:50%;
-    top:50%;
-    transform: translate(-50%,-50%);
-}`
+                        axios.get(`/mahasiswa/cetak/${id_mahasiswa}/uas`,{responseType:'blob'})
+                        .then((result) => {
+                            fileDownload(result.data, 'kartu_uas.pdf')
                         })
-
                     } else {
                         this.$swal('Status Uas Tutup')
                         this.$store.dispatch('auth/setStatus', 'status_uas')
@@ -611,140 +492,19 @@ font-size:16px
         },
 
         cetakUts() {
+                    this.$store.dispatch('components/setLoad')
 
             const id_mahasiswa = this.$store.state.auth.profile[0]['id_mahasiswa']
 
             axios.get(`/mahasiswa/checkstatus/${id_mahasiswa}`)
                 .then((res) => {
+                                    this.$store.dispatch('components/setLoadFalse')
+
                     if (res.data[0]['status_uts'] == 'buka') {
-                        printJS({
-                            printable: 'kartuUts',
-                            type: 'html',
-                            maxWidth: 2000,
-                            style: `
-.containerUas {
-    border : 2px solid;  
-    position:relative;
-    overflow:hidden;
-    height:650px !important;
-
-}
-.setTh {
-    width:500px !important;
-}
-.header {
-    display: flex;
-    padding:8px;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    border-bottom:2px solid;
-    margin-bottom:6px;
-}
-.header img {
-    width:50px;
-    height:50px
-
-}
-.header .title-card-test {
-    position: absolute;
-    width:600px ;
-    left:30%;
-    top:30%;
-    font-size:24px;
-    transform: translate(-50%,-50%);
-
-}
-.header .tahun-ajaran {
-border:2px solid;
-    width:200px;
-    text-align : center;
-    position:relative;
-    right:28px;
-    margin:0;
-    line-height : 30px;
-    font-size:20px;
-}
-.hr-header {
-    border : 1px solid !important;
-    width : 100%;
-    position:relative;
-    top:-3px
-}
-.header-bio th {
-    text-align : left
-}
-.header-bio {
-    display: flex;
-    padding:0 20px;
-    justify-content : space-between
-}
-.table-makul {
-    width:100%;
-    border-collapse: collapse;
-}
-.table-nama {
-
-}
-.titik-dua {
-text-align:right;
-padding-right:8px;
-}
-.makul-table {
-    padding : 20px
-}
-.makul-table th {
-    border : 2px solid;
-    background-color:rgba(100, 100, 100, 0.4)
-}
-.makul-table td {
-    border : 2px solid;
-}
-.makul-table .nomor {
-    text-align:center
-}
-
-.footer {
-    height : 100px;
-    display: flex;
-    padding:0 20px;
-    justify-content: space-between;
-
-}
-.table-kelas {
-    position:relative;
-    right : 35px;
-
-}
-.keterangan {
-    padding-top:10px
-}
-.keterangan h4 {
-    margin:5px 0;
-    font-size:16px
-}
-.ttd {
-    padding-top:0px;
-    padding-right : 50px
-}
-.ttd h4 {
-margin : 0;
-font-size:16px
-
-}
-.ttd .user {
-    margin-top:20px
-}
-.img-banner {
-    position: absolute;
-    opacity: 0.2;
-    width:43%;
-    left:50%;
-    top:50%;
-    transform: translate(-50%,-50%);
-}`
+                        axios.get(`/mahasiswa/cetak/${id_mahasiswa}/uts`,{responseType:'blob'})
+                        .then((result) => {
+                            fileDownload(result.data, 'kartu_uts.pdf')
                         })
-
                     } else {
                         this.$swal('Status Uts Tutup')
                         this.$store.dispatch('auth/setStatus', 'status_uts')

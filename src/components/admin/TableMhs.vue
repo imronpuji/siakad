@@ -3,17 +3,17 @@
 
     <el-row style="margin-bottom: 10px">
 
-        <el-col :span="5">
+        <el-col :span="4">
             <el-dropdown @command="handleClick">
-                <el-button type="primary">Actions<i class="el-icon-caret-bottom el-icon--right"></i></el-button>
+                <el-button type="primary">Tambah Mahasiswa<i class="el-icon-caret-bottom el-icon--right"></i></el-button>
                 <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item command="new">new</el-dropdown-item>
+                    <el-dropdown-item command="new">Manual</el-dropdown-item>
                     <el-dropdown-item command="import">import</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
         </el-col>
         
-        <el-col :span="4">
+        <el-col :span="4" :offset="2">
             <el-dropdown @command="handleCloseAll">
                 <el-button type="primary">Tutup Semua<i class="el-icon-caret-bottom el-icon--right"></i></el-button>
                 <el-dropdown-menu slot="dropdown">
@@ -25,18 +25,19 @@
             </el-dropdown>
         </el-col>
 
-        <el-col :span="5" :offset="5">
+        <el-col :span="5" :offset="6">
             <FormulateInput placeholder="Pencarian" v-model="filters[0].value" />
-        </el-col>
-        
-        <el-col :span="5" :offset="5">
-            <b-button @click="testpdf">test pdf</b-button>
         </el-col>
 
     </el-row>
 
     <data-tables :data="data" :table-props="tableProps" :pagination-props="{ pageSizes: [6, 10, 15] }" :action-col="actionCol" :filters="filters">
         <el-table-column v-for="title in titles" sortable="costum" :prop="title.prop" :label="title.label" :key="title.label">
+        </el-table-column>
+        <el-table-column  label="Foto" min-width="100px">
+            <template slot-scope="scope">
+                <img style="width:100px; height:100px" :src="scope.row.foto"/>
+            </template>
         </el-table-column>
     </data-tables>
 
@@ -74,7 +75,7 @@
                      <CCol sm="6">
                         <FormulateInput v-model="editByKelas" :options="{A: 'A', B: 'B'}" type="select" placeholder="Pilih Kelas" label="Kelas" />
                     </CCol>
-                        <CCol sm="6">
+                        <CCol sm="6" class="mt-4">
                             <b-button type="submit" class="w-100">Edit</b-button>
                         </CCol>
                     </CRow>
@@ -197,7 +198,7 @@
                         <FormulateInput label="Semester" placeholder="Semester" type="text" name="semester" validation="required" />
                     </CCol>
                 </CRow>
-                <CRow>
+                <CRow class="mt-3">
                     <CCol sm="6">
                         <FormulateInput v-model="jenis_kelamin" :options="{P: 'Perempuan', L: 'Laki-Laki'}" type="select" placeholder="Jenis Kelamin" label="Jenis Kelamin" />
                     </CCol>
@@ -257,8 +258,9 @@ import {
 } from 'vuex'
 import XLSX from 'xlsx'
 import axios from '../../api/axios/axios'
+import axioss from 'axios'
 import qs from 'querystring'
-import fileDownload from 'js-file-download'
+import downloadFile from 'js-file-download'
 
 
 var titles = [{
@@ -461,19 +463,17 @@ export default {
             titles,
 
             filters: [{
-
-                    value: '',
-
-                    prop: 'nama',
-
-                },
-
-                {
-
-                    value: []
-
+                value: '',
+                filterFn: (row, filter) => {
+                    return Object.keys(row).some(prop => {
+                        if (prop === 'date') {
+                            return this.getDate(row.date).indexOf(filter.value) > -1
+                        } else {
+                            return row[prop].toLowerCase().indexOf(filter.value.toLowerCase()) > -1
+                        }
+                    })
                 }
-            ],
+            }],
 
             actionCol: {
 
@@ -693,23 +693,42 @@ export default {
                     }))
 
                     XL_row_object.map(val => {
+                        
+                        if(val.jenis_kelamin == 'L'){
+                                userData.push({
+                                    nim: val.nim,
+                                    nama: val.nama.toUpperCase(),
+                                    foto: 'https://apisiakad.hilmimubarok.com/assets/img/profile/avatar_male.png',
+                                    kelas : val.kelas,
+                                    email: val.email,
+                                    tahun_masuk: val.tahun_masuk,
+                                    jurusan: val.prodi,
+                                    semester: val.semester,
+                                    jenis_kelamin: val.jenis_kelamin,
+                                    status_khs: 'tutup',
+                                    status_krs: 'tutup',
+                                    status_uas: 'tutup',
+                                    status_uts: 'tutup',
+                                })
 
-                        userData.push({
-                            nim: val.nim,
-                            nama: val.nama.toUpperCase(),
-                            foto: 'index.jpg',
-                            kelas : val.kelas,
-                            email: val.email,
-                            tahun_masuk: val.tahun_masuk,
-                            jurusan: val.prodi,
-                            semester: val.semester,
-                            jenis_kelamin: val.jenis_kelamin,
-                            status_khs: 'tutup',
-                            status_krs: 'tutup',
-                            status_uas: 'tutup',
-                            status_uts: 'tutup',
-                        })
-
+                        } else {
+                            userData.push({
+                                    nim: val.nim,
+                                    nama: val.nama.toUpperCase(),
+                                    foto: 'https://apisiakad.hilmimubarok.com/assets/img/profile/avatar_female.png',
+                                    kelas : val.kelas,
+                                    email: val.email,
+                                    tahun_masuk: val.tahun_masuk,
+                                    jurusan: val.prodi,
+                                    semester: val.semester,
+                                    jenis_kelamin: val.jenis_kelamin,
+                                    status_khs: 'tutup',
+                                    status_krs: 'tutup',
+                                    status_uas: 'tutup',
+                                    status_uts: 'tutup',
+                            })
+                        }
+                    
                     })
 
                 })
@@ -728,7 +747,7 @@ export default {
 
                                 nama: userData[i]['nama'],
 
-                                foto: 'index.jpg',
+                                foto: userData[i]['foto'],
 
                                 email: userData[i]['email'],
                                 kelas : userData[i]['kelas'],
@@ -783,20 +802,14 @@ export default {
         }
     ,
         testpdf(){
-            axios.get(`/testpdf`, 
-            {
-              responseType: 'blob',
+            axioss.get('http://localhost:8080', {
+                responseType : 'blob'
             }
             )
           .then(res => {
-          if(res.status == 201){
-            alert('maaf file tidak tersedia')
-          } else {
-            fileDownload(res.data, 'krs.pdf');
-          }
  
-            resolve()
-          
+            console.log(res)
+            downloadFile(res.data, 'filename.pdf');
           })
           .catch(err => err)
         }

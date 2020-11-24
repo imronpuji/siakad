@@ -3,9 +3,9 @@
     <el-row style="margin-bottom: 10px">
         <el-col :span="5">
             <el-dropdown @command="handleClick">
-                <el-button type="primary">Actions<i class="el-icon-caret-bottom el-icon--right"></i></el-button>
+                <el-button type="primary">Tambah Dosen<i class="el-icon-caret-bottom el-icon--right"></i></el-button>
                 <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item command="new">new</el-dropdown-item>
+                    <el-dropdown-item command="new">Baru</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
         </el-col>
@@ -16,6 +16,11 @@
 
     <data-tables :data="data" :table-prop="tableProps" :pagination-props="{ pageSizes: [8, 10, 15] }" :action-col="actionCol" :filters="filters">
         <el-table-column v-for="title in titles" sortable="custom" :prop="title.prop" :label="title.label" :key="title.label">
+        </el-table-column>
+         <el-table-column  label="Foto" min-width="100px">
+            <template slot-scope="scope">
+                <img style="width:100px; height:100px" :src="scope.row.foto_dosen"/>
+            </template>
         </el-table-column>
     </data-tables>
 
@@ -60,7 +65,7 @@
                         <FormulateInput label="Nama" placeholder="Nama" type="text" name="nama" validation="required" />
                     </CCol>
                     <CCol sm="6" class="mt-3">
-                        <FormulateInput label="Prodi" placeholder="Prodi" name="prodi" type="text"  />
+                        <FormulateInput v-model="prodi_dosen" :options="{informatika: 'Teknik Informatika', DKV: 'Design Komunikasi Visual'}" type="select" placeholder="Prodi" label="Prodi" />
                     </CCol>
                 </CRow>
                 <CRow>
@@ -76,7 +81,7 @@
                         <FormulateInput v-model="jenis_kelamin" :options="{P: 'Perempuan', L: 'Laki-Laki'}" type="select" placeholder="Jenis Kelamin" label="Jenis Kelamin" />
                     </CCol>
                     <CCol sm="6" class="mt-3">
-                        <FormulateInput label="Status" placeholder="Status" type="text" name="status" validation="required" />
+                        <FormulateInput  v-model="status_dosen" :options="{Tetap: 'Tetap', Tidak_Tetap: 'Tidak Tetap'}" label="Status" placeholder="Status" type="select" validation="required" />
                     </CCol>
                 </CRow>
                 <CRow>
@@ -121,31 +126,31 @@ var titles = [{
         label: "NIY"
     },
     {
-        prop: "nama",
+        prop:"nama_dosen",
         label: "Nama"
     },
     {
-        prop: "email",
+        prop: "email_dosen",
         label: "Email"
     },
     {
-        prop : 'alamat',
+        prop : 'alamat_dosen',
         label : 'Alamat'
     },
     {
-        prop : 'status',
+        prop : 'status_dosen',
         label : 'Status'
     },
     {
-        prop : 'no_hp',
+        prop : 'no_hp_dosen',
         label : 'Nomor HP'
     },
     {
-        prop : 'jenis_kelamin',
+        prop : 'jenis_kelamin_dosen',
         label : 'Jenis Kelamin'
     },
     {
-        prop: "prodi",
+        prop: "prodi_dosen",
         label: "Prodi"
     }
 ]
@@ -194,6 +199,8 @@ export default {
             editByKontak: '',
             deleteById: '',
             deleteByDosen: '',
+            status_dosen:'',
+            prodi_dosen : '',
             titles,
             actionCol: {
                 label: 'Actions',
@@ -260,7 +267,9 @@ export default {
         buat() {
             const data = {
                 ...this.formValues,
-                jenis_kelamin : this.jenis_kelamin
+                jenis_kelamin_dosen : this.jenis_kelamin,
+                status_dosen : this.status_dosen,
+                prodi_dosen : this.prodi_dosen
             }
             this.$store.dispatch('admin_dosen/actAdd', data).then(() => {
                 this.$refs.success.open()
@@ -273,71 +282,3 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.mhs_email {
-    width: 100%
-}
-
-#addMhs {
-    background: rgb(63, 178, 255) !important;
-    border: none;
-    color: white;
-    border-radius: 4px;
-    height: 40px;
-    width: 80px;
-}
-
-.test {
-    box-shadow: 0px 1px 4px rgb(214, 214, 214);
-    padding: 30px;
-    position: relative;
-
-    .error {
-        color: red;
-        font-size: 12px;
-        position: relative;
-    }
-
-    .formulate-input-error {
-        color: red;
-        font-size: 10px;
-        position: relative;
-        list-style-type: none;
-    }
-
-    .formulate-input-errors {
-        display: flex;
-        margin: 8px;
-        padding: 0
-    }
-
-    input {
-        border: none;
-        border-radius: 6px;
-        background: rgb(236, 236, 236);
-        width: 100%;
-        padding: 8px;
-        color: rgb(114, 114, 114)
-    }
-
-    .overlay {
-        background: rgba(255, 255, 255, 0.582);
-        position: absolute;
-        height: 100%;
-        top: 0;
-        width: 100%;
-        left: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .spinner-border {
-        color: #92c5ff;
-        height: 80px;
-        width: 80px;
-        z-index: 99;
-    }
-
-}
-</style>

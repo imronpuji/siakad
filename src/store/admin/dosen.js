@@ -90,7 +90,7 @@ const state = () => ({
         }, 2000)})
       },
  
-      actAdd({commit}, {niy, email, nama, prodi, jenis_kelamin, no_hp, alamat, status}){
+      actAdd({commit}, {niy, email, nama, prodi_dosen, jenis_kelamin_dosen, no_hp, alamat, status_dosen}){
         const user = {
 
         username : niy,
@@ -101,16 +101,17 @@ const state = () => ({
       const data = {
 
         niy,
-        nama,
-        foto : null,
-        email,
-        prodi,
-        jenis_kelamin,
-        no_hp,
-        alamat,
-        status
+        nama_dosen : nama,
+        foto_dosen : 'https://apisiakad.hilmimubarok.com/assets/img/profile/avatar_male.png',
+        email_dosen : email,
+        prodi_dosen,
+        jenis_kelamin_dosen,
+        no_hp_dosen : no_hp,
+        alamat_dosen : alamat,
+        status_dosen
         
       }
+      console.log(data)
       return new Promise((resolve) => {
         
          axios.post('/admin/users', qs.stringify(user), {

@@ -4,7 +4,7 @@
         <el-col :span="5">
             <el-col :span="5">
                 <el-dropdown @command="handleClick">
-                    <el-button type="primary">Actions<i class="el-icon-caret-bottom el-icon--right"></i></el-button>
+                    <el-button type="primary">Tambah Makul<i class="el-icon-caret-bottom el-icon--right"></i></el-button>
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item command="new">new</el-dropdown-item>
                     </el-dropdown-menu>
@@ -42,7 +42,7 @@
 
                         <select class="select-css" required v-model="editedDosen">
                             <!-- <option disabled selected :value="{nama:editedDosenNama, id_dosen:editedDosenId}">{{editedDosenNama}}</option> -->
-                            <option v-for="data in $store.state.admin_dosen.data" :key="data.id" :value="{nama:data.nama, dosen_id:data.id_dosen}">{{data.nama}}</option>
+                            <option v-for="data in $store.state.admin_dosen.data" :key="data.id" :value="{nama_dosen:data.nama_dosen, dosen_id:data.id_dosen}">{{data.nama_dosen}}</option>
                         </select>
                     </CCol>
                 </CRow>
@@ -82,8 +82,8 @@
                         <label class="m-0; w-100" style="text-align:left; margin:0; font-size:14px; font-weight:500">Pilih Dosen</label>
                         <select name="dosen" class="select-css" required v-model="selectedDosen">
                             <option value="" selected disabled>Pilih Dosen</option>
-                            <option v-for="data in $store.state.admin_dosen.data" :key="data.id_dosen" :value="{id:data.id_dosen, nama:data.nama}">
-                                <h1>{{data.nama}}</h1>
+                            <option v-for="data in $store.state.admin_dosen.data" :key="data.id_dosen" :value="{id:data.id_dosen, nama_dosen:data.nama_dosen}">
+                                <h1>{{data.nama_dosen}}</h1>
                             </option>
                         </select>
 
@@ -149,7 +149,7 @@ var titles = [{
         label: "Semester"
     },
     {
-        prop: "nama",
+        prop: "nama_dosen",
         label: "Dosen"
     },
     {
@@ -245,7 +245,7 @@ export default {
                         this.editedDosenNama = row.nama
                         this.editedDosen = {
                             dosen_id: row.dosen_id,
-                            nama: row.nama
+                            nama_dosen: row.nama_dosen
                         }
 
                     },
@@ -303,7 +303,7 @@ export default {
                 semester: this.editBySmt,
                 sks: this.editBySks,
                 dosen_id: this.editedDosen.dosen_id,
-                nama: this.editedDosen.nama
+                nama_dosen: this.editedDosen.nama_dosen
             }
             console.log(data)
             this.$refs.modal.close()
@@ -327,7 +327,7 @@ export default {
             const data = {
                 ...this.formValues,
                 jurusan: this.jurusan,
-                nama: this.selectedDosen.nama,
+                nama_dosen: this.selectedDosen.nama_dosen,
                 dosen_id: this.selectedDosen.id
             }
             console.log(data)
