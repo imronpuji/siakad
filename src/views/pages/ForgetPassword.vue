@@ -101,7 +101,7 @@ export default {
             const form = new FormData()
             form.append('email', this.email)
 
-            axios.post(`/forgotpassword/mahasiswa`, form)
+            axios.post(`/forgotpassword`, form)
 
                 .then((res) => {
 

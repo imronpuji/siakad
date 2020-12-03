@@ -12,7 +12,7 @@
 
                 </div>
                 <div class="img-greeting">
-                    <img style="height:240px" src="./greeting.svg" alt="">
+                    <img style="height:15vw" src="./greeting.svg" alt="">
                 </div>
 
             </div>

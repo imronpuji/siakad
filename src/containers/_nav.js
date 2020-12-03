@@ -10,7 +10,7 @@ export default [
       name: 'Dashboard',
       to: '/dashboard',
       icon: 'cil-speedometer',
-      badge: {
+      badge: { 
         color: 'primary',
         text: 'NEW'
       }
@@ -19,7 +19,7 @@ export default [
       _name: 'CSidebarNavItem',
       name: 'Mahasiswa',
       to: '/admin/mahasiswa',
-      icon: 'cil-pencil',        
+      icon: 'cilPeople',        
     },
     {
       _name: 'CSidebarNavItem',
@@ -31,7 +31,7 @@ export default [
       _name: 'CSidebarNavItem',
       name: 'Mata Kuliah',
       to: '/admin/mata-kuliah',
-      icon: 'cil-drop',        
+      icon: 'cil-book',        
     },
     {
       _name: 'CSidebarNavItem',
@@ -43,7 +43,7 @@ export default [
       _name: 'CSidebarNavItem',
       name: 'Data Nilai',
       to: '/admin/Nilai',
-      icon: 'cil-star',        
+      icon: 'cilEnvelopeLetter',        
     },
     
   ],

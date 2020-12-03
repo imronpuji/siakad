@@ -22,13 +22,13 @@ export default [
       _name: 'CSidebarNavItem',
       name: 'Materi',
       to: '/mahasiswa/materi',
-      icon: 'cil-chart-pie',        
+      icon: 'cilBook',        
     },
     {
       _name: 'CSidebarNavItem',
       name: 'Nilai',
       to: '/mahasiswa/nilai',
-      icon: 'cil-star',        
+      icon: 'cilEnvelopeLetter',        
     },
     {
       _name: 'CSidebarNavItem',

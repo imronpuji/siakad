@@ -19,7 +19,7 @@ export default [
                 _name: 'CSidebarNavItem',
                 name: 'Nilai',
                 to: '/dosen/mahasiswa',
-                icon: 'cil-cursor',
+                icon: 'cilEnvelopeLetter',
                 // items: [
                 //   {
                 //     name: 'Tugas',

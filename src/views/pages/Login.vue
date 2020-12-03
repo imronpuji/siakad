@@ -48,7 +48,7 @@
                                             Login
                                         </span>
                                     </button>
-                                    <a style="font-size:14px; color:yellow;margin-top:20px;display:block" href="#/pages/forgetpassword">forget password</a>
+                                    <a style="font-size:14px; color:yellow;margin-top:20px;display:block" href="#/pages/forgetpassword">forgot password ?</a>
 
                                 </CCol>
                             </CRow>

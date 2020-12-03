@@ -33,6 +33,7 @@ import {
 } from '@coreui/icons'
 import {
   cilArrowRight,
+  cilBook,
   cilBan,
   cilBasket,
   cilBell,
@@ -76,7 +77,8 @@ import {
   cilUser,
   cilUserFemale,
   cilUserFollow,
-  cilXCircle
+  cilXCircle,
+  cilEnvelopeLetter
 
 } from '@coreui/icons'
 import { logo } from './logo'
@@ -86,6 +88,7 @@ export const iconsSet = Object.assign(
   { logo },
   {
     cilArrowRight,
+    cilBook,
     cilBan,
     cilBasket,
     cilBell,
@@ -129,7 +132,9 @@ export const iconsSet = Object.assign(
     cilUser,
     cilUserFemale,
     cilUserFollow,
-    cilXCircle
+    cilXCircle,
+    cilEnvelopeLetter
+
   },
   {
     cifUs,
