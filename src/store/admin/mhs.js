@@ -79,7 +79,7 @@ const actions = {
         role : 'mahasiswa'
 
       }
-      const fotos = jenis_kelamin == 'L' ? `https://apisiakad.hilmimubarok.com/assets/img/profile/avatar_male.png` :  `https://apisiakad.hilmimubarok.com/assets/img/profile/avatar_female.png`
+      const fotos = jenis_kelamin == 'L' ? `https://api.siakad-filkomuniss.com/assets/img/profile/avatar_male.png` :  `https://api.siakad-filkomuniss.com/assets/img/profile/avatar_female.png`
       const data = {
 
         nim,

@@ -98,11 +98,13 @@ const state = () => ({
         role : 'dosen'
 
       }
+      const fotos = jenis_kelamin_dosen == 'L' ? `https://api.siakad-filkomuniss.com/assets/img/profile/avatar_male.png` :  `https://api.siakad-filkomuniss.com/assets/img/profile/avatar_female.png`
+
       const data = {
 
         niy,
         nama_dosen : nama,
-        foto_dosen : 'https://apisiakad.hilmimubarok.com/assets/img/profile/avatar_male.png',
+        foto_dosen : fotos,
         email_dosen : email,
         prodi_dosen,
         jenis_kelamin_dosen,

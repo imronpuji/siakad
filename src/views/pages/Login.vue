@@ -1,8 +1,7 @@
 <template>
-<div style="background: #5C9DFF" class="c-app flex-row align-items-center">
-    <CContainer>
+<div style="" class="c-app flex-row align-items-center">
 
-        <CRow class="justify-content-center">
+        <CRow class="justify-content-between d-flex  w-100 m-0">
 
             <CCol md="4">
                 <div class="overlay" v-if="overlays">
@@ -66,6 +65,26 @@
               </CCardBody>
             </CCard> -->
             </CCol>
+            <CCol md="4 bg-dark">
+                <div class="overlay" v-if="overlays">
+                    <div class="spinner-grow text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <h1 style="width:100%; text-align:center; color:white;font-size:28px; margin:80px 0"></h1>
+
+           
+
+                <!-- <CCard
+              color="primary"
+              text-color="white"
+              class="text-center py-5 d-md-down-none"
+              body-wrapper>
+              <CCardBody>
+                <img src="https://42f2671d685f51e10fc6-b9fcecea3e50b3b59bdc28dead054ebc.ssl.cf5.rackcdn.com/illustrations/Reading_book_re_kqpk.svg" alt="">
+              </CCardBody>
+            </CCard> -->
+            </CCol>
         </CRow>
 
         <!-- 
@@ -75,7 +94,6 @@
         </div>  
  -->
 
-    </CContainer>
 </div>
 </template>
 
