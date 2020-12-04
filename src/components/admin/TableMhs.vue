@@ -25,7 +25,7 @@
             </el-dropdown>
         </el-col>
 
-        <el-col :span="5" :offset="6">
+        <el-col :span="5" :offset="8">
             <FormulateInput placeholder="Pencarian" v-model="filters[0].value" />
         </el-col>
 

@@ -30,7 +30,7 @@
                                 Loading..
                             </div>
                         </div>
-                                <img :src="$store.state.auth.profile[0].foto" alt="Admin" class="rounded-circle" style="width:150px; height:150px">
+                                <img :src="$store.state.auth.profile[0].foto" alt="Mahasiswa" class="rounded-circle" style="width:150px; height:150px">
                                 <div class="mt-3">
                                     <h4>{{this.$store.state.auth.profile[0].nama}}</h4>
                                     <p class="text-secondary mb-1">{{this.$store.state.auth.user[0].data.role == 'admin' ? 'admin' : this.$store.state.auth.user[0].data.role }}</p>

@@ -73,12 +73,11 @@ new Vue({
           axios.get(`/refresh?token=${tokens}`)
           .then((res) => {
           const profileCv = JSON.parse(profile)
-          console.log(res)
           profileCv[0]['status_uas'] = res.data.status_uas
           profileCv[0]['status_uts'] = res.data.status_uts
           profileCv[0]['status_krs'] = res.data.status_krs
           profileCv[0]['status_khs'] = res.data.status_khs
-          localStorage.setItem('profile', profileCv)
+          localStorage.setItem('profile', JSON.stringify(profileCv))
             store.dispatch('auth/setProfile', profileCv)
           })
           .catch(err => err)
