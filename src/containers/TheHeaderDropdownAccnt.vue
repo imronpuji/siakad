@@ -41,7 +41,7 @@ export default {
             localStorage.removeItem('profile')
             this.$router.push('/pages')
             this.$store.dispatch('auth/deleteToken')
-            // window.location.reload()
+            window.location.reload()
         }
     }
 }

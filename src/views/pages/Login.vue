@@ -48,7 +48,7 @@
                             </CCol>
                         </CRow>
                         <CRow class="mt-4">
-                            <CCol sm="12" align="right">
+                            <CCol sm="12">
                                 <FormulateInput label="password" v-model="password" type="password" name='password' validation="required" />
                             </CCol>
                         </CRow>
@@ -185,7 +185,7 @@ export default {
                         console.log(token)
 
                         this.load = false
-                        // window.location.reload()
+                        window.location.reload()
 
                     }
                 })
