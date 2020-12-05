@@ -2,11 +2,8 @@
 <div class="test">
     <el-row style="margin-bottom: 10px">
         <el-col :span="3">
-                <el-dropdown @command="handleClick">
-                    <el-button type="primary">Actions<i class="el-icon-caret-bottom el-icon--right"></i></el-button>
-                    <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item command="new">new</el-dropdown-item>
-                    </el-dropdown-menu>
+                <el-dropdown >
+                    <el-button type="primary" @click="handleClick('new')">Tambah Nilai</el-button>
                 </el-dropdown>
         </el-col>
         <el-col :span="5" :offset="15">

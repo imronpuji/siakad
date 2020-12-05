@@ -60,7 +60,11 @@ const state = () => ({
       
     },
     setProfilImg(state, val){
-      state.profile[0].foto = val
+      if(state.profile[0].foto){
+        state.profile[0].foto = val
+      } else {
+        state.profile[0].foto_dosen = val
+      }
     },
 
     delete(state){

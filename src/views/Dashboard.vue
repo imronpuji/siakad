@@ -824,10 +824,11 @@ input.onchange = e => {
    form.append('file', file)
    const profile = localStorage.getItem('profile')
    const newProfile = JSON.parse(profile)
-   axios.post(`/changephoto/${id}`, form, {
+   
+   axios.post(`${this.$store.state.auth.user[0].data.role}/changephoto/${id}`, form, {
     headers : {'Authorization': `Bearer ${token}`
     }})
-   .then(res =>{
+   .then(res =>{                                                                          
     this.$store.dispatch('auth/setImgProfile', res.data.messages.link)
     newProfile[0].foto =  res.data.messages.link
     localStorage.setItem('profile', JSON.stringify(newProfile))
