@@ -56,7 +56,7 @@ new Vue({
     App,
   },
 
-  created(){
+  mounted(){
     const error = () => this.$swal("connecting...")
 
     const tokens = localStorage.getItem('token')
@@ -72,13 +72,9 @@ new Vue({
         if(store.state.auth.profile[0]['id_mahasiswa'] != undefined){
           axios.get(`/refresh?token=${tokens}`)
           .then((res) => {
-          const profileCv = JSON.parse(profile)
-          profileCv[0]['status_uas'] = res.data.status_uas
-          profileCv[0]['status_uts'] = res.data.status_uts
-          profileCv[0]['status_krs'] = res.data.status_krs
-          profileCv[0]['status_khs'] = res.data.status_khs
-          localStorage.setItem('profile', JSON.stringify(profileCv))
-            store.dispatch('auth/setProfile', profileCv)
+         
+          localStorage.setItem('profile', JSON.stringify(res.data))
+            store.dispatch('auth/setProfile', res.data)
           })
           .catch(err => err)
         }
