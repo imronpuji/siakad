@@ -72,9 +72,16 @@ new Vue({
         if(store.state.auth.profile[0]['id_mahasiswa'] != undefined){
           axios.get(`/refresh?token=${tokens}`)
           .then((res) => {
-         
-          localStorage.setItem('profile', JSON.stringify(res.data))
-            store.dispatch('auth/setProfile', res.data)
+          const profileCv = JSON.parse(profile)
+          console.log(res)
+          
+          profileCv[0]['status_uas'] = res.data[0].status_uas
+          profileCv[0]['status_uts'] = res.data[0].status_uts
+          profileCv[0]['status_krs'] = res.data[0].status_krs
+          profileCv[0]['status_khs'] = res.data[0].status_khs
+          console.log('profile',profileCv)
+          localStorage.setItem('profile', JSON.stringify(profileCv))
+            store.dispatch('auth/setProfile', profileCv)
           })
           .catch(err => err)
         }
