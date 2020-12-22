@@ -54,9 +54,9 @@ const state = () => ({
         const data = {
           makul_id : id_makul,
           mulai,
-          kelas,
           selesai,
           hari,
+          kelas,
         }
 
         console.log(data)

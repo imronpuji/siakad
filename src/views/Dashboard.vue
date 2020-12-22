@@ -21,26 +21,23 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex flex-column align-items-center text-center">
-                            <div class="overlay" v-if="loadImg">
-                            <div class="spinner-grow text-primary" role="status">
-                                <span class="sr-only">Loading...</span>
-                            </div>
+                                <div class="overlay" v-if="loadImg">
+                                    <div class="spinner-grow text-primary" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
 
-                            <div>
-                                Loading..
-                            </div>
-                        </div>
+                                    <div>
+                                        Loading..
+                                    </div>
+                                </div>
                                 <img :src="$store.state.auth.profile[0].foto" alt="Mahasiswa" class="rounded-circle" style="width:150px; height:150px">
                                 <div class="mt-3">
                                     <h4>{{this.$store.state.auth.profile[0].nama}}</h4>
                                     <p class="text-secondary mb-1">{{this.$store.state.auth.user[0].data.role == 'admin' ? 'admin' : this.$store.state.auth.user[0].data.role }}</p>
                                 </div>
                                 <div class="changeProfil">
-                                    
-                                      <b-button style="color:white" type="button"
-                                      class="bg-dark"
-                                             @click="upload" 
-                                             >ubah profil</b-button>
+
+                                    <b-button style="color:white" type="button" class="bg-dark" @click="upload">ubah profil</b-button>
                                 </div>
                             </div>
                         </div>
@@ -50,7 +47,7 @@
 
                             <CRow>
                                 <CCol sm="12" class="mt-3">
-                                    <FormulateInput label="username" placeholder="Username" type="text" name="username" validation="required" />
+                                    <FormulateInput label="username" :value="$store.state.auth.user[0].data.username" type="text" name="username" validation="required" disabled />
                                 </CCol>
                                 <CCol sm="12" class="mt-3">
                                     <FormulateInput label="password" placeholder="Password" type="password" name="password" validation="required" />
@@ -146,27 +143,23 @@
                                 <h2>{{data.nama_makul}}</h2>
                             </div> -->
                             <div class="d-flex flex-column align-items-center text-center">
-                             <div class="overlay" v-if="loadImg">
-                            <div class="spinner-grow text-primary" role="status">
-                                <span class="sr-only">Loading...</span>
-                            </div>
+                                <div class="overlay" v-if="loadImg">
+                                    <div class="spinner-grow text-primary" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
 
-                            <div>
-                                Loading..
-                            </div>
-                        </div>
+                                    <div>
+                                        Loading..
+                                    </div>
+                                </div>
                                 <img :src="$store.state.auth.profile[0].foto_dosen" alt="Admin" class="rounded-circle" style="width:150px;height:150px">
                                 <div class="mt-3">
                                     <h4>{{this.$store.state.auth.profile[0].nama_dosen}}</h4>
                                     <p class="text-secondary mb-1">{{this.$store.state.auth.user[0].data.role == 'admin' ? 'admin' : this.$store.state.auth.user[0].data.role }}</p>
                                 </div>
                                 <div class="changeProfil">
-                                    
-                                      <b-button style="color:white" type="button"
-                                      class="bg-dark"
-                                      
-                                             @click="upload" 
-                                             >ubah profil</b-button>
+
+                                    <b-button style="color:white" type="button" class="bg-dark" @click="upload">ubah profil</b-button>
                                 </div>
                             </div>
                         </div>
@@ -176,7 +169,7 @@
 
                             <CRow>
                                 <CCol sm="12" class="mt-3">
-                                    <FormulateInput label="username" placeholder="Username" type="text" name="username" validation="required" />
+                                    <FormulateInput label="username" :value="$store.state.auth.user[0].data.username" type="text" name="username" validation="required" disabled />
                                 </CCol>
                                 <CCol sm="12" class="mt-3">
                                     <FormulateInput label="password" placeholder="Password" type="password" name="password" validation="required" />
@@ -236,23 +229,22 @@
                     <div class="card mb-3">
                         <div class="card-body">
                             <div class="row">
-                               <h4>Mata Kuliah</h4>
+                                <h4>Mata Kuliah</h4>
                             </div>
                             <hr>
                             <div v-if="this.$store.state.auth.profile[1]['makul'].length > 0">
-                            <div v-for="data in this.$store.state.auth.profile[1]['makul']" :key="data.dosen_id">
-                                <p>{{data.nama_makul}}</p>
-                                <p>{{data.jurusan}}</p>
-                                <hr>
-                            </div>
+                                <div v-for="data in this.$store.state.auth.profile[1]['makul']" :key="data.dosen_id">
+                                    <p>{{data.nama_makul}}</p>
+                                    <p>{{data.jurusan}}</p>
+                                    <hr>
+                                </div>
                             </div>
                             <p v-else>Mata Kuliah Masih Kosong</p>
-                            
+
                         </div>
                     </div>
 
                 </div>
-                
 
             </div>
 
@@ -274,7 +266,7 @@
 
                             <CRow>
                                 <CCol sm="12" class="mt-3">
-                                    <FormulateInput label="username" placeholder="Username" type="text" name="username" validation="required" />
+                                    <FormulateInput label="username" :value="$store.state.auth.user[0].data.username" type="text" name="username" validation="required" disabled />
                                 </CCol>
                                 <CCol sm="12" class="mt-3">
                                     <FormulateInput label="password" placeholder="Password" type="password" name="password" validation="required" />
@@ -805,44 +797,51 @@ export default {
         }
     },
     methods: {
-    upload(){
-    var input = document.createElement('input');
-input.type = 'file';
+        upload() {
+            var input = document.createElement('input');
+            input.type = 'file';
 
-input.onchange = e => { 
-    this.loadImg= true
+            input.onchange = e => {
+                this.loadImg = true
 
-   var file = e.target.files[0];
-   var id = ''
-   if(this.$store.state.auth.user[0].data.role == 'mahasiswa'){
-       id = this.$store.state.auth.profile[0].id_mahasiswa
-   } else {
-            id = this.$store.state.auth.profile[0].id_dosen
+                var file = e.target.files[0];
+                var id = ''
+                if (this.$store.state.auth.user[0].data.role == 'mahasiswa') {
+                    id = this.$store.state.auth.profile[0].id_mahasiswa
+                } else {
+                    id = this.$store.state.auth.profile[0].id_dosen
 
-   }
-   const form = new FormData()
-   form.append('file', file)
-   const profile = localStorage.getItem('profile')
-   const newProfile = JSON.parse(profile)
-   
-   axios.post(`${this.$store.state.auth.user[0].data.role}/changephoto/${id}`, form, {
-    headers : {'Authorization': `Bearer ${token}`
-    }})
-   .then(res =>{  
-   console.log(res)
-    this.$store.dispatch('auth/setImgProfile', res.data.messages.link)
-    newProfile[0].foto =  res.data.messages.link
-    localStorage.setItem('profile', JSON.stringify(newProfile))
-        this.loadImg= false
+                }
+                const form = new FormData()
+                form.append('file', file)
+                const profile = localStorage.getItem('profile')
+                const newProfile = JSON.parse(profile)
 
-   })
-   .catch(err =>  this.loadImg= false)
-   console.log(file)
-}
+                axios.post(`${this.$store.state.auth.user[0].data.role}/changephoto/${id}`, form, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    })
+                    .then(res => {
+                        console.log(res)
+                        this.$store.dispatch('auth/setImgProfile', res.data.messages.link)
+                        if (this.$store.state.auth.user[0].data.role == 'mahasiswa') {
+                            newProfile[0].foto = res.data.messages.link
+                            localStorage.setItem('profile', JSON.stringify(newProfile))
+                        } else {
+                            newProfile[0].foto_dosen = res.data.messages.link
+                            localStorage.setItem('profile', JSON.stringify(newProfile))
 
-input.click();
-    }
-,
+                        }
+                        this.loadImg = false
+
+                    })
+                    .catch(err => this.loadImg = false)
+                console.log(file)
+            }
+
+            input.click();
+        },
         buat() {
             this.load = true
             const id = this.$store.state.auth.user[0].data.id
@@ -850,10 +849,16 @@ input.click();
 
             const username = this.formValues.username
             const password = this.formValues.password
-            axios.put(`/auth/changepassword/${id}`, qs.stringify({
+            axios.post(`/${role}/changepassword/${id}`, qs.stringify({
                     username,
                     password
-                }))
+                }), {
+
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+
+                    }
+                })
                 .then(res => {
                     this.load = false
                 })

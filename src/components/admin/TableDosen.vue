@@ -2,7 +2,7 @@
 <div class="test">
     <el-row style="margin-bottom: 10px">
         <el-col :span="5">
-                <el-button @click="handleClick('new')" type="primary">Tambah Dosen</el-button>
+            <el-button @click="handleClick('new')" type="primary">Tambah Dosen</el-button>
         </el-col>
         <el-col :span="5" :offset="13">
             <FormulateInput placeholder="Pencarian" type="search" v-model="filters[0].value" />
@@ -12,37 +12,45 @@
     <data-tables :data="data" :table-prop="tableProps" :pagination-props="{ pageSizes: [8, 10, 15] }" :action-col="actionCol" :filters="filters">
         <el-table-column v-for="title in titles" sortable="custom" :prop="title.prop" :label="title.label" :key="title.label">
         </el-table-column>
-         <el-table-column  label="Foto" min-width="100px">
+        <el-table-column label="Foto" min-width="100px">
             <template slot-scope="scope">
-                <img style="width:100px; height:100px" :src="scope.row.foto_dosen"/>
+                <img style="width:100px; height:100px" :src="scope.row.foto_dosen" />
             </template>
         </el-table-column>
     </data-tables>
 
-    <!-- <sweet-modal ref="modal">
-      <div>
-        <FormulateForm @submit="edit">
-          <CRow>
-            <CCol sm="12">
-              <FormulateInput v-model="editByName" placeholder="Nama" type="text" name="nama" validation="required"/>
-            </CCol>
-          </CRow>
-          <CRow class="mt-3">
-            <CCol sm="6">
-              <FormulateInput v-model="editByNik" placeholder="NIY" type="text" name="niy" validation="required"/>
-            </CCol>
-            <CCol sm="6">
-              <FormulateInput v-model="editByKontak" placeholder="Kontak" type="text" name="kontak" validation="required|number"/>
-            </CCol>
-          </CRow>
-          <CRow class="mt-4">
-            <CCol sm="12">
-              <b-button type="submit" class="w-100">Edit</b-button>
-            </CCol>
-          </CRow>
-        </FormulateForm>
-      </div>
-    </sweet-modal> -->
+    <sweet-modal ref="modal">
+        <div>
+            <FormulateForm @submit="edit">
+                <CRow>
+                    <CCol sm="12">
+                        <FormulateInput label="Nama" v-model="editByName" placeholder="Nama" type="text" name="nama" validation="required" />
+                    </CCol>
+                </CRow>
+                <CRow class="mt-3">
+                    <CCol sm="6">
+                        <FormulateInput label="NIDN" v-model="editByNik" placeholder="NIDN" type="text" name="niy" validation="required" />
+                    </CCol>
+                    <CCol sm="6">
+                        <FormulateInput label="Alamat" v-model="editByAlamat" placeholder="Alamat" type="text" name="alamat" validation="required" />
+                    </CCol>
+                </CRow>
+                <CRow class="mt-3">
+                    <CCol sm="6">
+                        <FormulateInput label="Email" v-model="editByEmail" placeholder="email" type="email" name="email" validation="required" />
+                    </CCol>
+                    <CCol sm="6">
+                        <FormulateInput label="Nomor HP" v-model="editByKontak" placeholder="Nomor HP" type="number" name="nomor" validation="required|number" />
+                    </CCol>
+                </CRow>
+                <CRow class="mt-4">
+                    <CCol sm="12">
+                        <b-button type="submit" class="w-100">Edit</b-button>
+                    </CCol>
+                </CRow>
+            </FormulateForm>
+        </div>
+    </sweet-modal>
 
     <sweet-modal icon="success" ref="success">
         success!
@@ -60,7 +68,7 @@
                         <FormulateInput label="Nama" placeholder="Nama" type="text" name="nama" validation="required" />
                     </CCol>
                     <CCol sm="6" class="mt-3">
-                        <FormulateInput v-model="prodi_dosen" :options="{informatika: 'Teknik Informatika', DKV: 'Design Komunikasi Visual'}" type="select" placeholder="Prodi" label="Prodi" />
+                        <FormulateInput v-model="prodi_dosen" :options="{informatika: 'Teknik Informatika', DKV: 'Desain Komunikasi Visual'}" type="select" placeholder="Prodi" label="Prodi" />
                     </CCol>
                 </CRow>
                 <CRow>
@@ -76,7 +84,7 @@
                         <FormulateInput v-model="jenis_kelamin" :options="{P: 'Perempuan', L: 'Laki-Laki'}" type="select" placeholder="Jenis Kelamin" label="Jenis Kelamin" />
                     </CCol>
                     <CCol sm="6" class="mt-3">
-                        <FormulateInput  v-model="status_dosen" :options="{Tetap: 'Tetap', Tidak_Tetap: 'Tidak Tetap'}" label="Status" placeholder="Status" type="select" validation="required" />
+                        <FormulateInput v-model="status_dosen" :options="{Tetap: 'Tetap', Tidak_Tetap: 'Tidak Tetap'}" label="Status" placeholder="Status" type="select" validation="required" />
                     </CCol>
                 </CRow>
                 <CRow>
@@ -121,7 +129,7 @@ var titles = [{
         label: "NIY"
     },
     {
-        prop:"nama_dosen",
+        prop: "nama_dosen",
         label: "Nama"
     },
     {
@@ -129,20 +137,20 @@ var titles = [{
         label: "Email"
     },
     {
-        prop : 'alamat_dosen',
-        label : 'Alamat'
+        prop: 'alamat_dosen',
+        label: 'Alamat'
     },
     {
-        prop : 'status_dosen',
-        label : 'Status'
+        prop: 'status_dosen',
+        label: 'Status'
     },
     {
-        prop : 'no_hp_dosen',
-        label : 'Nomor HP'
+        prop: 'no_hp_dosen',
+        label: 'Nomor HP'
     },
     {
-        prop : 'jenis_kelamin_dosen',
-        label : 'Jenis Kelamin'
+        prop: 'jenis_kelamin_dosen',
+        label: 'Jenis Kelamin'
     },
     {
         prop: "prodi_dosen",
@@ -165,13 +173,14 @@ export default {
 
     data() {
         return {
-          tableProps: {
-        border: true,
-        stripe: true,
-        defaultSort: {
-          prop: 'flow_no',
-          order: 'descending'
-        }},
+            tableProps: {
+                border: true,
+                stripe: true,
+                defaultSort: {
+                    prop: 'flow_no',
+                    order: 'descending'
+                }
+            },
             filters: [{
 
                     value: '',
@@ -187,15 +196,17 @@ export default {
                 }
             ],
             formValues: {},
-            jenis_kelamin: '',    
+            jenis_kelamin: '',
             editById: '',
             editByName: '',
             editByNik: '',
             editByKontak: '',
+            editByAlamat: '',
+            editByEmail: '',
             deleteById: '',
             deleteByDosen: '',
-            status_dosen:'',
-            prodi_dosen : '',
+            status_dosen: '',
+            prodi_dosen: '',
             titles,
             actionCol: {
                 label: 'Actions',
@@ -213,6 +224,21 @@ export default {
                         this.$refs.modalDelete.open()
                     },
                     label: 'delete'
+                }, {
+                    props: {
+
+                        icon: 'el-icon-edit'
+                    },
+                    handler: row => {
+                        this.editById = row.id_dosen
+                        this.editByName = row.nama_dosen
+                        this.editByNik = row.niy
+                        this.editByKontak = row.no_hp_dosen
+                        this.editByAlamat = row.alamat_dosen
+                        this.editByEmail = row.email_dosen
+                        this.$refs.modal.open()
+                    },
+                    label: 'Edit'
                 }]
             }
 
@@ -233,19 +259,21 @@ export default {
             }
 
         },
-        //  edit(){
-        //    const data = {
-        //      nama : this.editByName,
-        //      kontak : this.editByKontak,
-        //      nik : this.editByNik,
-        //      user_id : this.editById
-        //    }
-        //    this.$refs.modal.close()
-        //     this.$store.dispatch('admin_dosen/actEdit', data).then(() => {
-        //     this.$refs.success.open()
-        //   })
-        //   this.$store.dispatch('admin_dosen/setLoad')
-        //  },
+        edit() {
+            const data = {
+                nama_dosen: this.editByName,
+                no_hp_dosen: this.editByKontak,
+                niy: this.editByNik,
+                id_dosen: this.editById,
+                email_dosen: this.editByEmail,
+                alamat_dosen: this.editByAlamat
+            }
+            this.$refs.modal.close()
+            this.$store.dispatch('admin_dosen/actEdit', data).then(() => {
+                this.$refs.success.open()
+            })
+            this.$store.dispatch('admin_dosen/setLoad')
+        },
         del() {
             const data = {
                 id_dosen: this.deleteByDosen,
@@ -262,9 +290,9 @@ export default {
         buat() {
             const data = {
                 ...this.formValues,
-                jenis_kelamin_dosen : this.jenis_kelamin,
-                status_dosen : this.status_dosen,
-                prodi_dosen : this.prodi_dosen
+                jenis_kelamin_dosen: this.jenis_kelamin,
+                status_dosen: this.status_dosen,
+                prodi_dosen: this.prodi_dosen
             }
             this.$store.dispatch('admin_dosen/actAdd', data).then(() => {
                 this.$refs.success.open()
@@ -276,4 +304,3 @@ export default {
     }
 }
 </script>
-

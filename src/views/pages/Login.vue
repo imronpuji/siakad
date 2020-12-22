@@ -160,7 +160,8 @@ export default {
                 .then((res) => {
 
                     if (res.data.status == 201) {
-                        return false
+                        this.load = false
+                        this.$swal('Login failed')
                     } else {
                         const token = res.data.token
 

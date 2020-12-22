@@ -83,11 +83,15 @@ const state = () => ({
             })
         })
       },
-      actEdit({commit}, id){
-        return new Promise((resolve) => { setTimeout(() => {
-          commit('edit', id)
+      actEdit({commit}, data){
+        return new Promise((resolve) => { 
+          const {id_dosen, nama_dosen, email_dosen, alamat_dosen, no_hp_dosen, niy} = data
+          axios.put(`admin/dosen/${data.id_dosen}`, {nama_dosen, email_dosen, alamat_dosen, no_hp_dosen, niy}, {
+            headers : {'Authorization': `Bearer ${token}`}
+          }).then((res) => commit('edit', data) ).catch(err => err)
+          
           resolve()
-        }, 2000)})
+        })
       },
  
       actAdd({commit}, {niy, email, nama, prodi_dosen, jenis_kelamin_dosen, no_hp, alamat, status_dosen}){
@@ -164,21 +168,23 @@ const state = () => ({
   
   const mutations = {
     deleteSome(state, vals){
-        const index = state.data.findIndex(val => val.user_id == vals)
+        const index = state.data.findIndex(val => val.user_id == vals.user_id)
         state.data.splice(index, 1)
         store.dispatch('components/setLoadFalse')
     },
     addDosen(state, val){
-      state.data.push(val)
+      state.data.unshift(val)
       store.dispatch('components/setLoadFalse')
     },
-    // edit(state, val){
-    //   const index = state.data.findIndex(({user_id}) => user_id == val.user_id )
-    //   state.data[index]['nama'] = val.nama
-    //   state.data[index]['kontak'] = val.kontak
-    //   state.data[index]['niy'] = val.nik
-    //   store.dispatch('components/setLoadFalse')
-    // },
+    edit(state, val){
+      const index = state.data.findIndex(({id_dosen}) => id_dosen == val.id_dosen )
+      state.data[index]['nama_dosen'] = val.nama_dosen
+      state.data[index]['no_hp_dosen'] = val.no_hp_dosen
+      state.data[index]['niy'] = val.niy
+      state.data[index]['email_dosen'] = val.email_dosen
+      state.data[index]['alamat_dosen'] = val.alamat_dosen
+      store.dispatch('components/setLoadFalse')
+    },
     getData(state, val){
       state.data = [...val]
       

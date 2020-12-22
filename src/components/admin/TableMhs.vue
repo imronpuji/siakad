@@ -12,7 +12,7 @@
                 </el-dropdown-menu>
             </el-dropdown>
         </el-col>
-        
+
         <el-col :span="4" :offset="2">
             <el-dropdown @command="handleCloseAll">
                 <el-button type="primary">Tutup Semua<i class="el-icon-caret-bottom el-icon--right"></i></el-button>
@@ -34,9 +34,9 @@
     <data-tables :data="data" :table-props="tableProps" :pagination-props="{ pageSizes: [6, 10, 15] }" :action-col="actionCol" :filters="filters">
         <el-table-column v-for="title in titles" sortable="costum" :prop="title.prop" :label="title.label" :key="title.label">
         </el-table-column>
-        <el-table-column  label="Foto" min-width="100px">
+        <el-table-column label="Foto" min-width="100px">
             <template slot-scope="scope">
-                <img style="width:100px; height:100px" :src="scope.row.foto"/>
+                <img style="width:100px; height:100px" :src="scope.row.foto" />
             </template>
         </el-table-column>
     </data-tables>
@@ -72,9 +72,9 @@
                     </CRow>
 
                     <CRow class="mt-3">
-                     <CCol sm="6">
-                        <FormulateInput v-model="editByKelas" :options="{A: 'A', B: 'B'}" type="select" placeholder="Pilih Kelas" label="Kelas" />
-                    </CCol>
+                        <CCol sm="6">
+                            <FormulateInput v-model="editByKelas" :options="{A: 'A', B: 'B'}" type="select" placeholder="Pilih Kelas" label="Kelas" />
+                        </CCol>
                         <CCol sm="6" class="mt-4">
                             <b-button type="submit" class="w-100">Edit</b-button>
                         </CCol>
@@ -84,8 +84,8 @@
 
             </div>
         </sweet-modal-tab>
-        <sweet-modal-tab title="UAS" id="tab2">
 
+        <sweet-modal-tab title="UAS" id="tab2">
             <CRow>
                 <div class="overlay" v-if="$store.state.admin_mahasiswa.load">
                     <div class="spinner-grow text-primary" role="status">
@@ -96,8 +96,11 @@
                     <div class="overlay" v-if="$store.state.admin_mahasiswa.load">
 
                     </div>
-                    <label style="width:280px">{{'status mahasiswa saat ini ' + ' ' + uasStatus}} </label>
-                    <FormulateInput v-model="uas" :options="{buka: 'Buka', tutup:'Tutup'}" type="radio" />
+                    <FormulateForm name="setting">
+                        <label style="width:280px">{{'status mahasiswa saat ini ' + ' ' + uasStatus}} </label>
+                        <FormulateInput v-model="uas" :options="{buka: 'Buka', tutup:'Tutup'}" type="radio" />
+                    </FormulateForm>
+
                 </CCol>
             </CRow>
 
@@ -114,7 +117,7 @@
 
                     </div>
                     <label style="width:280px">{{'status mahasiswa saat ini ' + ' ' + utsStatus}} </label>
-                    
+
                     <FormulateInput v-model="uts" :options="{buka: 'Buka', tutup:'Tutup'}" type="radio" />
                 </CCol>
             </CRow>
@@ -132,7 +135,7 @@
 
                     </div>
                     <label style="width:280px">{{'status mahasiswa saat ini ' + ' ' + krsStatus}} </label>
-                    
+
                     <FormulateInput v-model="krs" :options="{buka: 'Buka', tutup:'Tutup'}" type="radio" />
                 </CCol>
             </CRow>
@@ -150,7 +153,7 @@
 
                     </div>
                     <label style="width:280px">{{'status mahasiswa saat ini ' + ' ' + khsStatus}} </label>
-                    
+
                     <FormulateInput v-model="khs" :options="{buka: 'Buka', tutup:'Tutup'}" type="radio" />
                 </CCol>
             </CRow>
@@ -205,9 +208,9 @@
                     <CCol sm="6">
                         <FormulateInput v-model="kelas" :options="{A: 'A', B: 'B'}" type="select" placeholder="Pilih Kelas" label="Kelas" />
                     </CCol>
-  
+
                 </CRow>
-                 <CRow>
+                <CRow>
 
                     <CCol sm="12" class="mt-4">
                         <b-button type="submit" class="w-100">Buat</b-button>
@@ -262,7 +265,6 @@ import axioss from 'axios'
 import qs from 'querystring'
 import downloadFile from 'js-file-download'
 
-
 var titles = [{
 
         prop: "nim",
@@ -307,7 +309,7 @@ var titles = [{
     },
     {
         prop: 'kelas',
-        label : 'Kelas'
+        label: 'Kelas'
     }
 ]
 
@@ -320,7 +322,7 @@ export default {
         },
         uas: {
             get() {
-            this.uasStatus = this.$store.state.admin_mahasiswa.uas
+                this.uasStatus = this.$store.state.admin_mahasiswa.uas
                 return this.$store.state.admin_mahasiswa.uas
             },
             set(value) {
@@ -339,12 +341,13 @@ export default {
         },
         khs: {
             get() {
-                        this.khsStatus = this.$store.state.admin_mahasiswa.khs
+                this.khsStatus = this.$store.state.admin_mahasiswa.khs
 
                 return this.$store.state.admin_mahasiswa.khs
             },
             set(value) {
                 console.log(value)
+
                 const data = {
                     uas: this.uasStatus,
                     khs: value,
@@ -359,7 +362,7 @@ export default {
         },
         uts: {
             get() {
-                        this.utsStatus = this.$store.state.admin_mahasiswa.uts
+                this.utsStatus = this.$store.state.admin_mahasiswa.uts
 
                 return this.$store.state.admin_mahasiswa.uts
 
@@ -380,7 +383,7 @@ export default {
         },
         krs: {
             get() {
-                        this.krsStatus = this.$store.state.admin_mahasiswa.krs
+                this.krsStatus = this.$store.state.admin_mahasiswa.krs
 
                 return this.$store.state.admin_mahasiswa.krs
 
@@ -419,12 +422,12 @@ export default {
     data() {
 
         return {
-            kelas : '',
+            kelas: '',
             fixedToasts: 0,
             uasStatus: '',
             utsStatus: '',
             khsStatus: '',
-            jenis_kelamin : '',
+            jenis_kelamin: '',
             id_mhs: '',
             krsStatus: '',
             tableProps: {
@@ -435,9 +438,9 @@ export default {
                     order: 'descending'
                 }
             },
-            
-            editByKelas : '',
-            
+
+            editByKelas: '',
+
             formValues: {},
 
             jurusan: null,
@@ -552,17 +555,15 @@ export default {
             }
 
         },
-        
+
         handleCloseAll(command) {
 
-        
-                this.$store.dispatch('admin_mahasiswa/closeAll', command).then(() => {
-                                           this.$refs.success.open()
-
+            this.$store.dispatch('admin_mahasiswa/closeAll', command).then(() => {
+                this.$store.dispatch('admin_mahasiswa/actGetData', command).then(() => {
+                    this.$refs.success.open()
                 })
-                            this.$store.dispatch('components/setLoad')
-
-      
+            })
+            this.$store.dispatch('components/setLoad')
 
         },
 
@@ -577,8 +578,8 @@ export default {
             const data = {
 
                 semester: this.editBySemester,
-                
-                kelas : this.editByKelas,
+
+                kelas: this.editByKelas,
 
                 id_mahasiswa: this.editById
 
@@ -618,8 +619,8 @@ export default {
             this.$store.dispatch('admin_mahasiswa/actAdd', {
                     ...this.formValues,
                     jurusan: this.jurusan,
-                    kelas : this.kelas,
-                    jenis_kelamin : this.jenis_kelamin
+                    kelas: this.kelas,
+                    jenis_kelamin: this.jenis_kelamin
                 })
 
                 .then(() => {
@@ -659,7 +660,7 @@ export default {
                 this.$store.dispatch('admin_mahasiswa/actImport', mhs)
 
                     .then(() => {
-                        
+
                         this.$refs.success.open()
 
                     })
@@ -693,42 +694,42 @@ export default {
                     }))
 
                     XL_row_object.map(val => {
-                        
-                        if(val.jenis_kelamin == 'L'){
-                                userData.push({
-                                    nim: val.nim,
-                                    nama: val.nama.toUpperCase(),
-                                    foto: 'https://apisiakad.hilmimubarok.com/assets/img/profile/avatar_male.png',
-                                    kelas : val.kelas,
-                                    email: val.email,
-                                    tahun_masuk: val.tahun_masuk,
-                                    jurusan: val.prodi,
-                                    semester: val.semester,
-                                    jenis_kelamin: val.jenis_kelamin,
-                                    status_khs: 'tutup',
-                                    status_krs: 'tutup',
-                                    status_uas: 'tutup',
-                                    status_uts: 'tutup',
-                                })
+
+                        if (val.jenis_kelamin == 'L') {
+                            userData.push({
+                                nim: val.nim,
+                                nama: val.nama.toUpperCase(),
+                                foto: 'https://apisiakad.hilmimubarok.com/assets/img/profile/avatar_male.png',
+                                kelas: val.kelas,
+                                email: val.email,
+                                tahun_masuk: val.tahun_masuk,
+                                jurusan: val.prodi,
+                                semester: val.semester,
+                                jenis_kelamin: val.jenis_kelamin,
+                                status_khs: 'tutup',
+                                status_krs: 'tutup',
+                                status_uas: 'tutup',
+                                status_uts: 'tutup',
+                            })
 
                         } else {
                             userData.push({
-                                    nim: val.nim,
-                                    nama: val.nama.toUpperCase(),
-                                    foto: 'https://apisiakad.hilmimubarok.com/assets/img/profile/avatar_female.png',
-                                    kelas : val.kelas,
-                                    email: val.email,
-                                    tahun_masuk: val.tahun_masuk,
-                                    jurusan: val.prodi,
-                                    semester: val.semester,
-                                    jenis_kelamin: val.jenis_kelamin,
-                                    status_khs: 'tutup',
-                                    status_krs: 'tutup',
-                                    status_uas: 'tutup',
-                                    status_uts: 'tutup',
+                                nim: val.nim,
+                                nama: val.nama.toUpperCase(),
+                                foto: 'https://apisiakad.hilmimubarok.com/assets/img/profile/avatar_female.png',
+                                kelas: val.kelas,
+                                email: val.email,
+                                tahun_masuk: val.tahun_masuk,
+                                jurusan: val.prodi,
+                                semester: val.semester,
+                                jenis_kelamin: val.jenis_kelamin,
+                                status_khs: 'tutup',
+                                status_krs: 'tutup',
+                                status_uas: 'tutup',
+                                status_uts: 'tutup',
                             })
                         }
-                    
+
                     })
 
                 })
@@ -750,12 +751,13 @@ export default {
                                 foto: userData[i]['foto'],
 
                                 email: userData[i]['email'],
-                                kelas : userData[i]['kelas'],
-
+                                kelas: userData[i]['kelas'],
+                                temp_kelas: userData[i]['kelas'],
                                 tahun_masuk: userData[i]['tahun_masuk'],
                                 jurusan: userData[i]['jurusan'],
                                 jenis_kelamin: userData[i]['jenis_kelamin'],
                                 semester: userData[i]['semester'],
+                                temp_semester: userData[i]['semester'],
                                 status_khs: userData[i]['status_khs'],
                                 status_krs: userData[i]['status_krs'],
                                 status_uts: userData[i]['status_uts'],
@@ -768,7 +770,7 @@ export default {
                         axios.post('/admin/mahasiswa/import', mhs)
 
                             .then(result => {
-                    console.log(mhs)
+                                console.log(mhs)
                                 submit(result.data.data)
                             })
 
@@ -782,7 +784,7 @@ export default {
 
             reader.readAsArrayBuffer(this.dataSiswa);
         },
-        
+
         previewFiles(oEvent) {
             var oFile = oEvent.target.files[0];
             this.dataSiswa = oFile
@@ -799,19 +801,17 @@ export default {
             };
 
             reader.readAsArrayBuffer(oFile);
-        }
-    ,
-        testpdf(){
+        },
+        testpdf() {
             axioss.get('http://localhost:8080', {
-                responseType : 'blob'
-            }
-            )
-          .then(res => {
- 
-            console.log(res)
-            downloadFile(res.data, 'filename.pdf');
-          })
-          .catch(err => err)
+                    responseType: 'blob'
+                })
+                .then(res => {
+
+                    console.log(res)
+                    downloadFile(res.data, 'filename.pdf');
+                })
+                .catch(err => err)
         }
     }
 }

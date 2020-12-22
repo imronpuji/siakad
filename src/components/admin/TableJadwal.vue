@@ -179,6 +179,14 @@ var titles = [{
     {
         prop: "kelas",
         label: "Kelas"
+    },
+    {
+        prop: "jurusan",
+        label: "Jurusan"
+    },
+    {
+        prop: "semester",
+        label: "SMT"
     }
 ]
 
