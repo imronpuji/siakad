@@ -126,7 +126,6 @@
                     <td class="namamakul">{{dataKrs.nama_makul}}</td>
                     <td class="sks">{{dataKrs.sks}}</td>
                 </tr>
-            
 
             </table>
         </div>
@@ -426,8 +425,8 @@ export default {
             titles,
 
             dataProfile: [],
-            
-            kelasKrs : '',
+
+            kelasKrs: '',
 
             filters: [{
 
@@ -446,9 +445,9 @@ export default {
 
         }
     },
-    
+
     methods: {
-    
+
         handleClick(val) {
 
             const id_mahasiswa = this.$store.state.auth.profile[0]['id_mahasiswa']
@@ -456,7 +455,9 @@ export default {
             axios.get(`/mahasiswa/checkstatus/${id_mahasiswa}`)
                 .then((res) => {
                     if (res.data[0]['status_krs'] == 'buka') {
-                        this.$store.dispatch('mhs_kurikulum/getKrs', val)
+                        this.$store.dispatch('mhs_kurikulum/getKrs', val).then(() => {
+
+                        })
                         this.kelasKrs = val
 
                     } else {
@@ -469,19 +470,22 @@ export default {
         },
 
         cetakUas() {
-                    this.$store.dispatch('components/setLoad')
+            this.$store.dispatch('components/setLoad')
 
             const id_mahasiswa = this.$store.state.auth.profile[0]['id_mahasiswa']
+            const jurusan_mhs = this.$store.state.auth.profile[0]['jurusan']
 
             axios.get(`/mahasiswa/checkstatus/${id_mahasiswa}`)
                 .then((res) => {
-                        this.$store.dispatch('components/setLoadFalse')
+                    this.$store.dispatch('components/setLoadFalse')
 
                     if (res.data[0]['status_uas'] == 'buka') {
-                        axios.get(`/mahasiswa/cetak/${id_mahasiswa}/uas`,{responseType:'blob'})
-                        .then((result) => {
-                            fileDownload(result.data, 'kartu_uas.pdf')
-                        })
+                        axios.get(`/mahasiswa/cetak/${id_mahasiswa}/uas/${jurusan_mhs}`, {
+                                responseType: 'blob'
+                            })
+                            .then((result) => {
+                                fileDownload(result.data, 'kartu_uas.pdf')
+                            })
                     } else {
                         this.$swal('Status Uas Tutup')
                         this.$store.dispatch('auth/setStatus', 'status_uas')
@@ -492,19 +496,22 @@ export default {
         },
 
         cetakUts() {
-                    this.$store.dispatch('components/setLoad')
+            this.$store.dispatch('components/setLoad')
 
             const id_mahasiswa = this.$store.state.auth.profile[0]['id_mahasiswa']
+            const jurusan_mhs = this.$store.state.auth.profile[0]['jurusan']
 
             axios.get(`/mahasiswa/checkstatus/${id_mahasiswa}`)
                 .then((res) => {
-                                    this.$store.dispatch('components/setLoadFalse')
+                    this.$store.dispatch('components/setLoadFalse')
 
                     if (res.data[0]['status_uts'] == 'buka') {
-                        axios.get(`/mahasiswa/cetak/${id_mahasiswa}/uts`,{responseType:'blob'})
-                        .then((result) => {
-                            fileDownload(result.data, 'kartu_uts.pdf')
-                        })
+                        axios.get(`/mahasiswa/cetak/${id_mahasiswa}/uts/${jurusan_mhs}`, {
+                                responseType: 'blob'
+                            })
+                            .then((result) => {
+                                fileDownload(result.data, 'kartu_uts.pdf')
+                            })
                     } else {
                         this.$swal('Status Uts Tutup')
                         this.$store.dispatch('auth/setStatus', 'status_uts')
