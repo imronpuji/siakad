@@ -2,7 +2,7 @@
 <div class="test">
 
     <el-row style="margin-bottom: 10px">
-         <el-col :span="5">
+        <el-col :span="5">
             <FormulateInput placeholder="Pencarian" v-model="filters[0].value" />
         </el-col>
         <el-col :span="5" :offset="1">
@@ -85,8 +85,8 @@
             <p>Kendal, {{new Date().getDate() + ' ' + new Date().toLocaleString('default', { month: 'long' }) + ' ' + new Date().getFullYear()}}</p>
             <p class="status">Kaprodi</p>
 
-            <p class="hr"><b><u>Yusuf Wahyu Setya Putra, S.Kom, M.Kom</u></b></p>
-            <p>NIDN 0602059401</p>
+            <p class="hr"><b><u>{{this.$store.state.auth.profile[0].jurusan == 'dkv' ? 'Anik Rahmawati, M.Pd' : 'Yusuf Wahyu Setya Putra, S.Kom, M.Kom '}}</u></b></p>
+            <p>{{this.$store.state.auth.profile[0].jurusan == 'dkv' ? 'NIDN 0602059401' : 'NIDN 0621089103'}}</p>
 
         </div>
     </div>
@@ -132,8 +132,8 @@
             <p>Kendal, {{new Date().getDate() + ' ' + new Date().toLocaleString('default', { month: 'long' }) + ' ' + new Date().getFullYear()}}</p>
             <p class="status">Kaprodi</p>
 
-            <p class="hr"><b><u>Yusuf Wahyu Setya Putra, S.Kom, M.Kom</u></b></p>
-            <p>NIDN 0602059401</p>
+            <p class="hr"><b><u>{{this.$store.state.auth.profile[0].jurusan == 'dkv' ? 'Anik Rahmawati, M.Pd' : 'Yusuf Wahyu Setya Putra, S.Kom, M.Kom '}}</u></b></p>
+            <p>{{this.$store.state.auth.profile[0].jurusan == 'dkv' ? 'NIDN 0602059401' : 'NIDN 0621089103'}}</p>
 
         </div>
     </div>
@@ -333,9 +333,8 @@ export default {
         cetakTranskip(command) {
             const data = this.$store.state.mhs_transkip.data
             const table = document.getElementById('Table')
-       
-                this.$store.dispatch('mhs_transkip/cetakTranskip')
-            
+
+            this.$store.dispatch('mhs_transkip/cetakTranskip')
 
         },
 

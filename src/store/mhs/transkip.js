@@ -183,7 +183,7 @@ const state = () => ({
                               <div>
                       <p class="profil">${'NAMA' + '&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;' + `<b>${user.nama} </b>`}  </p>
                                   <p class="profil">${'NIM' + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;' + `<b>${user.nim}</b>`}  </p>
-                                  <p class="profil">${'PRODI' + '&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;' + `S1 - ${user.jurusan}`}  </p>  
+                                  <p class="profil">${'PRODI' + '&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;' + `S1 - ${user.jurusan == 'dkv' ? 'Desain Komunikasi Visual' : 'Teknik Informatika'}`}  </p>  
                               </div>
                               
                               <div>
@@ -254,7 +254,7 @@ const state = () => ({
                         <div>
                 <p class="profil">${'NAMA' + '&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;' + `<b>${user.nama} </b>`}  </p>
                             <p class="profil">${'NIM' + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;' + `<b>${user.nim}</b>`}  </p>
-                            <p class="profil">${'PRODI' + '&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;' + `S1 - ${user.jurusan}`}  </p>  
+                            <p class="profil">${'PRODI' + '&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;' + `S1 - ${user.jurusan == 'dkv' ? 'Desain Komunikasi Visual' : 'Teknik Informatika'}`}  </p>  
                         </div>
                         
                         <div>
