@@ -186,7 +186,8 @@ export default {
                         console.log(token)
 
                         this.load = false
-                        window.location.reload()
+                        // window.location.reload()
+                        this.$router.push('/')
 
                     }
                 })

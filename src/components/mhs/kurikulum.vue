@@ -129,7 +129,7 @@
 
             </table>
         </div>
-        <div class="footer">
+        <div v-if="$store.state.auth.profile[0].jurusan == 'informatika'" class="footer">
             <div class="keterangan">
                 <h4>Mahasiswa</h4>
 
@@ -143,6 +143,33 @@
             <div class="ttd">
                 <h4>Ketua Program Studi</h4>
                 <h4 class="user">Yusuf Wahyu Setia Putra S.kom. ,M.Kom.</h4>
+
+            </div>
+
+        </div>
+        
+        <div v-else class="footer">
+            <div class="keterangan">
+                <h4>Mahasiswa</h4>
+
+            </div>
+            <div class="ttd">
+                <h4>Dosen Wali</h4>
+                <h4 v-if="$store.state.auth.profile[0].semester == '1'" class="user">
+                     Pradnya Paramitha, S.Sn., M.A.
+                </h4>
+                <h4 v-if="$store.state.auth.profile[0].semester == '3' || $store.state.auth.profile[0].semester == '5' " class="user">
+                     Rahmawati S.Pd., M.Pd
+                </h4>
+                <h4 v-if="$store.state.auth.profile[0].semester == '7'" class="user">
+                     Juni Amanullah, S.Pd., M.Pd.
+                </h4>
+
+            </div>
+
+            <div class="ttd">
+                <h4>Ketua Program Studi</h4>
+                <h4 class="user">Rahmawati S.Pd., M.Pd</h4>
 
             </div>
 
@@ -366,6 +393,13 @@ var titles = [
         label: "Waktu Selesai"
 
     },
+        {
+    
+            prop: "hari",
+    
+            label: "Hari"
+    
+        },
     {
 
         prop: "kelas",
